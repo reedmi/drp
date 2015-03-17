@@ -17,7 +17,7 @@ Ext.define("drp.base.view.NorthView", {
                 region : 'west',
                 height : 75,
                 width : 1360,
-                src : "resources/images/banner.png"
+                src : "resources/images/banner2.png"
             },{
                 xtype : 'fieldcontainer',
                 region : 'east',

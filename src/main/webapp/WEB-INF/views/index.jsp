@@ -5,7 +5,7 @@
 <head>
     <%@ include file="/common/meta.jsp"%>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>华埠特克仓储管理系统登录</title>
+<title>万里磷肥仓储管理系统登录</title>
 <style type="text/css">
 <!--
 body {
