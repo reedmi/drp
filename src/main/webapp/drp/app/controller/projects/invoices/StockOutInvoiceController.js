@@ -24,20 +24,11 @@ Ext.define("drp.app.controller.projects.invoices.StockOutInvoiceController", {
                     currentInvoice = null;
                     wareWindow= false;
                     invoiceGrid = panel.down('gridpanel');
-                    //只有材料员可以新建删除出库单
-                    /*if(user.type != "MaterialKeeper"){
-                        invoiceGrid.down('#addOutInvoice_btn').setVisible(false);
-                        invoiceGrid.down('#deleteOutInvoice_btn').setVisible(false);
-                    }
-                    if(user.type == "Leader"){
-                        invoiceGrid.down('#operationOutInvoice_tb').setVisible(false);
-                    }*/
                 }
             },
             
             //stock_in_invoice filter
             'stockoutinvoiceview > gridpanel' : {
-                afterrender : this.buildFiltersByLoginUser,
                 itemdblclick : this.showUpdateOutInvoiceForm
             },
             
@@ -157,12 +148,6 @@ Ext.define("drp.app.controller.projects.invoices.StockOutInvoiceController", {
             property : "endDate",
             value : Ext.Date.format(form.down("#endDate_filter").getValue(),'Y-m-d')
         }, {
-            property : "project",
-            value : form.down("#projectName_filter").getValue()
-        }, {
-            property : "system",
-            value : form.down("#systemName_filter").getValue()
-        }, {
             property : "minTotal",
             value : form.down("#minTotal_filter").getValue()
         }, {
@@ -175,48 +160,15 @@ Ext.define("drp.app.controller.projects.invoices.StockOutInvoiceController", {
             property : "receiveManName",
             value : form.down("#receiveManName_filter").getValue()
         }, {
-            property : "materialKeeperName",
-            value : form.down("#materialKeeperName_filter").getValue()
+            property : "regulatorName",
+            value : form.down("#regulatorName_filter").getValue()
         }, {
             property : "wareKeeperName",
             value : form.down("#wareKeeperName_filter").getValue()
         }, {
-            property : "projectManagerName",
-            value : form.down("#projetManagerName_filter").getValue()
+            property : "managerName",
+            value : form.down("#managerName_filter").getValue()
         } ]);
-    },
-    
-    //根据当前登录用户过滤出库单
-    buildFiltersByLoginUser : function(grid){
-        var filters = [];
-        var index = 0;
-        if(user.type == "MaterialKeeper"){
-            filters[index++] = new Object({
-                property : "materialKeeperId",
-                value : user.id
-            });
-        }else if(user.type == "WareKeeper"){
-            filters[index++] = {
-                property : "materialKeeperAuditState",
-                value : "APPROVED"
-            };
-            filters[index++] = {
-                property : "wareKeeperId",
-                value : user.id
-            };
-        }else if(user.type == "ProjectManager"){
-            filters[index++] = new Object({
-                property : "wareKeeperAuditState",
-                value : "APPROVED"
-            });
-            filters[index++] = new Object({
-                property : "projectManagerId",
-                value : user.id
-            });
-        }
-        var store = grid.getStore();
-        store.filters.clear();
-        store.filter(filters);
     },
 
     //入库商品-删除

@@ -5,40 +5,16 @@ Ext.define("drp.app.model.projects.invoices.AbstractInvoiceModel", {
     }, {
         name : "forDate"
     }, {
-        name : "system"
+        name : 'manager'
     }, {
-        name : "system.id",
-        persist : false
+        name : 'wareKeeper'
     }, {
-        name : "system.projectName",
-        persist : false
+        name : 'regulator'
     }, {
-        name : "system.name",
-        persist : false
+        name : "receiveMan"
     }, {
         name : "totalPrice",
         type : "number"
-    }, {
-        name : "materialKeeperName",
-        persist : false
-    }, {
-        name : "wareKeeperName",
-        persist : false
-    }, {
-        name : "projectManagerName",
-        persist : false
-    }, {
-        name : "wareKeeperAuditState",
-        persist : false
-    }, {
-        name : "materialKeeperAuditState",
-        persist : false
-    }, {
-        name : "projectManagerAuditState",
-        persist : false
-    }, {
-        name : "pass",
-        type : "boolean"
     }, {
         name : "costCount",
         type : "int",

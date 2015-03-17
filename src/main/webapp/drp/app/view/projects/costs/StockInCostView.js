@@ -34,93 +34,16 @@ Ext.define('drp.app.view.projects.resources.StockInCostView', {
                     items : [{
                         xtype : 'fieldcontainer',
                         layout : 'column',
-                        items : [{
-                            xtype : 'textfield',//入库单的id
-                            itemId : 'id_stockInInvoice',
-                            hidden : true,
-                            name : 'id'
-                        }, {
-                            xtype : 'combobox',
+                        items : [ {
+                            xtype: 'textfield',
+                            fieldLabel: '收到<font color="red">*</font>',
+                            itemId : 'receiveMan_stockInInvoice_tf',
+                            allowBlank: false,
+                            name : 'receiveMan',
                             margin : '5 0 0 15',
-                            labelWidth: 60,
-                            itemId : 'project_stockInInvoice_cb',
-                            name : 'system.projectName',
-                            editable : false,
-                            allowBlank : false,
-                            width : 300,
-                            displayField :"name",
-                            valueField :"id",
-                            fieldLabel : '项目<font color="red">*</font>',
-                            store : 'drp.app.store.projects.ProjectDataStore',
-                            listeners : {
-                                afterrender : function(combo){
-                                    //显示人员所属项目
-                                    var store = combo.getStore();
-                                    if(user.type != "Leader"){
-                                        Ext.apply(store.proxy.extraParams, {
-                                            userType : user.type,
-                                            userId : user.id
-                                        });
-                                    }
-                                },
-                                select : function(combo,records){
-                                    var project = records[0].data;
-                                    var stockincostview = combo.up("stockincostview");
-                                    //设置该项目下的人员
-                                    stockincostview.down("#materialKeeperName_df").setValue(project.materialKeeper.name);
-                                    stockincostview.down("#wareKeeperName_df").setValue(project.wareKeeper.name);
-                                    stockincostview.down("#projectManagerName_df").setValue(project.projectManager.name);
-                                    //根据项目动态加载下属系统
-                                    var _url = "project/" + project.id;
-                                    var system = stockincostview.down("#systemName_stockInInvoice_cb");
-                                    system.getStore().getProxy().url = _url;
-                                    system.setValue("");
-                                    system.setDisabled(false);
-                                }
-                            }
-                        }, {
-                            xtype : 'combobox',
-                            margin : '5 0 0 15',
-                            labelWidth: 60,
-                            itemId : 'systemName_stockInInvoice_cb',
-                            name : 'system.name',
-                            allowBlank : false,
-                            editable : false,
-                            disabled : true,
-                            width : 300,
-                            fieldLabel : '系统<font color="red">*</font>',
-                            valueField : 'id',
-                            displayField : 'name',
-                            fieldLabel : '系统名称<font color="red">*</font>',
-                            store : Ext.create('Ext.data.Store', {
-                                fields : ['id', 'name'],
-                                proxy : {
-                                    type : 'ajax',
-                                    reader : {
-                                        type : "json",
-                                        root : "data",
-                                        successProperty : 'success'
-                                    },
-                                    writer : {
-                                        type : "json"
-                                    }
-                                }
-                            }),
-                            listeners : {
-                                select : function(combo){
-                                    combo.up('form').down('#systemId_stockInInvoice_tf').setValue(combo.getSubmitValue());
-                                }
-                            }
-                        }, {
-                            xtype : 'numberfield',
-                            hidden : true,
-                            itemId : 'systemId_stockInInvoice_tf',
-                            name : 'system.id'
-                        }]
-                    }, {
-                        xtype : 'fieldcontainer',
-                        layout : 'column',
-                        items : [ { 
+                            width : 200,
+                            labelWidth: 60
+                        }, { 
                             xtype: 'datefield',
                             fieldLabel: '日期<font color="red">*</font>',
                             margin : '5 0 0 15',
@@ -128,22 +51,72 @@ Ext.define('drp.app.view.projects.resources.StockInCostView', {
                             itemId : 'forDate_stockInInvoice_df',
                             name : 'forDate',
                             editable : false,
-                            width : 300,
-                            format : 'Y-m-d'
+                            allowBlank: false,
+                            width : 200,
+                            format : 'Y-m-d',
+                            listeners : {
+                                afterrender : function(df) {
+                                    if(df.getValue() == null) {
+                                        df.setValue(new Date());
+                                    }
+                                }
+                            }
                         }, { 
                             xtype: 'textfield',
-                            fieldLabel: '编号<font color="red">*</font>',
+                            fieldLabel: '编号',
                             itemId : 'code_stockInInvoice_tf',
                             name : 'code',
                             margin : '5 0 0 15',
-                            width : 300,
+                            width : 200,
                             labelWidth: 60
+                        }]
+                    }, {
+                        xtype : 'fieldcontainer',
+                        layout : 'column',
+                        items : [{
+                            xtype : 'textfield',//入库单的id
+                            itemId : 'id_stockInInvoice',
+                            hidden : true,
+                            name : 'id'
+                        }, { 
+                            xtype : 'combobox',
+                            width : 200,
+                            labelWidth: 60,
+                            margin : '5 0 0 15',
+                            name : 'manager',
+                            valueField : 'name',
+                            displayField : 'name',
+                            allowBlank: false,
+                            store : 'drp.app.store.users.ManagerStore',
+                            fieldLabel : '负责人<font color="red">*</font>'
+                        }, { 
+                            xtype : 'combobox',
+                            width : 200,
+                            labelWidth: 60,
+                            margin : '5 0 0 15',
+                            name : 'wareKeeper',
+                            valueField : 'name',
+                            displayField : 'name',
+                            allowBlank: false,
+                            store : 'drp.app.store.users.WareKeeperStore',
+                            fieldLabel : '库管员<font color="red">*</font>'
+                        }, {
+                            xtype : 'combobox',
+                            width : 200,
+                            labelWidth: 60,
+                            margin : '5 0 0 15',
+                            name : 'regulator',
+                            valueField : 'name',
+                            displayField : 'name',
+                            allowBlank: false,
+                            store : 'drp.app.store.users.RegulatorStore',
+                            fieldLabel : '经手人'
                         }, {
                             xtype : 'button',
                             margin : '5 0 0 65',
-                            action : 'addSystemInfo',
+                            action : 'confirmInvoiceHeader',
                             icon : 'resources/images/icons/ok.png',
-                            text : '确认所属系统'
+                            text : '确认单据头'
                         }]
                     }]
                 }]
@@ -233,7 +206,7 @@ Ext.define('drp.app.view.projects.resources.StockInCostView', {
                             }
                         }
                     }]
-                }],
+                }]/*,
                 listeners : {
                     select : function(grid, record){
                         var cost = record.data;
@@ -252,7 +225,7 @@ Ext.define('drp.app.view.projects.resources.StockInCostView', {
                         inCostForm.down('#wareQuantity_stockInCost_nf').setReadOnly(false);
                         inCostForm.down('#wareQuantity_stockInCost_nf').setValue(cost.quantity);
                     }
-                }
+                }*/
             }, {//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<入库单-商品添加的form
                 xtype : 'panel',
                 region : 'south',
@@ -367,35 +340,9 @@ Ext.define('drp.app.view.projects.resources.StockInCostView', {
                         }]
                     }]
                 }]
-            }],
-            dockedItems : [{//<<<<<<<<<<<<<<<<<<<<<<<<入库单-汇总人员信息
-                xtype: 'toolbar',
-                dock: 'bottom',
-                ui: 'footer',
-                items: [{
-                    xtype : 'displayfield',
-                    flex : 1,
-                    margin : '0 0 0 30',
-                    labelWidth: 50,
-                    itemId : 'wareKeeperName_df',
-                    fieldLabel : '库管员'
-                }, {
-                    xtype : 'displayfield',
-                    flex : 1,
-                    labelWidth: 50,
-                    itemId : 'materialKeeperName_df',
-                    fieldLabel : '材料员'
-                }, {
-                    xtype : 'displayfield',
-                    flex : 1,
-                    labelWidth: 60,
-                    itemId : 'projectManagerName_df',
-                    fieldLabel : '项目经理'
-                }]
             }]
         });
         me.callParent(arguments);
     }
-    
-    
+
 });

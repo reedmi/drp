@@ -22,7 +22,7 @@ Ext.define('drp.app.view.projects.resources.StockInCostShowView', {
                 height: 40,
                 items : [{
                     xtype : 'form',
-                    itemId : 'systemInfo_stockInCost_form',
+                    itemId : 'stockInCost_form',
                     items : [{
                         xtype : 'fieldcontainer',
                         layout : 'column',
@@ -30,16 +30,9 @@ Ext.define('drp.app.view.projects.resources.StockInCostShowView', {
                             xtype : 'displayfield',
                             margin : '5 0 0 15',
                             labelWidth: 30,
-                            name : 'system.projectName',
+                            name : 'receiveMan',
                             width : 200,
-                            fieldLabel : '项目'
-                        }, {
-                            xtype : 'displayfield',
-                            margin : '5 0 0 15',
-                            labelWidth: 30,
-                            name : 'system.name',
-                            width : 200,
-                            fieldLabel : '系统'
+                            fieldLabel : '收到'
                         }, { 
                             xtype: 'displayfield',
                             fieldLabel: '日期',
@@ -108,25 +101,23 @@ Ext.define('drp.app.view.projects.resources.StockInCostShowView', {
                     flex : 1,
                     margin : '0 0 0 30',
                     labelWidth: 50,
+                    itemId : 'managerName_df',
+                    fieldLabel : '负责人'
+                }, {
+                    xtype : 'displayfield',
+                    flex : 1,
+                    labelWidth: 50,
                     itemId : 'wareKeeperName_df',
                     fieldLabel : '库管员'
                 }, {
                     xtype : 'displayfield',
                     flex : 1,
-                    labelWidth: 50,
-                    itemId : 'materialKeeperName_df',
-                    fieldLabel : '材料员'
-                }, {
-                    xtype : 'displayfield',
-                    flex : 1,
                     labelWidth: 60,
-                    itemId : 'projectManagerName_df',
-                    fieldLabel : '项目经理'
+                    itemId : 'regulatorName_df',
+                    fieldLabel : '经手人'
                 }]
             }]
         });
         me.callParent(arguments);
     }
-    
-    
 });

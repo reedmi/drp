@@ -56,6 +56,11 @@ public abstract class AbstractInvoice extends AbstractModel{
      */
     private String regulator;
 
+    /**
+     * 领用人
+     */
+    private String receiveMan;
+
     public static enum COLUMNS {
         STARTDATE,ENDDATE,CODE,
         MINTOTAL,MAXTOTAL,PROJECT,SYSTEM,
@@ -120,6 +125,14 @@ public abstract class AbstractInvoice extends AbstractModel{
 
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getReceiveMan() {
+        return receiveMan;
+    }
+
+    public void setReceiveMan(String receiveMan) {
+        this.receiveMan = receiveMan;
     }
 
     @Override

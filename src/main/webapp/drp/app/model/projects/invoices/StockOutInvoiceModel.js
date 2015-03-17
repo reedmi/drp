@@ -1,11 +1,11 @@
 Ext.define("drp.app.model.projects.invoices.StockOutInvoiceModel", {
     extend : "drp.app.model.projects.invoices.AbstractInvoiceModel",
     fields : [{
-        name : "receiveMan"
+        name : "address"
     } ],
     proxy : {
         type : 'rest',
-        url : 'stockOutInvoice',
+        url : 'invoices/out',
         reader : {
             type : "json",
             root : "data",

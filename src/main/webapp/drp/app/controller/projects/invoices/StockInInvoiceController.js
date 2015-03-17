@@ -1,5 +1,5 @@
 /**
- * @author Yestin
+ * @author ReedMi
  */
 Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
     extend : "drp.app.controller.AbstractController",
@@ -16,7 +16,7 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
     init : function() {
         inInvoiceController = this;
         this.control({
-            
+
             'stockininvoiceview' : {
                 afterrender : function(panel) {
                     inInvoiceCostWin = false;
@@ -24,20 +24,12 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
                     currentInvoice = null;
                     wareWindow= false;
                     invoiceGrid = panel.down('gridpanel');
-//                    //只有材料员可以新建删除出库单
-//                    if(user.type != "MaterialKeeper"){
-//                        invoiceGrid.down('#addInInvoice_btn').setVisible(false);
-//                        invoiceGrid.down('#deleteInInvoice_btn').setVisible(false);
-//                    }
-//                    if(user.type == "Leader"){
-//                        invoiceGrid.down('#operationInInvoice_tb').setVisible(false);
-//                    }
+                    invoiceGrid.getStore().load();
                 }
             },
-            
+
             //stock_in_invoice filter
             'stockininvoiceview > gridpanel' : {
-                afterrender : this.buildFiltersByLoginUser,
                 itemdblclick : this.showUpdateInInvoiceForm
             },
             
@@ -56,16 +48,6 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
                 click : this.deleteInInvoice
             },
 
-            //stock_in_invoice approve-submit
-            'stockininvoiceview button[action=approveInInvoice]' : {
-                click : this.approveInInvoice
-            },
-            
-            //stock_in_invoice unapprove-submit
-            'stockininvoiceview button[action=unapproveInInvoice]' : {
-                click : this.unapproveInInvoice
-            },
-
             //----------------------------------------------------------------
             'stockincostview' : {
                 afterrender : function(panel) {
@@ -74,10 +56,10 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
                 },
                 beforehide : this.updateInvoiceTotalPrice
             },
-            
-            //stock_in_cost add system info
-            'stockincostview button[action=addSystemInfo]' : {
-                click : this.addSystemInfo
+
+            //确认单据头信息
+            'stockincostview button[action=confirmInvoiceHeader]' : {
+                click : this.confirmInvoiceHeader
             },
             
             //stock_in_cost save
@@ -138,7 +120,7 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
 
         });
     },
-    
+
     //入库单-查询
     searchStockInInvoice : function(btn){
         var store = invoiceGrid.getStore();
@@ -151,12 +133,6 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
             property : "endDate",
             value : Ext.Date.format(form.down("#endDate_filter").getValue(),'Y-m-d')
         }, {
-            property : "project",
-            value : form.down("#projectName_filter").getValue()
-        }, {
-            property : "system",
-            value : form.down("#systemName_filter").getValue()
-        }, {
             property : "minTotal",
             value : form.down("#minTotal_filter").getValue()
         }, {
@@ -166,48 +142,15 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
             property : "wareName",
             value : form.down("#wareName_filter").getValue()
         }, {
-            property : "materialKeeperName",
-            value : form.down("#materialKeeperName_filter").getValue()
+            property : "regulatorName",
+            value : form.down("#regulatorName_filter").getValue()
         }, {
             property : "wareKeeperName",
             value : form.down("#wareKeeperName_filter").getValue()
         }, {
-            property : "projectManagerName",
-            value : form.down("#projetManagerName_filter").getValue()
+            property : "managerName",
+            value : form.down("#managerName_filter").getValue()
         } ]);
-    },
-    
-    //根据当前登录用户过滤入库单
-    buildFiltersByLoginUser : function(grid){
-        var filters = [];
-        var index = 0;
-        if(user.type == "MaterialKeeper"){
-            filters[index++] = new Object({
-                property : "materialKeeperId",
-                value : user.id
-            });
-        }else if(user.type == "WareKeeper"){
-            filters[index++] = {
-                property : "materialKeeperAuditState",
-                value : "APPROVED"
-            };
-            filters[index++] = {
-                property : "wareKeeperId",
-                value : user.id
-            };
-        }else if(user.type == "ProjectManager"){
-            filters[index++] = new Object({
-                property : "wareKeeperAuditState",
-                value : "APPROVED"
-            });
-            filters[index++] = new Object({
-                property : "projectManagerId",
-                value : user.id
-            });
-        }
-        var store = grid.getStore();
-        store.filters.clear();
-        store.filter(filters);
     },
 
     //入库商品-删除
@@ -293,33 +236,26 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
         inInvoiceCostWin.down('#totalPrice_stockInCost_df').setValue(0);
         inInvoiceCostWin.down('#systemInfo_stockInCost_form').getForm().reset();
         inInvoiceCostWin.down('#stockInCost_form').getForm().reset();
-        //设置bottom toolbar
-        var wareKeeperName = inInvoiceCostWin.down('#wareKeeperName_df');
-        var materialKeeperName = inInvoiceCostWin.down('#materialKeeperName_df');
-        var projectManagerName = inInvoiceCostWin.down('#projectManagerName_df');
-        wareKeeperName.setValue("");
-        materialKeeperName.setValue("");
-        projectManagerName.setValue("");
-        
+
         inInvoiceCostWin.setTitle("新增入库单");
         inInvoiceCostWin.show();
     },
-    
+
     showUpdateInInvoiceForm : function( grid, record, item, index){
         currentInvoice = record;//在弹出更新的窗口时，保存选中的invoice
         var invoiceData = record.data;
-        
+
         var costWin = null;
         //1.非材料员登陆的，只提供预览
         //2.若是材料员，则pass=true的和已经通过审核的，只提供预览
-        if(user.type != "MaterialKeeper" || invoiceData.pass || invoiceData.materialKeeperAuditState =="APPROVED"){
+        if(user.type != "WAREKEEPER"){
             if(!invoiceCostWin){
                 invoiceCostWin = Ext.widget('stockincostshowview');
             }
             costWin = invoiceCostWin;
             invoiceCostWin.setTitle("查看入库单");
             
-        }else{
+        } else {
             if(!inInvoiceCostWin){
                 inInvoiceCostWin = Ext.widget('stockincostview');
             }
@@ -328,31 +264,29 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
             costWin.down('#stockInCost_form').getForm().reset();
             inInvoiceCostWin.setTitle("更新入库单");
         }
-        
+
         var store = costWin.down("gridpanel").getStore();
         store.filters.clear();
         store.filter([{
             property : "invoice",
             value : currentInvoice.data.id
         }]);
-        
-        costWin.down('#systemInfo_stockInCost_form').loadRecord(record);
-        
-        //设置bottom form,包括材料员、库管员、项目经理的名字
-        var materialKeeperName = costWin.down('#materialKeeperName_df');
+
+        costWin.down('#stockInCost_form').loadRecord(record);
+        //设置bottom toolbar
+        var managerName = costWin.down('#managerName_df');
         var wareKeeperName = costWin.down('#wareKeeperName_df');
-        var projectManagerName = costWin.down('#projectManagerName_df');
-        
-        materialKeeperName.setValue(invoiceData['materialKeeperName']);
-        wareKeeperName.setValue(invoiceData['wareKeeperName']);
-        projectManagerName.setValue(invoiceData['projectManagerName']);
-        
+        var regulatorName = costWin.down('#regulatorName_df');
+        managerName.setValue(record.data['manager']);
+        wareKeeperName.setValue(record.data['wareKeeper']);
+        regulatorName.setValue(record.data['regulator']);
+
         costWin.show();
     },
 
     //入库单-删除
     deleteInInvoice : function(btn) {
-        inInvoiceController.deleteBatchModel(btn,invoiceGrid,"入库单","/stockInInvoice/deleteBatch");
+        inInvoiceController.deleteBatchModel(btn, invoiceGrid, "入库单", "/invoices/in/deleteBatch");
     },
 
     //入库单-更新总价
@@ -381,79 +315,12 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
         });
     },
 
-    approveInInvoice : function(btn){
-        
-        var state = "APPROVED";
-        var records = invoiceGrid.getSelectionModel().getSelection();
-        var ids = [];
-        var index = 0;
-        for(var i = 0,len = records.length;i<len;i++){
-            var record = records[i].data;
-            if(record.pass){
-                continue;
-            }
-            if(user.type=="MaterialKeeper"){
-                if(record.materialKeeperAuditState !="APPROVED" && record.costCount>0){
-                    ids[index] = record.id;
-                    index++;
-                }
-            }else if(user.type=="WareKeeper"){
-                if(record.materialKeeperAuditState =="APPROVED" && record.wareKeeperAuditState == "UNAUDITED" && record.projectManagerAuditState == "UNAUDITED"){
-                    ids[index] = record.id;
-                    index++;
-                }
-            }else if(user.type=="ProjectManager"){
-                if(record.wareKeeperAuditState == "APPROVED" && record.projectManagerAuditState == "UNAUDITED"){
-                    ids[index] = record.id;
-                    index++;
-                }
-            }
-        }
-        
-        if(ids.length == 0){
-            Ext.Msg.alert("提交退回", "该入库单已被提交或者还未添加商品");
-            return;
-        }
-        
-        var data = new Object({
-            invoiceIds : ids,
-            userType : user.type,
-            userId : user.id,
-            state : state
-        });
-        
-        Ext.Ajax.request({
-            url : "stockInInvoice/updateAuditState",
-            method : "GET",
-            params : {
-                data : Ext.encode(data)
-            },
-            success : function(response, operation){
-                var resp = Ext.decode(response.responseText);
-                Ext.Msg.alert("成功!", resp.message);
-                invoiceGrid.getStore().load();
-            },
-            failure : function(resp, operation) {
-                Ext.Msg.alert("失败!", operation.request.scope.reader.jsonData["message"]);
-            }
-        });
-    },
-    
-    unapproveInInvoice : function(){
-        inInvoiceController.submitInInvoiceToAudit("UNAPPROVED");
-    },
-    
-    addSystemInfo : function(btn){
+    confirmInvoiceHeader : function(btn){
         var modelName = "drp.app.model.projects.invoices.StockInInvoiceModel";
         var form = btn.up("form").getForm();
         if (form.isValid()) {
             var formBean = form.getValues();
             var model = Ext.create(modelName, formBean);
-            
-            model.set("system", {
-                id : formBean['system.id']
-            });
-            
             model.save({
                 success : function(response, operation){
                     invoiceGrid.getStore().load();
@@ -508,9 +375,11 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
               "drp.app.model.resources.WareModel"],
     stores : ["drp.app.store.projects.invoices.StockInInvoiceStore", 
               "drp.app.store.projects.costs.StockInCostStore",
-              "drp.app.store.projects.ProjectDataStore",
-              "drp.app.store.resources.WareStore", 
-              "drp.app.store.resources.VendorStore"],
+              "drp.app.store.resources.WareStore",
+              "drp.app.store.resources.VendorStore",
+              "drp.app.store.users.ManagerStore",
+              "drp.app.store.users.WareKeeperStore",
+              "drp.app.store.users.RegulatorStore"],
     views : ["drp.app.view.projects.invoices.StockInInvoiceView", 
              "drp.app.view.projects.costs.StockInCostView",
              "drp.app.view.projects.costs.StockInCostShowView",

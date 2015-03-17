@@ -13,7 +13,7 @@ Ext.define('drp.app.view.projects.invoices.StockOutInvoiceView', {
 
     initComponent : function() {
         var me = this;
-        
+
         var selModel = Ext.create('Ext.selection.CheckboxModel', {
             listeners : {
                 selectionchange : function(sm, selections) {
@@ -22,23 +22,7 @@ Ext.define('drp.app.view.projects.invoices.StockOutInvoiceView', {
                 }
             }
         });
-        
-        var menuItems = [{
-            xtype : 'button',
-            action : 'approveOutInvoice',
-            icon : 'resources/images/icons/approved.gif',
-            text : '提交通过'
-        }];
-        
-        if(user.type != "MaterialKeeper"){
-            menuItems[1]={
-                xtype : 'button',
-                action : 'unapproveOutInvoice',
-                icon : 'resources/images/icons/unapproved.gif',
-                text : '失败退回'
-            };
-        }
-        
+
         Ext.applyIf(me, {
 
             items : [{
@@ -67,18 +51,6 @@ Ext.define('drp.app.view.projects.invoices.StockOutInvoiceView', {
                             fieldLabel : '结束日期',
                             editable : false,
                             format : 'Y-m-d'
-                        }, {
-                            xtype : 'textfield',
-                            margin : '5 0 0 20',
-                            labelWidth: 60,
-                            itemId : 'projectName_filter',
-                            fieldLabel : '项目名称'
-                        }, {
-                            xtype : 'textfield',
-                            margin : '5 0 0 20',
-                            labelWidth: 60,
-                            itemId : 'systemName_filter',
-                            fieldLabel : '系统名称'
                         }]
                     }, {
                         xtype : 'fieldcontainer',
@@ -115,7 +87,7 @@ Ext.define('drp.app.view.projects.invoices.StockOutInvoiceView', {
                             xtype : 'textfield',
                             margin : '5 0 0 10',
                             labelWidth: 60,
-                            itemId : 'materialKeeperName_filter',
+                            itemId : 'regulatorName_filter',
                             fieldLabel : '材料员'
                         }, {
                             xtype : 'textfield',
@@ -127,7 +99,7 @@ Ext.define('drp.app.view.projects.invoices.StockOutInvoiceView', {
                             xtype : 'textfield',
                             margin : '5 0 0 20',
                             labelWidth: 60,
-                            itemId : 'projetManagerName_filter',
+                            itemId : 'managerName_filter',
                             fieldLabel : '项目经理'
                         }, {
                             xtype : 'button',

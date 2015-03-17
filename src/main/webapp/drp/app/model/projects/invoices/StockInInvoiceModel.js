@@ -2,7 +2,7 @@ Ext.define("drp.app.model.projects.invoices.StockInInvoiceModel", {
     extend : "drp.app.model.projects.invoices.AbstractInvoiceModel",
     proxy : {
         type : 'rest',
-        url : 'stockInInvoice',
+        url : 'invoices/in',
         reader : {
             type : "json",
             root : "data",
