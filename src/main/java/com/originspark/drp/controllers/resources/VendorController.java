@@ -34,12 +34,11 @@ public class VendorController extends BaseController {
     public String create(@RequestBody Vendor vendor) {
 
         String contactMan = vendor.getContactMan();
-        if (contactMan == null || contactMan.trim().equals("")) {
+        if (StringUtils.isEmpty(contactMan)) {
             return failure("联系人不能为空");
         }
 
-        String name = vendor.getName();
-        if (!StringUtils.isEmpty(name) && vendorService.findByName(name) != null) {
+        if (vendorService.have(vendor)) {
             return failure("该供应商已经存在，不可重复添加");
         }
 
@@ -84,14 +83,12 @@ public class VendorController extends BaseController {
             return failure("您要更新的供应商不存在");
         }
 
-        String name = vendor.getName();
-        if (name == null || name.trim().equals("")) {
-            logger.warn(">更新失败：商品名称不能为空");
-            return failure("供应商名称不能为空");
+        String contactMan = vendor.getContactMan();
+        if (StringUtils.isEmpty(contactMan)) {
+            return failure("联系人不能为空");
         }
 
-        if (vendorService.findByName(name) != null) {
-            logger.warn(">更新失败：该供应商已经存在，不可重复添加");
+        if (vendorService.have(vendor)) {
             return failure("该供应商已经存在，不可重复添加");
         }
 
@@ -100,11 +97,9 @@ public class VendorController extends BaseController {
         existingVendor.setAddress(vendor.getAddress());
         existingVendor.setPhone(vendor.getPhone());
         existingVendor.setNote(vendor.getNote());
-
-        existingVendor.setUpdatedBy(SessionUtil.getCurrentUserName(request));
-
+        existingVendor.setUpdatedBy(getCurrentUser().getName());
         vendorService.update(existingVendor);
-        logger.info(">更新成功："+existingVendor.toString());
+
         return ok("更新成功");
     }
 

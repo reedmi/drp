@@ -91,7 +91,7 @@ Ext.define("drp.app.controller.users.WareKeeperController", {
 
     deleteWareKeeper : function(btn) {
         //me.deleteModel(btn, wareKeeperGrid, "库管");
-        me.deleteBatchModel(btn,wareKeeperGrid,"库管","/wareKeeper/deleteBatch");
+        me.deleteBatchModel(btn,wareKeeperGrid,"库管","users/wareKeeper/deleteBatch");
     },
 
     submitWareKeeperForm : function(btn) {

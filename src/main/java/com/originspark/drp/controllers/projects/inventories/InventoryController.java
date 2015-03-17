@@ -1,58 +1,30 @@
 package com.originspark.drp.controllers.projects.inventories;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.originspark.drp.controllers.BaseController;
-import com.originspark.drp.util.FileUtil;
-import com.originspark.drp.util.poi.exporter.MonthendInventoryGenerator;
+import com.originspark.drp.models.User;
 import com.originspark.drp.web.models.projects.inventories.CurrentInventoryUI;
-import com.originspark.drp.web.models.projects.inventories.Ware;
 
 @Controller
-@RequestMapping("project")
+@RequestMapping("inventories")
 public class InventoryController extends BaseController {
-    
-    /*@RequestMapping(value = "/{id}/inventories/current", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/current", method = RequestMethod.GET)
     @ResponseBody
-    @AuthRoleGroup(type={RoleEnum.WAREKEEPER,RoleEnum.PROJECTMANAGER,RoleEnum.LEADER})
-    public String currentInventories(@PathVariable Long id){
-        
-        Project project = projectService.findById(id);
-        
-        if(project == null){
-            return failure("你所查询的项目不存在");
-        }
-        
-        List<CurrentInventoryUI> inventories = new ArrayList<CurrentInventoryUI>();
-        
-        //如果是项目
-        if(project.getProject() == null){
-            for(Project system : project.getSystems()){
-                inventories.addAll(projectService.getCurrentInventories(system.getId()));
-            }
-            return ok(inventories);
-        }
-        
-        inventories.addAll(projectService.getCurrentInventories(id));
-        return ok(inventories);
+    public String currentInventories(@RequestParam int start, @RequestParam int limit) {
+        List<CurrentInventoryUI> data = inventoryService.pagedCurrentInventories(start, limit);
+        Long count = inventoryService.pagedCurrentInventoriesCount();
+        return ok(data, count);
     }
-    
+
+    /*
     @ResponseBody
     @RequestMapping(value = "/{id}/inventories/monthend", method = RequestMethod.GET)
     @AuthRoleGroup(type={RoleEnum.PROJECTMANAGER,RoleEnum.LEADER})

@@ -1,25 +1,32 @@
 Ext.define("drp.app.model.projects.inventories.CurrentInventoryModel", {
     extend : "Ext.data.Model",
     fields : [{
-        name : "wareName"
+        name : "name"
     }, {
-        name : "wareBrand"
+        name : "brand"
     }, {
-        name : "wareModel"
+        name : "model"
     }, {
-        name : "wareUnit"
+        name : "unit"
     }, {
-        name : "currentStockIn",
+        name : "incount",
         type : 'int'
     }, {
-        name : "currentStockOut",
+        name : "outcount",
         type : 'int'
     }, {
-        name : "currentStockRest",
+        name : "restcount",
         type : 'int'
-    } ],
+    }, {
+        name : "income"
+    }, {
+        name : "outcome"
+    }, {
+        name : "profit"
+    }],
     proxy : {
         type : 'ajax',
+        url : 'inventories/current',
         reader : {
             type : "json",
             root : "data",

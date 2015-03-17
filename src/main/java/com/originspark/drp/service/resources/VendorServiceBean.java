@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.originspark.drp.dao.BaseDAOSupport;
 import com.originspark.drp.models.resources.Vendor;
+import com.originspark.drp.models.resources.Ware;
 import com.originspark.drp.models.resources.Vendor.COLUMNS;
 import com.originspark.drp.util.json.FilterRequest;
 
@@ -121,6 +122,20 @@ public class VendorServiceBean extends BaseDAOSupport<Vendor> implements VendorS
             return null;
         }
         return vendors.get(0);
+    }
+
+    @Override
+    public boolean have(Vendor vendor) {
+        String jpql = "from Vendor where name =:name and contactMan =:contactMan";
+        TypedQuery<Vendor> query = em.createQuery(jpql, Vendor.class)
+                .setParameter("name", vendor.getName())
+                .setParameter("contactMan", vendor.getContactMan());
+
+        List<Vendor> vendors = query.getResultList();
+        if(vendors.isEmpty()){
+            return false;
+        }
+        return true;
     }
 
 }

@@ -83,24 +83,24 @@ Ext.define('drp.app.view.resources.VendorView', {
                 autoScroll : true,
                 columns : [{
                     xtype : 'gridcolumn',
-                    width : 160,
-                    dataIndex : 'name',
-                    text : '名称'
-                }, {
-                    xtype : 'gridcolumn',
                     width : 90,
                     dataIndex : 'contactMan',
                     text : '联系人'
                 }, {
                     xtype : 'gridcolumn',
-                    width : 180,
-                    dataIndex : 'address',
-                    text : '地址'
-                }, {
-                    xtype : 'gridcolumn',
                     width : 130,
                     dataIndex : 'phone',
                     text : '联系电话'
+                }, {
+                    xtype : 'gridcolumn',
+                    width : 160,
+                    dataIndex : 'name',
+                    text : '公司名称'
+                }, {
+                    xtype : 'gridcolumn',
+                    width : 180,
+                    dataIndex : 'address',
+                    text : '公司地址'
                 }, {
                     xtype : 'gridcolumn',
                     width : 100,

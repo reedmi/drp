@@ -11,7 +11,6 @@ import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.originspark.drp.models.AbstractModel;
-import com.sun.istack.internal.NotNull;
 
 /**
  *  单据
@@ -33,7 +32,6 @@ public abstract class AbstractInvoice extends AbstractModel{
     private Date forDate;
 
     @JsonIgnore
-    @NotNull
     @Column(columnDefinition = "char(7)", nullable = false)
     private String forYearMonth;
 

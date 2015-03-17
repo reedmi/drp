@@ -98,10 +98,10 @@ public class WareController extends BaseController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseBody
-    public String update(@PathVariable Long id, @RequestBody Ware ware,HttpServletRequest request) {
+    public String update(@PathVariable Long id, @RequestBody Ware ware) {
 
         Ware existingWare = wareService.findById(Ware.class, id);
-        
+
         //validation
         if (existingWare == null) {
             return failure("您要更新的商品不存在");
@@ -130,8 +130,8 @@ public class WareController extends BaseController {
         existingWare.setUnit(ware.getUnit());
         existingWare.setNote(ware.getNote());
         existingWare.setVendor(ware.getVendor());
-        
-        existingWare.setUpdatedBy(SessionUtil.getCurrentUserName(request));
+        existingWare.setCategory(ware.getCategory());
+        existingWare.setUpdatedBy(SessionUtil.getCurrentUserName(request()));
 
         wareService.update(existingWare);
         logger.info(">更新成功："+existingWare.toString());
@@ -141,7 +141,6 @@ public class WareController extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public String list(@RequestParam int start, @RequestParam int limit, @RequestParam(required = false) Object filter, HttpServletRequest request) {
-        
         List<FilterRequest> filters = new ArrayList<FilterRequest>();
 
         if (filter != null) {

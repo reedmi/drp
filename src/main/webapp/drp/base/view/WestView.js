@@ -16,7 +16,7 @@ Ext.define("drp.base.view.WestView", {
         activeOnTop : true
     },
     items : [{
-        title : "库存查看",
+        title : "库存管理",
         titleAlign: 'center',
         autoScroll : true,
         items:[{
@@ -32,7 +32,7 @@ Ext.define("drp.base.view.WestView", {
                     id : 'menu_current_inventory',
                     leaf : true
                 }, {
-                    text : "<span style='font-weight:bold'>月末盘点</span>",
+                    text : "<span style='font-weight:bold'>每日总账</span>",
                     id : 'menu_monthend_inventory',
                     leaf : true
                 }]

@@ -5,7 +5,6 @@ Ext.define("drp.app.controller.resources.WareController", {
     me : null,
 
     init : function() {
-        
         me = this; 
 
         this.control({

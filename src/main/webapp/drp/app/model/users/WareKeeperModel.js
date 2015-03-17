@@ -2,7 +2,7 @@ Ext.define("drp.app.model.users.WareKeeperModel", {
     extend : "drp.app.model.users.AbstractUserModel",
     proxy : {
         type : 'rest',
-        url : 'wareKeeper',
+        url : 'users/wareKeeper',
         reader : {
             type : "json",
             root : "data",
