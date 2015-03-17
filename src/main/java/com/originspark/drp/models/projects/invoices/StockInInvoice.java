@@ -17,27 +17,27 @@ import com.originspark.drp.models.projects.costs.StockInCost;
 @Table(name="invoice_stock_in")
 public class StockInInvoice extends AbstractInvoice{
 
-	/**
+    /**
      * 商品采购列表
      */
-	@JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy="invoice")
     private List<StockInCost> costs;
 
-	public List<StockInCost> getCosts() {
-		return costs;
-	}
+    public List<StockInCost> getCosts() {
+        return costs;
+    }
 
-	public void setCosts(List<StockInCost> costs) {
-		this.costs = costs;
-	}
-	
-	public int getCostCount(){
-	    return getCosts().size();
-	}
-	
-	@Override
-	public String toString() {
-	    return "StockInInvoice(入库单) => ["+super.toString()+"]";
-	}
+    public void setCosts(List<StockInCost> costs) {
+        this.costs = costs;
+    }
+    
+    public int getCostCount(){
+        return getCosts().size();
+    }
+    
+    @Override
+    public String toString() {
+        return "StockInInvoice(入库单) => ["+super.toString()+"]";
+    }
 }

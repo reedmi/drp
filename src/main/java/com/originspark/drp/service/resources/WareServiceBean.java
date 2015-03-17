@@ -23,119 +23,119 @@ import com.originspark.drp.models.resources.Ware.COLUMNS;
 import com.originspark.drp.util.json.FilterRequest;
 
 @Transactional
-@Service
+@Service("wareService")
 public class WareServiceBean extends BaseDAOSupport<Ware> implements
-		WareService {
+        WareService {
 
-	@Override
-	public List<Ware> pagedDataSet(int start, int limit,
-			List<FilterRequest> filters) {
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Ware> dataQuery = cb.createQuery(Ware.class);
+    @Override
+    public List<Ware> pagedDataSet(int start, int limit,
+            List<FilterRequest> filters) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Ware> dataQuery = cb.createQuery(Ware.class);
 
-		Root<Ware> ware = dataQuery.from(Ware.class);
+        Root<Ware> ware = dataQuery.from(Ware.class);
 
-		dataQuery.select(ware);
+        dataQuery.select(ware);
 
         Predicate[] predicates = toPredicates(em,cb, ware, filters);
 
-		if (predicates != null) {
-			dataQuery.where(cb.and(predicates));
-		} 
-		
-		dataQuery.orderBy(cb.desc(ware.get("id")));
+        if (predicates != null) {
+            dataQuery.where(cb.and(predicates));
+        } 
+        
+        dataQuery.orderBy(cb.desc(ware.get("id")));
 
-		return em.createQuery(dataQuery).setFirstResult(start)
-				.setMaxResults(limit).getResultList();
-	}
+        return em.createQuery(dataQuery).setFirstResult(start)
+                .setMaxResults(limit).getResultList();
+    }
 
-	@Override
-	public Long pagedDataCount(List<FilterRequest> filters) {
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-		Root<Ware> ware = countQuery.from(Ware.class);
-		countQuery.select(cb.count(ware));
+    @Override
+    public Long pagedDataCount(List<FilterRequest> filters) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<Ware> ware = countQuery.from(Ware.class);
+        countQuery.select(cb.count(ware));
 
-		Predicate[] predicates = toPredicates(em,cb, ware, filters);
+        Predicate[] predicates = toPredicates(em,cb, ware, filters);
 
-		if (predicates != null) {
-			countQuery.where(cb.and(predicates));
-		} 
+        if (predicates != null) {
+            countQuery.where(cb.and(predicates));
+        } 
 
-		return em.createQuery(countQuery).getSingleResult();
-	}
+        return em.createQuery(countQuery).getSingleResult();
+    }
 
-	public static Predicate[] toPredicates(EntityManager em,CriteriaBuilder cb, Root<Ware> ware,
-			List<FilterRequest> filters) {
-		List<Predicate> criteria = new ArrayList<Predicate>();
+    public static Predicate[] toPredicates(EntityManager em,CriteriaBuilder cb, Root<Ware> ware,
+            List<FilterRequest> filters) {
+        List<Predicate> criteria = new ArrayList<Predicate>();
 
-		try {
-			for (FilterRequest filter : filters) {
-				
-				COLUMNS column = COLUMNS.valueOf(filter.getProperty()
-						.toUpperCase());
-				
-				String value = filter.getValue();
-				
-				switch (column) {
-				case NAME:
-					if(value != null && !value.equals("")){
-						criteria.add(cb.like(ware.<String>get("name"), "%"+value+"%"));
-					}
-					break;
-				case BRAND:
-					if(value != null && !value.equals("")){
-						criteria.add(cb.like(ware.<String>get("brand"), "%"+value+"%"));
-					}
-					break;
-				case MODEL:
-					if(value != null && !value.equals("")){
-						criteria.add(cb.like(ware.<String>get("model"), "%"+value+"%"));
-					}
-					break;
-				case UNIT:
-					if(value != null && !value.equals("")){
-						criteria.add(cb.like(ware.<String>get("unit"), "%"+value+"%"));
-					}
-					break;
-				case VENDOR:
-					if(value != null && !value.equals("")){
-						criteria.add(cb.like(ware.get("vendor").<String>get("name"), "%"+value+"%"));
-					}
-					break;
-				}
-				    
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+        try {
+            for (FilterRequest filter : filters) {
+                
+                COLUMNS column = COLUMNS.valueOf(filter.getProperty()
+                        .toUpperCase());
+                
+                String value = filter.getValue();
+                
+                switch (column) {
+                case NAME:
+                    if(value != null && !value.equals("")){
+                        criteria.add(cb.like(ware.<String>get("name"), "%"+value+"%"));
+                    }
+                    break;
+                case BRAND:
+                    if(value != null && !value.equals("")){
+                        criteria.add(cb.like(ware.<String>get("brand"), "%"+value+"%"));
+                    }
+                    break;
+                case MODEL:
+                    if(value != null && !value.equals("")){
+                        criteria.add(cb.like(ware.<String>get("model"), "%"+value+"%"));
+                    }
+                    break;
+                case UNIT:
+                    if(value != null && !value.equals("")){
+                        criteria.add(cb.like(ware.<String>get("unit"), "%"+value+"%"));
+                    }
+                    break;
+                case VENDOR:
+                    if(value != null && !value.equals("")){
+                        criteria.add(cb.like(ware.get("vendor").<String>get("name"), "%"+value+"%"));
+                    }
+                    break;
+                }
+                    
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
-		if (criteria.size() == 0) {
-			return null;
-		} else {
-			Predicate[] predicates = new Predicate[criteria.size()];
-			predicates = criteria.toArray(predicates);
-			return predicates;
-		}
-	}
+        if (criteria.size() == 0) {
+            return null;
+        } else {
+            Predicate[] predicates = new Predicate[criteria.size()];
+            predicates = criteria.toArray(predicates);
+            return predicates;
+        }
+    }
 
-	@Override
-	public Map<String, String> validate(Ware ware) {
-		
-	    Map<String, String> validations = new HashMap<String,String>();
-	    
-		String name = ware.getName();
-		if(name == null || name.trim().equals("")){
-		    validations.put("name", "名称不能为空");
-		}
-		
-		String unit = ware.getUnit();
-		if(unit == null || unit.trim().equals("")){
+    @Override
+    public Map<String, String> validate(Ware ware) {
+        
+        Map<String, String> validations = new HashMap<String,String>();
+        
+        String name = ware.getName();
+        if(name == null || name.trim().equals("")){
+            validations.put("name", "名称不能为空");
+        }
+        
+        String unit = ware.getUnit();
+        if(unit == null || unit.trim().equals("")){
             validations.put("unit", "单位不能为空");
         }
-		
-		return validations;
-	}
+        
+        return validations;
+    }
 
     @Override
     public boolean have(Ware ware) {

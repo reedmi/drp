@@ -13,23 +13,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.originspark.drp.dao.BaseDAOSupport;
-import com.originspark.drp.models.users.AbstractUser;
-import com.originspark.drp.models.users.AbstractUser.COLUMNS;
+import com.originspark.drp.models.User;
+import com.originspark.drp.models.User.COLUMNS;
 import com.originspark.drp.util.enums.Gender;
 import com.originspark.drp.util.enums.Status;
 import com.originspark.drp.util.json.FilterRequest;
 
 @Transactional
-@Service
-public class UserServiceBean extends BaseDAOSupport<AbstractUser> implements UserService {
+@Service("userService")
+public class UserServiceBean extends BaseDAOSupport<User> implements UserService {
 
     @Override
-    public List<AbstractUser> pagedDataSet(int start, int limit,List<FilterRequest> filters) {
+    public List<User> pagedDataSet(int start, int limit,List<FilterRequest> filters) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<AbstractUser> dataQuery = cb.createQuery(AbstractUser.class);
+        CriteriaQuery<User> dataQuery = cb.createQuery(User.class);
 
-        Root<AbstractUser> user = dataQuery.from(AbstractUser.class);
+        Root<User> user = dataQuery.from(User.class);
 
         dataQuery.select(user);
 
@@ -47,7 +47,7 @@ public class UserServiceBean extends BaseDAOSupport<AbstractUser> implements Use
     public Long pagedDataCount(List<FilterRequest> filters) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-        Root<AbstractUser> user = countQuery.from(AbstractUser.class);
+        Root<User> user = countQuery.from(User.class);
         countQuery.select(cb.count(user));
 
         Predicate[] predicates = toPredicates(cb, user, filters);
@@ -65,7 +65,7 @@ public class UserServiceBean extends BaseDAOSupport<AbstractUser> implements Use
         return null;
     }
 
-    public static Predicate[] toPredicates(CriteriaBuilder cb, Root<AbstractUser> user,
+    public static Predicate[] toPredicates(CriteriaBuilder cb, Root<User> user,
             List<FilterRequest> filters) {
         List<Predicate> criteria = new ArrayList<Predicate>();
 

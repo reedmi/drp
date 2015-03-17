@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.originspark.drp.models.projects.Project;
 import com.originspark.drp.models.resources.Ware;
 
 @Entity
@@ -19,13 +18,7 @@ public class MonthendInventory {
     @Id
     @GeneratedValue
     private Long id;
-    
-    /**
-     * 所属系统
-     */
-    @ManyToOne
-    private Project system;
-    
+
     /**
      * 年月
      */
@@ -68,14 +61,6 @@ public class MonthendInventory {
 
     public void setId(Long id) {
         this.id = id;
-    }
-    
-    public Project getSystem() {
-        return system;
-    }
-
-    public void setSystem(Project system) {
-        this.system = system;
     }
 
     public String getForYearMonth() {

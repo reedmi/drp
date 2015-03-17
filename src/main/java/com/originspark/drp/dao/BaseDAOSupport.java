@@ -9,25 +9,25 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public abstract class BaseDAOSupport<T> implements BaseDAO<T>{
 
-	@PersistenceContext
-	protected EntityManager em;
+    @PersistenceContext
+    protected EntityManager em;
     
     public void delete(T entity) {
-    	em.remove(entity);
+        em.remove(entity);
     }
 
     @Transactional(readOnly=true)
     public T findById(Class<T> c,Long id) {
-    	return em.find(c, id);
+        return em.find(c, id);
     }
 
     public T save(T entity) {
-    	em.persist(entity);
-    	return entity;
+        em.persist(entity);
+        return entity;
     }
 
     public T update(T entity) {
-    	return em.merge(entity);
+        return em.merge(entity);
     }
     
     @Transactional(readOnly=true)

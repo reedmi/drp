@@ -24,26 +24,26 @@ import com.originspark.drp.util.enums.AuditState;
 import com.originspark.drp.util.json.FilterRequest;
 
 @Transactional
-@Service
+@Service("stockOutInvoiceService")
 public class StockOutInvoiceServiceBean extends BaseDAOSupport<StockOutInvoice> implements
-		StockOutInvoiceService {
+        StockOutInvoiceService {
 
-	@Override
-	public List<StockOutInvoice> pagedDataSet(int start, int limit,
-			List<FilterRequest> filters) {
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<StockOutInvoice> dataQuery = cb.createQuery(StockOutInvoice.class);
+    @Override
+    public List<StockOutInvoice> pagedDataSet(int start, int limit,
+            List<FilterRequest> filters) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<StockOutInvoice> dataQuery = cb.createQuery(StockOutInvoice.class);
 
-		Root<StockOutInvoice> stockout = dataQuery.from(StockOutInvoice.class);
+        Root<StockOutInvoice> stockout = dataQuery.from(StockOutInvoice.class);
 
-		dataQuery.select(stockout);
-		
-		StockOutCost[] outCosts = findByWareName(filters);
-		if(outCosts == null){
-		    return null;
-		}
+        dataQuery.select(stockout);
+        
+        StockOutCost[] outCosts = findByWareName(filters);
+        if(outCosts == null){
+            return null;
+        }
 
-		List<Predicate[]> predicates = toPredicates(cb, stockout, filters, outCosts);
+        List<Predicate[]> predicates = toPredicates(cb, stockout, filters, outCosts);
         
         if (predicates != null) {
             Predicate[] andPredicates = predicates.get(0);
@@ -59,23 +59,23 @@ public class StockOutInvoiceServiceBean extends BaseDAOSupport<StockOutInvoice> 
 
         dataQuery.orderBy(cb.desc(stockout.get("forDate")));
         
-		return em.createQuery(dataQuery).setFirstResult(start)
-				.setMaxResults(limit).getResultList();
-	}
+        return em.createQuery(dataQuery).setFirstResult(start)
+                .setMaxResults(limit).getResultList();
+    }
 
-	@Override
-	public Long pagedDataCount(List<FilterRequest> filters) {
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-		Root<StockOutInvoice> stockout = countQuery.from(StockOutInvoice.class);
-		countQuery.select(cb.count(stockout));
-		
-		StockOutCost[] outCosts = findByWareName(filters);
+    @Override
+    public Long pagedDataCount(List<FilterRequest> filters) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<StockOutInvoice> stockout = countQuery.from(StockOutInvoice.class);
+        countQuery.select(cb.count(stockout));
+        
+        StockOutCost[] outCosts = findByWareName(filters);
         if(outCosts == null){
             return 0L;
         }
 
-		List<Predicate[]> predicates = toPredicates(cb, stockout, filters, findByWareName(filters));
+        List<Predicate[]> predicates = toPredicates(cb, stockout, filters, findByWareName(filters));
         
         if (predicates != null) {
             Predicate[] andPredicates = predicates.get(0);
@@ -89,10 +89,10 @@ public class StockOutInvoiceServiceBean extends BaseDAOSupport<StockOutInvoice> 
             }
         }
 
-		return em.createQuery(countQuery).getSingleResult();
-	}
-	
-	public static List<Predicate[]> toPredicates(CriteriaBuilder cb, Root<StockOutInvoice> stockout,
+        return em.createQuery(countQuery).getSingleResult();
+    }
+    
+    public static List<Predicate[]> toPredicates(CriteriaBuilder cb, Root<StockOutInvoice> stockout,
         List<FilterRequest> filters, StockOutCost...costs) {
     
         List<Predicate> andCriteria= new ArrayList<Predicate>();
@@ -141,49 +141,19 @@ public class StockOutInvoiceServiceBean extends BaseDAOSupport<StockOutInvoice> 
                             andCriteria.add(cb.lessThanOrEqualTo(stockout.<BigDecimal>get("totalPrice"), maxTotal));
                         }
                         break;
-                    case MATERIALKEEPERNAME:
+                    case REGULATORNAME:
                         if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.like(stockout.<String>get("materialKeeperName"), "%" + value + "%"));
+                            andCriteria.add(cb.like(stockout.<String>get("regulator"), "%" + value + "%"));
                         }
                         break;
                     case WAREKEEPERNAME:
                         if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.like(stockout.<String>get("wareKeeperName"), "%" + value + "%"));
+                            andCriteria.add(cb.like(stockout.<String>get("wareKeeper"), "%" + value + "%"));
                         }
                         break;
-                    case PROJECTMANAGERNAME:
+                    case MANAGERNAME:
                         if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.like(stockout.<String>get("projectManagerName"), "%" + value + "%"));
-                        }
-                        break;
-                    case MATERIALKEEPERID:
-                        if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.equal(stockout.get("system").get("project").get("materialKeeper").<Long>get("id"), Long.valueOf(value)));
-                        }
-                        break;
-                    case WAREKEEPERID:
-                        if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.equal(stockout.get("system").get("project").get("wareKeeper").<Long>get("id"), Long.valueOf(value)));
-                        }
-                        break;
-                    case PROJECTMANAGERID:
-                        if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.equal(stockout.get("system").get("project").get("projectManager").<Long>get("id"), Long.valueOf(value)));
-                        }
-                        break;
-                    case MATERIALKEEPERAUDITSTATE:
-                        if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.equal(stockout.get("materialKeeperAuditState"),AuditState.valueOf(value)));
-                        }
-                        break;
-                    case WAREKEEPERAUDITSTATE:
-                        if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.equal(stockout.get("wareKeeperAuditState"),AuditState.valueOf(value)));
-                        }
-                        break;
-                    case PROJECTMANAGERAUDITSTATE:
-                        if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.equal(stockout.get("projectManagerAuditState"),AuditState.valueOf(value)));
+                            andCriteria.add(cb.like(stockout.<String>get("manager"), "%" + value + "%"));
                         }
                         break;
                     case RECEIVEMANNAME :
@@ -217,14 +187,14 @@ public class StockOutInvoiceServiceBean extends BaseDAOSupport<StockOutInvoice> 
         }
     }
 
-	@Override
-	public Map<String, String> validate() {
-		// TODO
-		/**
-		 * 对ware的数据进行验证
-		 */
-		return null;
-	}
+    @Override
+    public Map<String, String> validate() {
+        // TODO
+        /**
+         * 对ware的数据进行验证
+         */
+        return null;
+    }
 
     @Override
     public StockOutInvoice findById(Long id) {

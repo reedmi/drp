@@ -9,11 +9,11 @@ import com.originspark.drp.util.json.FilterRequest;
 
 public interface StockOutInvoiceService extends BaseDAO<StockOutInvoice> {
 
-	List<StockOutInvoice> pagedDataSet(int start, int limit, List<FilterRequest> filters);
-	
-	Long pagedDataCount(List<FilterRequest> filters);
-	
-	Map<String, String> validate();
-	
-	StockOutInvoice findById(Long id);
+    List<StockOutInvoice> pagedDataSet(int start, int limit, List<FilterRequest> filters);
+    
+    Long pagedDataCount(List<FilterRequest> filters);
+    
+    Map<String, String> validate();
+    
+    StockOutInvoice findById(Long id);
 }

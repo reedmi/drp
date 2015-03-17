@@ -15,11 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.originspark.drp.authority.AuthRoleGroup;
-import com.originspark.drp.authority.RoleEnum;
-import com.originspark.drp.models.projects.Project;
 import com.originspark.drp.models.projects.invoices.StockOutInvoice;
-import com.originspark.drp.models.users.AbstractUser;
 import com.originspark.drp.util.SessionUtil;
 import com.originspark.drp.util.enums.AuditState;
 import com.originspark.drp.util.json.AuditStateUpdateJson;
@@ -29,12 +25,11 @@ import com.originspark.drp.util.json.JsonUtils;
 
 @Controller
 @RequestMapping("stockOutInvoice")
-@AuthRoleGroup(type={RoleEnum.MATERIALKEEPER})
 public class StockOutInvoiceController extends AbstractInvoiceController {
 
     private Logger logger = Logger.getLogger(StockOutInvoiceController.class);
 
-    @RequestMapping(method = RequestMethod.POST)
+/*    @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public String create(@RequestBody StockOutInvoice invoice,HttpServletRequest request) {
 
@@ -114,11 +109,10 @@ public class StockOutInvoiceController extends AbstractInvoiceController {
 
         stockOutInvoiceService.update(existingInvoice);
         return ok("更新成功", existingInvoice.getId());
-    }
+    }*/
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    @AuthRoleGroup(type={RoleEnum.WAREKEEPER,RoleEnum.PROJECTMANAGER,RoleEnum.LEADER})
     public String list(@RequestParam int start, @RequestParam int limit, @RequestParam(required = false) Object filter) {
 
         List<FilterRequest> filters = new ArrayList<FilterRequest>();
@@ -133,9 +127,8 @@ public class StockOutInvoiceController extends AbstractInvoiceController {
         return ok(data, count);
     }
 
-    @RequestMapping(value = "/updateAuditState", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/updateAuditState", method = RequestMethod.GET)
     @ResponseBody
-    @AuthRoleGroup(type={RoleEnum.WAREKEEPER,RoleEnum.PROJECTMANAGER})
     public String updateAuditStateByUser(HttpServletRequest request) {
 
         String data = request.getParameter("data");
@@ -173,5 +166,5 @@ public class StockOutInvoiceController extends AbstractInvoiceController {
         }
 
         return ok("提交成功");
-    }
+    }*/
 }

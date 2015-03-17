@@ -9,6 +9,6 @@ function resize(){
     resize();
    }
    window.onresize = function(){
-	   resize();
+       resize();
    }
 </script>

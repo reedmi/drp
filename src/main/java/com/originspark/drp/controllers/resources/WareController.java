@@ -25,9 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.originspark.drp.authority.AuthRoleGroup;
-import com.originspark.drp.authority.RoleEnum;
-import com.originspark.drp.controllers.AbstractController;
+import com.originspark.drp.controllers.BaseController;
 import com.originspark.drp.models.resources.Vendor;
 import com.originspark.drp.models.resources.Ware;
 import com.originspark.drp.util.FileUtil;
@@ -40,8 +38,7 @@ import com.originspark.drp.util.poi.importer.WareImporter;
 
 @Controller
 @RequestMapping("ware")
-@AuthRoleGroup(type={RoleEnum.MATERIALKEEPER})
-public class WareController extends AbstractController {
+public class WareController extends BaseController {
     
     private Logger logger = Logger.getLogger(WareController.class);
 
@@ -68,7 +65,7 @@ public class WareController extends AbstractController {
         }
         
         //save
-        ware.setCreatedByUserName(SessionUtil.getCurrentUserName(request));
+        ware.setCreatedBy(SessionUtil.getCurrentUserName(request));
         
         Ware savedWare = wareService.save(ware);
         logger.info(">添加成功："+savedWare.toString());
@@ -135,7 +132,7 @@ public class WareController extends AbstractController {
         existingWare.setNote(ware.getNote());
         existingWare.setVendor(ware.getVendor());
         
-        existingWare.setUpdatedByUserName(SessionUtil.getCurrentUserName(request));
+        existingWare.setUpdatedBy(SessionUtil.getCurrentUserName(request));
 
         wareService.update(existingWare);
         logger.info(">更新成功："+existingWare.toString());
@@ -144,7 +141,6 @@ public class WareController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    @AuthRoleGroup(type={RoleEnum.PROJECTMANAGER,RoleEnum.LEADER})
     public String list(@RequestParam int start, @RequestParam int limit, @RequestParam(required = false) Object filter, HttpServletRequest request) {
         
         List<FilterRequest> filters = new ArrayList<FilterRequest>();
@@ -158,7 +154,7 @@ public class WareController extends AbstractController {
 
         return ok(data, count);
     }
-    
+
     // 参考http://www.360doc.com/content/12/1219/17/7471983_255118342.shtml
     @RequestMapping(value = "/uploadExcel", method = RequestMethod.POST)
     public void uploadExcel(@RequestParam("attach") MultipartFile attach, HttpServletRequest request, HttpServletResponse response) throws IOException {

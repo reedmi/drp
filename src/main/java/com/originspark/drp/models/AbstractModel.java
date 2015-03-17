@@ -3,96 +3,117 @@ package com.originspark.drp.models;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
+import com.originspark.drp.util.enums.Status;
+import com.sun.istack.internal.NotNull;
+
 @MappedSuperclass
 public abstract class AbstractModel {
 
-	@Id
-	@GeneratedValue
-	private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-	/**
-	 * 维护信息：记录创建日期
-	 */
-	@Column(name="createOn")
-	private Date createOn;
+    /**
+     * 维护信息：记录创建日期
+     */
+    @NotNull
+    @Column(name="createOn")
+    private Date createOn;
 
-	/**
-	 * 维护信息：记录创建者
-	 */
-	@Column(name="createdByUserName",length=10)
-	private String createdByUserName;
+    /**
+     * 维护信息：记录创建者
+     */
+    @Column(name="createdBy",length=10)
+    private String createdBy;
 
-	/**
-	 * 维护信息：记录更新日期
-	 */
-	@Column(name="updateOn")
-	private Date updateOn;
+    /**
+     * 维护信息：记录更新日期
+     */
+    @NotNull
+    @Column(name="updateOn")
+    private Date updateOn;
 
-	/**
-	 * 维护信息：记录更新者
-	 */
-	@Column(name="updatedByUserName",length=10)
-	private String updatedByUserName;
+    /**
+     * 维护信息：记录更新者
+     */
+    @Column(name="updatedBy",length=10)
+    private String updatedBy;
 
-	public Long getId() {
-		return id;
-	}
+    /**
+     * 状态
+     */
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Date getCreateOn() {
-		return createOn;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setCreateOn(Date createOn) {
-		this.createOn = createOn;
-	}
+    public Date getCreateOn() {
+        return createOn;
+    }
 
-	public String getCreatedByUserName() {
-		return createdByUserName;
-	}
+    public void setCreateOn(Date createOn) {
+        this.createOn = createOn;
+    }
 
-	public void setCreatedByUserName(String createdByUserName) {
-		this.createdByUserName = createdByUserName;
-	}
+    public String getCreatedBy() {
+        return createdBy;
+    }
 
-	public Date getUpdateOn() {
-		return updateOn;
-	}
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
 
-	public void setUpdateOn(Date updateOn) {
-		this.updateOn = updateOn;
-	}
+    public Date getUpdateOn() {
+        return updateOn;
+    }
 
-	public String getUpdatedByUserName() {
-		return updatedByUserName;
-	}
+    public void setUpdateOn(Date updateOn) {
+        this.updateOn = updateOn;
+    }
 
-	public void setUpdatedByUserName(String updatedByUserName) {
-		this.updatedByUserName = updatedByUserName;
-	}
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
 
-	@PrePersist
-	private void prePersist() {
-		createOn = new Date();
-		updateOn = createOn;
-	}
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
 
-	@PreUpdate
-	private void preUpdate(){
-		updateOn = new Date();
-	}
-	
-	@Override
-	public String toString() {
-	    return "id="+id+", updateOn="+updateOn;
-	}
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    @PrePersist
+    private void prePersist() {
+        createOn = new Date();
+        updateOn = createOn;
+    }
+
+    @PreUpdate
+    private void preUpdate(){
+        updateOn = new Date();
+    }
+    
+    @Override
+    public String toString() {
+        return "id="+id+", updateOn="+updateOn;
+    }
 }

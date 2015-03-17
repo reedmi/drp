@@ -17,10 +17,10 @@ public class StockInCost extends AbstractCost {
      */
     @ManyToOne
     private Ware ware;
-    
+
     @ManyToOne
     private StockInInvoice invoice;
-    
+
     public Ware getWare() {
         return ware;
     }
