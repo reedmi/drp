@@ -13,7 +13,7 @@ import com.originspark.drp.dao.BaseDAOSupport;
 import com.originspark.drp.models.resources.WareCategory;
 
 @Transactional
-@Service("wareCategoryService")
+@Service
 public class WareCategoryServiceBean extends BaseDAOSupport<WareCategory> implements
         WareCategoryService {
 

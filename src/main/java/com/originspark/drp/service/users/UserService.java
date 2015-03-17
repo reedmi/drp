@@ -9,7 +9,6 @@ import com.originspark.drp.dao.BaseDAO;
 import com.originspark.drp.models.User;
 import com.originspark.drp.util.json.FilterRequest;
 
-@Service
 public interface UserService extends BaseDAO<User>{
 
     List<User> pagedDataSet(int start, int limit,List<FilterRequest> filters);

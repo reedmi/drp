@@ -1,5 +1,4 @@
 package com.originspark.drp.service.projects.costs;
-/**@author yestin*/
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ import com.originspark.drp.models.projects.costs.AbstractCost.COLUMNS;
 import com.originspark.drp.util.json.FilterRequest;
 
 @Transactional
-@Service("stockOutCostService")
+@Service
 public class StockOutCostServiceBean extends BaseDAOSupport<StockOutCost> implements
         StockOutCostService {
 

@@ -20,7 +20,7 @@ import com.originspark.drp.util.enums.Status;
 import com.originspark.drp.util.json.FilterRequest;
 
 @Transactional
-@Service("userService")
+@Service
 public class UserServiceBean extends BaseDAOSupport<User> implements UserService {
 
     @Override

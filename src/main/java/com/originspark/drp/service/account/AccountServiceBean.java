@@ -17,7 +17,7 @@ import com.originspark.drp.models.User;
 import com.originspark.drp.util.enums.Status;
 
 @Transactional
-@Service("AccountService")
+@Service
 public class AccountServiceBean implements AccountService {
 
     @PersistenceContext
