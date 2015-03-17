@@ -13,6 +13,16 @@ Ext.define("drp.app.view.resources.WareViewForm", {
             hidden : true,
             name : 'id'
         }, {
+            xtype : 'treecombobox',
+            anchor : '60%',
+            margin : '5 0 0 5',
+            name : 'category.id',
+            valueField : 'id',
+            displayField : 'name',
+            editable : false,
+            model : 'drp.app.model.resources.WareCategoryModel',
+            fieldLabel : '产品种类'
+        }, {
             xtype : 'textfield',
             anchor : '60%',
             margin : '5 0 0 5',
@@ -27,7 +37,8 @@ Ext.define("drp.app.view.resources.WareViewForm", {
             fieldLabel : '规格'
         }, {
             xtype : 'combobox',
-            fieldLabel : '单位',
+            fieldLabel : '单位<font color="red">*</font>',
+            allowBlank : false,
             anchor : '60%',
             margin : '5 0 0 5',
             name : 'unit',
@@ -37,7 +48,10 @@ Ext.define("drp.app.view.resources.WareViewForm", {
                 fields : ['value', 'name'],
                 data : [{
                     "value" : "吨",
-                    "name" : "吨/T"
+                    "name" : "吨"
+                }, {
+                    "value" : "袋",
+                    "name" : "袋"
                 }, {
                     "value" : "个",
                     "name" : "个"

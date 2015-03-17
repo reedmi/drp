@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,23 +31,22 @@ public class VendorController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public String create(@RequestBody Vendor vendor,HttpServletRequest request) {
+    public String create(@RequestBody Vendor vendor) {
 
-        String name = vendor.getName();
-        if (name == null || name.trim().equals("")) {
-            logger.warn(">添加失败：商品名称不能为空");
-            return failure("供应商名称不能为空");
+        String contactMan = vendor.getContactMan();
+        if (contactMan == null || contactMan.trim().equals("")) {
+            return failure("联系人不能为空");
         }
 
-        if (vendorService.findByName(name) != null) {
-            logger.warn(">添加失败：该供应商已经存在，不可重复添加");
+        String name = vendor.getName();
+        if (!StringUtils.isEmpty(name) && vendorService.findByName(name) != null) {
             return failure("该供应商已经存在，不可重复添加");
         }
 
-        vendor.setCreatedBy(SessionUtil.getCurrentUserName(request));
-        
+        vendor.setCreatedBy(getCurrentUser().getName());
         vendorService.save(vendor);
         logger.info(">添加成功："+vendor.toString());
+
         return ok("创建成功");
     }
 

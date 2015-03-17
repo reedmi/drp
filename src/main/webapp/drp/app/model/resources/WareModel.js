@@ -13,6 +13,12 @@ Ext.define("drp.app.model.resources.WareModel", {
     }, {
         name : 'storage'// 保质期
     }, {
+        name : "category.id",
+        persist : false
+    }, {
+        name : "category.name",
+        persist : false
+    }, {
         name : "vendor.id",
         persist : false
     }, {

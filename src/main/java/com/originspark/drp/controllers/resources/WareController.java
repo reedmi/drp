@@ -44,30 +44,29 @@ public class WareController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public String create(@RequestBody Ware ware,HttpServletRequest request) {
-        
+    public String create(@RequestBody Ware ware) {
+
         //validation
         String name = ware.getName();
         if(name == null || name.trim().equals("")){
             logger.warn(">添加失败：商品名称不能为空");
             return failure("商品名称不能为空");
         }
-        
+
         String unit = ware.getUnit();
         if(unit == null || unit.trim().equals("")){
             logger.warn(">添加失败：商品单位不能为空");
             return failure("商品单位不能为空");
         }
-        
+
         if(wareService.have(ware)){
             logger.warn(">添加失败：该商品已存在，不能重复添加");
             return failure("该商品已存在，不能重复添加");
         }
-        
-        //save
-        ware.setCreatedBy(SessionUtil.getCurrentUserName(request));
-        
+
+        ware.setCreatedBy(SessionUtil.getCurrentUserName(request()));
         Ware savedWare = wareService.save(ware);
+
         logger.info(">添加成功："+savedWare.toString());
         return ok("创建成功");
     }

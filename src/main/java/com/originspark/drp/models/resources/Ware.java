@@ -62,6 +62,9 @@ public class Ware extends AbstractModel {
      */
     private String note;
 
+    @ManyToOne
+    private WareCategory category;
+
     /**
      * 供应商
      */
@@ -138,6 +141,14 @@ public class Ware extends AbstractModel {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public WareCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(WareCategory category) {
+        this.category = category;
     }
 
     public Vendor getVendor() {

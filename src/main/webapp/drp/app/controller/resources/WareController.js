@@ -116,7 +116,7 @@ Ext.define("drp.app.controller.resources.WareController", {
 
     showCreateWareForm : function(btn) {
         var wareForm = Ext.widget("wareviewform");
-        AlertWin.alert('新增商品', null, wareForm, 500, 280);
+        AlertWin.alert('新增商品', null, wareForm, 500, 320);
     },
 
     showUpdateWareForm : function(grid, record, item, index, e, eopts) {
@@ -126,7 +126,7 @@ Ext.define("drp.app.controller.resources.WareController", {
             return;
         } else {
             wareForm.down('form').loadRecord(record);
-            AlertWin.alert('修改商品', null, wareForm, 500, 280);
+            AlertWin.alert('修改商品', null, wareForm, 500, 320);
         }
     },
 
@@ -184,7 +184,7 @@ Ext.define("drp.app.controller.resources.WareController", {
         if (form.isValid()) {
             var formBean = form.getValues();
             var model = Ext.create(modelName, formBean);
-            
+
             //add extra field
             var vendorField = null;
             if(formBean['vendor.id']){
@@ -194,13 +194,24 @@ Ext.define("drp.app.controller.resources.WareController", {
                     id : formBean['vendor.id']
                 });
             }
-            
+            var categoryField = null;
+            if(formBean['category.id']){
+                categoryField = new Ext.data.Field({name:'category'});
+                model.fields.add(categoryField);
+                model.set("category",{
+                    id : formBean['category.id']
+                });
+            }
+
             //save model
             me.saveModel(model, wareGrid);
-            
+
             //remove extra field
             if(vendorField != null){
                 model.fields.remove(vendorField);
+            }
+            if(categoryField != null){
+                model.fields.remove(categoryField);
             }
         }
     },
@@ -231,8 +242,7 @@ Ext.define("drp.app.controller.resources.WareController", {
         }]);
     },
 
-    models : [ "drp.app.model.resources.WareModel" ],
+    models : [ "drp.app.model.resources.WareModel", "drp.app.model.resources.WareCategoryModel" ],
     stores : [ "drp.app.store.resources.WareStore", "drp.app.store.resources.VendorStore"],
-    views : [ "drp.app.view.resources.WareView",
-            "drp.app.view.resources.WareViewForm","drp.widget.UploadFileForm" ]
+    views : [ "drp.app.view.resources.WareView", "drp.app.view.resources.WareViewForm","drp.widget.UploadFileForm" ]
 });

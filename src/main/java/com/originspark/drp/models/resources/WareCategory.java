@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.originspark.drp.models.AbstractModel;
 
 /**
@@ -26,6 +27,10 @@ public class WareCategory extends AbstractModel {
 
     @OneToMany(mappedBy = "parent")
     private List<WareCategory> chidren;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "category")
+    private List<Ware> wares;
 
     public String getName() {
         return name;
@@ -57,6 +62,14 @@ public class WareCategory extends AbstractModel {
 
     public void setChidren(List<WareCategory> chidren) {
         this.chidren = chidren;
+    }
+
+    public List<Ware> getWares() {
+        return wares;
+    }
+
+    public void setWares(List<Ware> wares) {
+        this.wares = wares;
     }
 
     public boolean getLoaded() {

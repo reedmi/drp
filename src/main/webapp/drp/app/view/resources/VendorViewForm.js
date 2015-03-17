@@ -12,65 +12,33 @@ Ext.define("drp.app.view.resources.VendorViewForm", {
         }, {
             xtype : 'textfield',
             anchor : '60%',
-            margin : '5 0 0 5',
-            name : 'name',
+            margin : '20 0 0 10',
+            name : 'contactMan',
             allowBlank : false,
-            fieldLabel : '名称<font color="red">*</font>'
+            fieldLabel : '联系人<font color="red">*</font>'
         }, {
             xtype : 'textfield',
             anchor : '60%',
-            margin : '5 0 0 5',
-            name : 'address',
-            allowBlank : false,
-            fieldLabel : '地址名称<font color="red">*</font>'
-        }, {
-            xtype : 'textfield',
-            anchor : '60%',
-            margin : '5 0 0 5',
+            margin : '5 0 0 10',
             name : 'phone',
             allowBlank : false,
             fieldLabel : '联系电话<font color="red">*</font>'
         }, {
             xtype : 'textfield',
-            anchor : '75%',
-            margin : '5 0 0 5',
-            name : 'contactMan',
-            allowBlank : false,
-            fieldLabel : '联系人名称<font color="red">*</font>'
+            anchor : '60%',
+            margin : '5 0 0 10',
+            name : 'name',
+            fieldLabel : '公司名称'
         }, {
             xtype : 'textfield',
-            anchor : '75%',
-            margin : '5 0 0 5',
-            name : 'registrationNumber',
-            fieldLabel : '注册编号'
-        }, {
-            xtype : 'textfield',
-            anchor : '75%',
-            margin : '5 0 0 5',
-            name : 'registrationRange',
-            fieldLabel : '承包范围'
-        }, {
-            xtype : 'textfield',
-            anchor : '75%',
-            margin : '5 0 0 5',
-            name : 'registrationBank',
-            fieldLabel : '开户行'
-        }, {
-            xtype : 'textfield',
-            anchor : '75%',
-            margin : '5 0 0 5',
-            name : 'orgCodeCertificate',
-            fieldLabel : '组织机构代码证'
-        }, {
-            xtype : 'textfield',
-            anchor : '75%',
-            margin : '5 0 0 5',
-            name : 'taxNumber',
-            fieldLabel : '税号'
+            anchor : '60%',
+            margin : '5 0 0 10',
+            name : 'address',
+            fieldLabel : '公司地址'
         }, {
             xtype : 'textarea',
             anchor : '90%',
-            margin : '5 0 0 5',
+            margin : '5 0 0 10',
             name : 'note',
             fieldLabel : '备注'
         }, {

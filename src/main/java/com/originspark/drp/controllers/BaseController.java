@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.originspark.drp.models.User;
 import com.originspark.drp.service.projects.invoices.StockInInvoiceService;
 import com.originspark.drp.service.projects.invoices.StockOutInvoiceService;
 import com.originspark.drp.service.resources.VendorService;
@@ -70,6 +71,10 @@ public class BaseController extends HandlerInterceptorAdapter {
 
     public HttpSession session() {
         return request().getSession();
+    }
+
+    public User getCurrentUser() {
+        return (User)session().getAttribute("user");
     }
 
     // 一般用于create、update、delete的返回值

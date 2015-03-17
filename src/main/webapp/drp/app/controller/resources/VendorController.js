@@ -48,7 +48,7 @@ Ext.define("drp.app.controller.resources.VendorController", {
     },
     showCreateVendorForm : function(btn) {
         var vendorForm = Ext.widget("vendorviewform");
-        AlertWin.alert('新增供应商', null, vendorForm, 500, 370);
+        AlertWin.alert('新增供应商', null, vendorForm, 500, 220);
     },
 
     showUpdateVendorForm : function(grid, record, item, index, e, eopts) {
@@ -58,7 +58,7 @@ Ext.define("drp.app.controller.resources.VendorController", {
             return;
         } else {
             vendorForm.down('form').loadRecord(record);
-            AlertWin.alert('修改供应商', null, vendorForm, 500, 370);
+            AlertWin.alert('修改供应商', null, vendorForm, 500, 220);
         }
     },
 

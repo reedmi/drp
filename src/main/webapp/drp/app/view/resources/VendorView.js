@@ -106,39 +106,9 @@ Ext.define('drp.app.view.resources.VendorView', {
                     width : 100,
                     dataIndex : 'countOfWares',
                     text : '供应商品数量'
-                },{
-                    xtype : 'gridcolumn',
-                    text : '营业执照',
-                    width : 600,
-                    columns : [{
-                        xtype : 'gridcolumn',
-                        width : 125,
-                        dataIndex : 'registrationNumber',
-                        text : '注册编号'
-                    }, {
-                        xtype : 'gridcolumn',
-                        width : 125,
-                        dataIndex : 'registrationBank',
-                        text : '开户行'
-                    }, {
-                        xtype : 'gridcolumn',
-                        width : 125,
-                        dataIndex : 'registrationRange',
-                        text : '承包范围'
-                    }, {
-                        xtype : 'gridcolumn',
-                        width : 125,
-                        dataIndex : 'taxNumber',
-                        text : '税号'
-                    }, {
-                        xtype : 'gridcolumn',
-                        width : 125,
-                        dataIndex : 'orgCodeCertificate',
-                        text : '组织机构代码证'
-                    }]
                 }, {
                     xtype : 'gridcolumn',
-                    width : 150,
+                    width : 200,
                     dataIndex : 'note',
                     text : '备注'
                 }, {

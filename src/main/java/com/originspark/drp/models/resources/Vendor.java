@@ -19,9 +19,10 @@ import com.originspark.drp.models.AbstractModel;
 public class Vendor extends AbstractModel{
 
     /**
-     * 名称
+     * 联系人
      */
-    private String name;
+    @Column(name="contactMan")
+    private String contactMan;
 
     /**
      * 联系电话
@@ -29,15 +30,14 @@ public class Vendor extends AbstractModel{
     private String phone;
 
     /**
-     * 地址
+     * 公司名称
      */
-    private String address;
+    private String name;
 
     /**
-     * 联系人
+     * 公司地址
      */
-    @Column(name="contactMan")
-    private String contactMan;
+    private String address;
 
     /**
      * 备注
