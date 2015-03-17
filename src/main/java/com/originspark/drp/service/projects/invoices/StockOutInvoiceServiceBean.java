@@ -24,7 +24,7 @@ import com.originspark.drp.util.enums.AuditState;
 import com.originspark.drp.util.json.FilterRequest;
 
 @Transactional
-@Service("stockOutInvoiceService")
+@Service
 public class StockOutInvoiceServiceBean extends BaseDAOSupport<StockOutInvoice> implements
         StockOutInvoiceService {
 

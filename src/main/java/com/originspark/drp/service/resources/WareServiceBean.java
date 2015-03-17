@@ -23,9 +23,8 @@ import com.originspark.drp.models.resources.Ware.COLUMNS;
 import com.originspark.drp.util.json.FilterRequest;
 
 @Transactional
-@Service("wareService")
-public class WareServiceBean extends BaseDAOSupport<Ware> implements
-        WareService {
+@Service
+public class WareServiceBean extends BaseDAOSupport<Ware> implements WareService {
 
     @Override
     public List<Ware> pagedDataSet(int start, int limit,

@@ -9,7 +9,6 @@ import com.originspark.drp.dao.BaseDAO;
 import com.originspark.drp.models.resources.Vendor;
 import com.originspark.drp.util.json.FilterRequest;
 
-@Service
 public interface VendorService extends BaseDAO<Vendor>{
     
     List<Vendor> pagedDataSet(int start, int limit, List<FilterRequest> filters);
