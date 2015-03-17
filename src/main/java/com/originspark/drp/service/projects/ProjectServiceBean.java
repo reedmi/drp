@@ -23,7 +23,7 @@ import com.originspark.drp.web.models.projects.inventories.CurrentInventoryUI;
 import com.originspark.drp.web.models.projects.inventories.Ware;
 
 @Transactional
-@Service("projectService")
+@Service
 public class ProjectServiceBean extends BaseDAOSupport<Project> implements ProjectService {
 
     @Override

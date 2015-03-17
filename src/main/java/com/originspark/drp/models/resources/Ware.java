@@ -15,7 +15,6 @@ import com.originspark.drp.models.AbstractModel;
 import com.originspark.drp.models.projects.costs.StockInCost;
 import com.originspark.drp.models.projects.costs.StockOutCost;
 import com.originspark.drp.models.projects.inventories.MonthendInventory;
-import com.sun.istack.internal.NotNull;
 
 /**
  * 产品
@@ -27,7 +26,6 @@ public class Ware extends AbstractModel {
     /**
      * 名称
      */
-    @NotNull
     private String name;
 
     /**
@@ -43,7 +41,6 @@ public class Ware extends AbstractModel {
     /**
      * 单位
      */
-    @NotNull
     private String unit;
 
     /**
@@ -54,7 +51,6 @@ public class Ware extends AbstractModel {
     /**
      * 供应商
      */
-    @NotNull
     @ManyToOne
     private Vendor vendor;
     

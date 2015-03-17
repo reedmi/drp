@@ -12,12 +12,20 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         ">
 
-    <context:property-placeholder 
-        ignore-unresolvable="true"
-        local-override="true"
-        location="classpath*:/jdbc.properties,classpath*:/application.local.properties"/>
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
 
-    <util:properties id="APP_PROPERTIES" location="classpath:jdbc.properties" local-override="true"/>
+    <!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
+    <context:component-scan base-package="com.originspark.drp">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:jdbc.properties</value>
+            </list>
+        </property>
+    </bean>
 
     <!-- 数据源配置, 使用DBCP数据库连接池 -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -25,7 +33,7 @@
         <property name="driverClassName" value="${jdbc.driver}"/>
         <property name="url" value="${jdbc.url}"/>
         <property name="username" value="${jdbc.username}"/>
-        <property name="password" value=""/>
+        <property name="password" value="${jdbc.password}"/>
 
         <!-- Connection Pooling Info -->
         <property name="maxActive" value="${dbcp.maxActive}"/>
@@ -35,11 +43,6 @@
         <property name="timeBetweenEvictionRunsMillis" value="3600000"/>
         <property name="minEvictableIdleTimeMillis" value="3600000"/>
     </bean>
-
-    <!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
-    <context:component-scan base-package="com.originspark.drp">
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-    </context:component-scan>
 
     <!-- Jpa Entity Manager 配置 -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -51,7 +54,7 @@
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
                 <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
-                <prop key="net.sf.ehcache.configurationResourceName">ehcache/ehcache-hibernate-local.xml</prop>
+                <prop key="net.sf.ehcache.configurationResourceName">ehcache-hibernate-local.xml</prop>
                 <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
             </props>
         </property>

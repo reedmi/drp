@@ -1,14 +1,8 @@
 package com.originspark.drp.controllers;
 
-import java.util.Map;
-import java.util.Set;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-
-import com.originspark.drp.authority.RoleEnum;
-import com.originspark.drp.util.AuthUtil;
 
 
 public class InitSystemServlet extends HttpServlet {

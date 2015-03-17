@@ -17,7 +17,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.originspark.drp.models.AbstractModel;
 import com.originspark.drp.models.projects.Project;
 import com.originspark.drp.util.enums.AuditState;
-import com.sun.istack.internal.NotNull;
 
 /**
  *  单据
@@ -35,7 +34,6 @@ public abstract class AbstractInvoice extends AbstractModel{
 	/**
 	 * 所属系统
 	 */
-	@NotNull
 	@ManyToOne
 	private Project system;
 	
@@ -46,7 +44,6 @@ public abstract class AbstractInvoice extends AbstractModel{
     private Date forDate;
     
     @JsonIgnore
-    @NotNull
     @Column(columnDefinition = "char(7)", nullable = false)
     private String forYearMonth;
     

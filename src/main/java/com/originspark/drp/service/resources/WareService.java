@@ -4,13 +4,10 @@ package com.originspark.drp.service.resources;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
-
 import com.originspark.drp.dao.BaseDAO;
 import com.originspark.drp.models.resources.Ware;
 import com.originspark.drp.util.json.FilterRequest;
 
-@Service
 public interface WareService extends BaseDAO<Ware>{
 
 	List<Ware> pagedDataSet(int start, int limit, List<FilterRequest> filters);
