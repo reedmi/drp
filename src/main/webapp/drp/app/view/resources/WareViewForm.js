@@ -82,7 +82,14 @@ Ext.define("drp.app.view.resources.WareViewForm", {
             name : 'produceOn',
             format:'Y-m-d',
             editable : false,
-            fieldLabel : '生产日期'
+            fieldLabel : '生产日期',
+            listeners : {
+                afterrender : function(df){
+                    if(df.getValue() == null){
+                        df.setValue(new Date());
+                    }
+                }
+            }
         }, {
             xtype : 'combobox',
             fieldLabel : '保质期',

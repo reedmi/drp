@@ -6,34 +6,12 @@ Ext.define('drp.app.view.projects.inventories.MonthendInventoryView', {
     layout : {
         type : 'border'
     },
-    title : '<center height=40>月底汇总',
+    title : '<center height=40>每日总账',
     initComponent : function() {
         var me = this;
 
         Ext.applyIf(me, {
             items : [{
-                xtype : 'treepanel',
-                region : 'west',
-                width : 200,
-                rootVisible : false,
-                
-                title : '项目列表',
-                store : Ext.create("Ext.data.TreeStore",{
-                    defaultRootId : '',
-                    //防止store自动加载
-                    //http://www.sencha.com/forum/showthread.php?150004-How-to-stop-TreeStore-autoload
-                    root : {
-                        data : []
-                    },
-                    model : 'drp.app.model.projects.ProjectModel'
-                }),
-                columns : [{
-                    xtype : 'treecolumn',
-                    dataIndex : 'name',
-                    text : '名称',
-                    flex : 1
-                }]
-            }, {
                 xtype : 'gridpanel',
                 region : 'center',
                 title : '库存量',
@@ -98,18 +76,12 @@ Ext.define('drp.app.view.projects.inventories.MonthendInventoryView', {
                         fieldLabel: '日期',
                         listeners : {
                             afterrender : function(mf){
-                                if(mf.getValue()==null){
+                                if(mf.getValue() == null){
                                     mf.setValue(new Date());
                                 }
                             }
                         }
-                    },  '->', /*{
-                        xtype: 'button',
-                        icon : 'resources/images/icons/upload.gif',
-                        margin : '1 5 1 0',
-                        itemId : 'importExcel_btn',
-                        text: '导入excel'
-                    }, */{
+                    },  '->', {
                         xtype: 'button',
                         icon : 'resources/images/icons/download.gif',
                         margin : '1 5 1 0',
