@@ -3,7 +3,7 @@ Ext.define('drp.app.view.users.RegulatorView', {
     alias : 'widget.regulatorview',
     margins : '0 0 0 0',
     border : 0,
-    title : '<center height=40>材料员</center>',
+    title : '<center height=40>经手人</center>',
     autoScroll : true,
     closable : true,
     layout : {

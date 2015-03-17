@@ -2,7 +2,7 @@ Ext.define("drp.app.model.users.RegulatorModel", {
     extend : "drp.app.model.users.AbstractUserModel",
     proxy : {
         type : 'rest',
-        url : 'regulator',
+        url : 'users/regulator',
         reader : {
             type : "json",
             root : "data",

@@ -90,7 +90,7 @@ Ext.define("drp.app.controller.users.RegulatorController", {
     },
 
     deleteRegulator : function(btn) {
-        me.deleteBatchModel(btn,regulatorGrid,"经手人","/materialKeeper/deleteBatch");
+        me.deleteBatchModel(btn,regulatorGrid,"经手人","users/regulator/deleteBatch");
     },
 
     submitRegulatorForm : function(btn) {
