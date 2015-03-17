@@ -1,6 +1,6 @@
 Ext.define("drp.app.view.users.MaterialKeeperViewForm", {
     extend : 'Ext.panel.Panel',
-    alias : 'widget.materialkeeperviewform',
+    alias : 'widget.regulatorviewform',
     author : '100%',
     autoScroll : true,
     items : [{
@@ -85,13 +85,13 @@ Ext.define("drp.app.view.users.MaterialKeeperViewForm", {
             items : [{
                 xtype : 'button',
                 margin : '5 0 0 5',
-                action : 'submitMaterialKeeperForm',
+                action : 'submitRegulatorForm',
                 width: 80,
                 text : '确认'
             }, {
                 xtype : 'button',
                 margin : '5 0 0 5',
-                action : 'closeMaterialKeeperForm',
+                action : 'closeRegulatorForm',
                 width: 80,
                 text : '取消'
             }]

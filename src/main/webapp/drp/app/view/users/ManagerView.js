@@ -100,7 +100,7 @@ Ext.define('drp.app.view.users.ManagerView', {
                         }, {
                             xtype : 'button',
                             margin : '5 0 0 20',
-                            action : 'searchProjectManager',
+                            action : 'searchManager',
                             icon : 'resources/images/icons/search.png',
                             text : '查询'
                         }, {

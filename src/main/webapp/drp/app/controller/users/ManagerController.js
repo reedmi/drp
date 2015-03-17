@@ -91,7 +91,7 @@ Ext.define("drp.app.controller.users.ManagerController", {
 
     deleteManager : function(btn) {
         //me.deleteModel(btn, managerGrid, "负责人");
-        me.deleteBatchModel(btn,managerGrid,"负责人","/projectManager/deleteBatch");
+        me.deleteBatchModel(btn,managerGrid,"负责人","users/manager/deleteBatch");
     },
 
     submitManagerForm : function(btn) {

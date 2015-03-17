@@ -15,7 +15,7 @@ Ext.define("drp.app.view.users.ManagerViewForm", {
             margin : '5 0 0 5',
             name : 'name',
             allowBlank : false,
-            fieldLabel : '名称<font color="red">*</font>'
+            fieldLabel : '姓名<font color="red">*</font>'
         }, {
             xtype : 'textfield',
             anchor : '60%',

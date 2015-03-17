@@ -50,7 +50,7 @@ Ext.define("drp.base.controller.MainController", {
         else if(record.data["id"] == "menu_manager"){//库管员
             itemViewXtype = "managerview";
             itemViewController = "drp.app.controller.users.ManagerController";
-            itemViewName = "drp.app.view.users.MaterialKeeperView";
+            itemViewName = "drp.app.view.users.ManagerView";
         }else if(record.data["id"] == "menu_warekeeper"){//负责人
             itemViewXtype = "warekeeperview";
             itemViewController = "drp.app.controller.users.WareKeeperController";

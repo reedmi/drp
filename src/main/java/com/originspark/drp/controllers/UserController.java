@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.originspark.drp.models.User;
+import com.originspark.drp.util.SessionUtil;
 import com.originspark.drp.util.enums.Status;
+import com.originspark.drp.util.enums.UserType;
 import com.originspark.drp.util.json.FilterRequest;
 import com.originspark.drp.util.json.IdsJson;
 import com.originspark.drp.util.json.JsonUtils;
@@ -24,26 +26,48 @@ import com.originspark.drp.util.json.JsonUtils;
 @RequestMapping("users")
 public class UserController extends BaseController {
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value="/{type}", method = RequestMethod.POST)
     @ResponseBody
-    public String create(@RequestBody User user) {
+    public String create(@PathVariable String type, @RequestBody User user) {
+        if(type == null || "".equals(type)) {
+            return ok("参数错误");
+        }
+        User currentUser = getCurrentUser();
+        if(currentUser == null || !UserType.MANAGER.equals(currentUser.getType())) {
+            return ok("权限不足");
+        }
+        user.setType(UserType.valueOf(type.toUpperCase()));
         user.setPassword("123456");
         userService.save(user);
         return ok("创建成功");
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{type}/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable String type, @PathVariable Long id) {
+        if(type == null || "".equals(type) || id == null || id < 1) {
+            return ok("参数错误");
+        }
+        User currentUser = getCurrentUser();
+        if(currentUser == null || !UserType.MANAGER.equals(currentUser.getType())) {
+            return ok("权限不足");
+        }
         User leader = userService.findById(User.class, id);
         leader.setStatus(Status.DESTORYED);
         userService.update(leader);
         return ok("注销成功");
     }
 
-    @RequestMapping(value= "/deleteBatch",method = RequestMethod.GET)
+    @RequestMapping(value= "/{type}/deleteBatch",method = RequestMethod.GET)
     @ResponseBody
-    public String deleteBatch(HttpServletRequest request){
+    public String deleteBatch(@PathVariable String type, HttpServletRequest request){
+        if(type == null || "".equals(type)) {
+            return ok("参数错误");
+        }
+        User currentUser = getCurrentUser();
+        if(currentUser == null || !UserType.MANAGER.equals(currentUser.getType())) {
+            return ok("权限不足");
+        }
          String data = request.getParameter("data");
          ObjectMapper mapper = new ObjectMapper();
          IdsJson json=null;
@@ -63,10 +87,16 @@ public class UserController extends BaseController {
         return ok("注销成功");
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{type}/{id}", method = RequestMethod.PUT)
     @ResponseBody
-    public String update(@PathVariable Long id, @RequestBody User user) {
-
+    public String update(@PathVariable String type, @PathVariable Long id, @RequestBody User user) {
+        if(type == null || "".equals(type) || id == null || id < 1) {
+            return ok("参数错误");
+        }
+        User currentUser = getCurrentUser();
+        if(currentUser == null || !UserType.MANAGER.equals(currentUser.getType())) {
+            return ok("权限不足");
+        }
         User existingLeader = userService.findById(User.class, id);
         if (existingLeader == null) {
             return failure("您要更新的领导不存在");
@@ -84,13 +114,12 @@ public class UserController extends BaseController {
         return ok("更新成功");
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value="/{type}", method = RequestMethod.GET)
     @ResponseBody
-    public String list(@RequestParam int start, @RequestParam int limit,@RequestParam(required = false) Object filter) {
-
+    public String list(@PathVariable String type, @RequestParam int start, @RequestParam int limit,@RequestParam(required = false) Object filter) {
         List<FilterRequest> filters = new ArrayList<FilterRequest>();
         
-        filters.add(new FilterRequest("type", "Leader"));
+        filters.add(new FilterRequest("type", type.toUpperCase()));
 
         if (filter != null) {
             filters.addAll(JsonUtils.getListFromJsonArray(filter));

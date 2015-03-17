@@ -17,6 +17,7 @@ import com.originspark.drp.models.User;
 import com.originspark.drp.models.User.COLUMNS;
 import com.originspark.drp.util.enums.Gender;
 import com.originspark.drp.util.enums.Status;
+import com.originspark.drp.util.enums.UserType;
 import com.originspark.drp.util.json.FilterRequest;
 
 @Transactional
@@ -80,7 +81,7 @@ public class UserServiceBean extends BaseDAOSupport<User> implements UserService
                 switch (column) {
                     case TYPE :
                         if (value != null && !value.equals("")) {
-                            criteria.add(cb.equal(user.get("type"), value));
+                            criteria.add(cb.equal(user.get("type"), UserType.valueOf(value)));
                         }
                         break;
                     case NAME:
