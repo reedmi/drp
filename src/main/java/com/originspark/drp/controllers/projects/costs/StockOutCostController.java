@@ -3,9 +3,9 @@ package com.originspark.drp.controllers.projects.costs;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +29,7 @@ import com.originspark.drp.util.json.JsonUtils;
 @AuthRoleGroup(type={RoleEnum.MATERIALKEEPER})
 public class StockOutCostController extends AbstractController{
 
-	@Resource
+	@Autowired
 	private StockOutCostService service;
 	
 	@RequestMapping(method = RequestMethod.POST)

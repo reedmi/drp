@@ -23,7 +23,7 @@ import com.originspark.drp.models.resources.Ware.COLUMNS;
 import com.originspark.drp.util.json.FilterRequest;
 
 @Transactional
-@Service("wareService")
+@Service
 public class WareServiceBean extends BaseDAOSupport<Ware> implements
 		WareService {
 

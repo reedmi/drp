@@ -17,7 +17,7 @@ import com.originspark.drp.models.resources.Vendor;
 import com.originspark.drp.models.resources.Vendor.COLUMNS;
 import com.originspark.drp.util.json.FilterRequest;
 
-@Service("vendorService")
+@Service
 public class VendorServiceBean extends BaseDAOSupport<Vendor> implements VendorService {
 
     @Override
