@@ -2,56 +2,78 @@ package com.originspark.drp.web.models.projects.inventories;
 
 import java.math.BigDecimal;
 
-
+/**
+ * 剩余量、盈利额会自动计算
+ * @author ReedMi
+ */
 public class CurrentInventoryUI {
-    
-    private String wareName;
-    private String wareBrand;
-    private String wareModel;
-    private String wareUnit;
-    
-    private BigDecimal currentStockIn;
-    private BigDecimal currentStockOut;
-    
-    public String getWareName() {
-        return wareName;
+
+    private String name;
+    private String brand;
+    private String model;
+    private String unit;
+
+    private Long incount;// 入库量
+    private Long outcount;// 出库量
+    private BigDecimal income;// 收入
+    private BigDecimal outcome;// 支出
+
+    public String getName() {
+        return name;
     }
-    public void setWareName(String wareName) {
-        this.wareName = wareName;
+    public void setName(String name) {
+        this.name = name;
     }
-    public String getWareBrand() {
-        return wareBrand;
+    public String getBrand() {
+        return brand;
     }
-    public void setWareBrand(String wareBrand) {
-        this.wareBrand = wareBrand;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
-    public String getWareModel() {
-        return wareModel;
+    public String getModel() {
+        return model;
     }
-    public void setWareModel(String wareModel) {
-        this.wareModel = wareModel;
+    public void setModel(String model) {
+        this.model = model;
     }
-    public String getWareUnit() {
-        return wareUnit;
+    public String getUnit() {
+        return unit;
     }
-    public void setWareUnit(String wareUnit) {
-        this.wareUnit = wareUnit;
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
-    public BigDecimal getCurrentStockIn() {
-        return currentStockIn;
+    public Long getIncount() {
+        return incount;
     }
-    public void setCurrentStockIn(BigDecimal currentStockIn) {
-        this.currentStockIn = currentStockIn;
+    public void setIncount(Long incount) {
+        this.incount = incount;
     }
-    public BigDecimal getCurrentStockOut() {
-        return currentStockOut;
+    public Long getOutcount() {
+        return outcount;
     }
-    public void setCurrentStockOut(BigDecimal currentStockOut) {
-        this.currentStockOut = currentStockOut;
+    public void setOutcount(Long outcount) {
+        this.outcount = outcount;
+    }
+    public BigDecimal getIncome() {
+        return income;
+    }
+    public void setIncome(BigDecimal income) {
+        this.income = income;
+    }
+    public BigDecimal getOutcome() {
+        return outcome;
+    }
+    public void setOutcome(BigDecimal outcome) {
+        this.outcome = outcome;
     }
 
-    //json util
-    public BigDecimal getCurrentStockRest(){
-        return getCurrentStockIn().subtract(getCurrentStockOut());
+    // 剩余量
+    public Long getRestcount() {
+        return getIncount() - getOutcount();
+    }
+
+    // 盈利
+    public BigDecimal getProfit() {
+        return getIncome().subtract(getOutcome());
     }
 }

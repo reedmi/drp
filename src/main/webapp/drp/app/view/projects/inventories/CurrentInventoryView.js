@@ -12,67 +12,56 @@ Ext.define('drp.app.view.projects.inventories.CurrentInventoryView', {
 
         Ext.applyIf(me, {
             items : [{
-                xtype : 'treepanel',
-                region : 'west',
-                width : 200,
-                rootVisible : false,
-                title : '项目列表',
-                store : Ext.create("Ext.data.TreeStore",{
-                    defaultRootId : '',
-                    //防止store自动加载
-                    //http://www.sencha.com/forum/showthread.php?150004-How-to-stop-TreeStore-autoload
-                    root : {
-                        data : []
-                    },
-                    model : 'drp.app.model.projects.ProjectModel'
-                }),
-                columns : [{
-                    xtype : 'treecolumn',
-                    dataIndex : 'name',
-                    text : '名称',
-                    flex : 1
-                }]
-            }, {
                 xtype : 'gridpanel',
                 region : 'center',
-                title : '库存量',
+                title : '实时库存量',
                 columnLines : true,
                 store : 'drp.app.store.projects.inventories.CurrentInventoryStore',
                 columns : [{
                     xtype : 'gridcolumn',
-                    dataIndex : 'wareName',
+                    dataIndex : 'name',
                     flex : 1,
                     text : '品名'
                 }, {
                     xtype : 'gridcolumn',
-                    dataIndex : 'wareBrand',
-                    flex : 1,
-                    text : '品牌'
-                }, {
-                    xtype : 'gridcolumn',
-                    dataIndex : 'wareModel',
+                    dataIndex : 'model',
                     flex : 1,
                     text : '规格'
                 }, {
                     xtype : 'gridcolumn',
-                    dataIndex : 'wareUnit',
+                    dataIndex : 'unit',
                     flex : 1,
                     text : '单位'
                 }, {
                     xtype : 'gridcolumn',
-                    dataIndex : 'currentStockIn',
+                    dataIndex : 'incount',
                     flex : 1,
                     text : '当前入库量'
                 }, {
                     xtype : 'gridcolumn',
-                    dataIndex : 'currentStockOut',
+                    dataIndex : 'outcount',
                     flex : 1,
                     text : '当前出库量'
                 }, {
                     xtype : 'gridcolumn',
-                    dataIndex : 'currentStockRest',
+                    dataIndex : 'restcount',
                     flex : 1,
                     text : '当前剩余量'
+                }, {
+                    xtype : 'gridcolumn',
+                    dataIndex : 'income',
+                    flex : 1,
+                    text : '收入'
+                }, {
+                    xtype : 'gridcolumn',
+                    dataIndex : 'outcome',
+                    flex : 1,
+                    text : '支出'
+                }, {
+                    xtype : 'gridcolumn',
+                    dataIndex : 'profit',
+                    flex : 1,
+                    text : '盈余'
                 }],
                 dockedItems : [{
                     xtype : 'pagingtoolbar',
