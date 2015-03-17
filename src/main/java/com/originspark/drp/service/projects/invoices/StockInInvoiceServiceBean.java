@@ -24,7 +24,7 @@ import com.originspark.drp.util.enums.AuditState;
 import com.originspark.drp.util.json.FilterRequest;
 
 @Transactional
-@Service
+@Service("stockInInvoiceService")
 public class StockInInvoiceServiceBean extends BaseDAOSupport<StockInInvoice> implements
         StockInInvoiceService {
 
@@ -141,49 +141,19 @@ public class StockInInvoiceServiceBean extends BaseDAOSupport<StockInInvoice> im
                             andCriteria.add(cb.lessThanOrEqualTo(stockin.<BigDecimal>get("totalPrice"), maxTotal));
                         }
                         break;
-                    case MATERIALKEEPERNAME:
+                    case REGULATORNAME:
                         if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.like(stockin.<String>get("materialKeeperName"), "%" + value + "%"));
+                            andCriteria.add(cb.like(stockin.<String>get("regulator"), "%" + value + "%"));
                         }
                         break;
                     case WAREKEEPERNAME:
                         if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.like(stockin.<String>get("wareKeeperName"), "%" + value + "%"));
+                            andCriteria.add(cb.like(stockin.<String>get("wareKeeper"), "%" + value + "%"));
                         }
                         break;
-                    case PROJECTMANAGERNAME:
+                    case MANAGERNAME:
                         if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.like(stockin.<String>get("projectManagerName"), "%" + value + "%"));
-                        }
-                        break;
-                    case MATERIALKEEPERID:
-                        if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.equal(stockin.get("system").get("project").get("materialKeeper").<Long>get("id"), Long.valueOf(value)));
-                        }
-                        break;
-                    case WAREKEEPERID:
-                        if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.equal(stockin.get("system").get("project").get("wareKeeper").<Long>get("id"), Long.valueOf(value)));
-                        }
-                        break;
-                    case PROJECTMANAGERID:
-                        if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.equal(stockin.get("system").get("project").get("projectManager").<Long>get("id"), Long.valueOf(value)));
-                        }
-                        break;
-                    case MATERIALKEEPERAUDITSTATE:
-                        if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.equal(stockin.get("materialKeeperAuditState"),AuditState.valueOf(value)));
-                        }
-                        break;
-                    case WAREKEEPERAUDITSTATE:
-                        if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.equal(stockin.get("wareKeeperAuditState"),AuditState.valueOf(value)));
-                        }
-                        break;
-                    case PROJECTMANAGERAUDITSTATE:
-                        if (value != null && !value.equals("")) {
-                            andCriteria.add(cb.equal(stockin.get("projectManagerAuditState"),AuditState.valueOf(value)));
+                            andCriteria.add(cb.like(stockin.<String>get("manager"), "%" + value + "%"));
                         }
                         break;
                     case WARENAME:

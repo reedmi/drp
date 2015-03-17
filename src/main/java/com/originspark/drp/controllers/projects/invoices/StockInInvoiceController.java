@@ -15,11 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.originspark.drp.authority.RoleEnum;
-import com.originspark.drp.authority.AuthRoleGroup;
-import com.originspark.drp.models.projects.Project;
 import com.originspark.drp.models.projects.invoices.StockInInvoice;
-import com.originspark.drp.models.users.AbstractUser;
 import com.originspark.drp.util.SessionUtil;
 import com.originspark.drp.util.enums.AuditState;
 import com.originspark.drp.util.json.AuditStateUpdateJson;
@@ -29,12 +25,11 @@ import com.originspark.drp.util.json.JsonUtils;
 
 @Controller
 @RequestMapping("stockInInvoice")
-@AuthRoleGroup(type={RoleEnum.MATERIALKEEPER})
 public class StockInInvoiceController extends AbstractInvoiceController {
     
     private Logger logger = Logger.getLogger(StockInInvoiceController.class);
 
-    @RequestMapping(method = RequestMethod.POST)
+    /*@RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public String create(@RequestBody StockInInvoice invoice,HttpServletRequest request) {
         
@@ -85,11 +80,10 @@ public class StockInInvoiceController extends AbstractInvoiceController {
 
         stockInInvoiceService.update(existingInvoice);
         return ok("更新成功",existingInvoice.getId());
-    }
+    }*/
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    @AuthRoleGroup(type={RoleEnum.WAREKEEPER,RoleEnum.PROJECTMANAGER,RoleEnum.LEADER})
     public String list(@RequestParam int start, @RequestParam int limit, @RequestParam(required = false) Object filter) {
 
         List<FilterRequest> filters = new ArrayList<FilterRequest>();
@@ -136,9 +130,8 @@ public class StockInInvoiceController extends AbstractInvoiceController {
         return ok("删除成功(注释：部分合价不为0的入库单已忽略)");
     }
 
-    @RequestMapping(value = "/updateAuditState", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/updateAuditState", method = RequestMethod.GET)
     @ResponseBody
-    @AuthRoleGroup(type={RoleEnum.WAREKEEPER,RoleEnum.PROJECTMANAGER})
     public String updateAuditStateByUser(HttpServletRequest request) {
 
         String data = request.getParameter("data");
@@ -176,7 +169,7 @@ public class StockInInvoiceController extends AbstractInvoiceController {
         }
 
         return ok("提交成功");
-    }
+    }*/
 
 
 }

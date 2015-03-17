@@ -17,25 +17,25 @@ import com.originspark.drp.models.projects.costs.StockOutCost;
 @Table(name="invoice_stock_out")
 public class StockOutInvoice extends AbstractInvoice{
 
-	/**
+    /**
      * 商品列表
      */
-	@JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy="invoice")
     private List<StockOutCost> costs;
-	
-	/**
-	 * 领用人
-	 */
-	private String receiveMan;
 
-	public List<StockOutCost> getCosts() {
-		return costs;
-	}
+    /**
+     * 领用人
+     */
+    private String receiveMan;
 
-	public void setCosts(List<StockOutCost> costs) {
-		this.costs = costs;
-	}
+    public List<StockOutCost> getCosts() {
+        return costs;
+    }
+
+    public void setCosts(List<StockOutCost> costs) {
+        this.costs = costs;
+    }
 
     public String getReceiveMan() {
         return receiveMan;
@@ -48,7 +48,7 @@ public class StockOutInvoice extends AbstractInvoice{
     public int getCostCount(){
         return getCosts().size();
     }
-	
+    
     @Override
     public String toString() {
         return "StockInInvoice(出库单) => ["+super.toString()+", receiveMan="+receiveMan+"]";

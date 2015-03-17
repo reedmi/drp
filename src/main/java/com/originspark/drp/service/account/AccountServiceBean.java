@@ -13,21 +13,21 @@ import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.originspark.drp.models.users.AbstractUser;
+import com.originspark.drp.models.User;
 import com.originspark.drp.util.enums.Status;
 
 @Transactional
-@Service
+@Service("AccountService")
 public class AccountServiceBean implements AccountService {
 
     @PersistenceContext
     protected EntityManager em;
 
     @Override
-    public List<AbstractUser> validate(String username, String password) {
+    public List<User> validate(String username, String password) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<AbstractUser> dataQuery = cb.createQuery(AbstractUser.class);
-        Root<AbstractUser> user = dataQuery.from(AbstractUser.class);
+        CriteriaQuery<User> dataQuery = cb.createQuery(User.class);
+        Root<User> user = dataQuery.from(User.class);
         dataQuery.select(user);
         List<Predicate> criteria = new ArrayList<Predicate>();
         criteria.add(cb.equal(user.get("name"), username));

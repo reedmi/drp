@@ -10,10 +10,6 @@
     <context:component-scan base-package="com.originspark.drp" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
-    
-<!--     <mvc:interceptors>
-        <bean class = "com.originspark.drp.controllers.account.AuthInterceptor"></bean>
-    </mvc:interceptors> -->
 
     <mvc:annotation-driven />
     <context:annotation-config />
@@ -34,7 +30,10 @@
         <property name="maxUploadSize" value="10485760" />
         <property name="defaultEncoding" value="utf-8" />
     </bean>
-    
-    
-    <bean class="com.originspark.drp.processor.UTF8StringBeanPostProcessor" />  
+
+    <bean class="com.originspark.drp.processor.UTF8StringBeanPostProcessor" />
+
+    <mvc:interceptors>
+        <bean class="com.originspark.drp.controllers.BaseController"/>
+    </mvc:interceptors>
 </beans>

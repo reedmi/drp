@@ -12,7 +12,7 @@ import com.originspark.drp.models.AbstractModel;
 
 @MappedSuperclass
 public abstract class AbstractCost extends AbstractModel{
-    
+
     /**
      * 单价
      */
@@ -24,28 +24,28 @@ public abstract class AbstractCost extends AbstractModel{
      */
     @Column(name="quantity", precision = 10, scale = 0, nullable = false)
     private BigDecimal quantity = BigDecimal.ZERO;
-    
+
     /**
      * 合价
      */
     private BigDecimal total = BigDecimal.ZERO;
-    
+
     public static enum COLUMNS {
         INVOICE
     }
-    
+
     public BigDecimal getUnitPrice() {
-		return unitPrice;
-	}
+        return unitPrice;
+    }
 
-	public void setUnitPrice(BigDecimal unitPrice) {
-	    if(unitPrice == null){
-	        this.unitPrice = BigDecimal.ZERO;
-	    }
-		this.unitPrice = unitPrice;
-	}
+    public void setUnitPrice(BigDecimal unitPrice) {
+        if(unitPrice == null){
+            this.unitPrice = BigDecimal.ZERO;
+        }
+        this.unitPrice = unitPrice;
+    }
 
-	public BigDecimal getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 

@@ -37,13 +37,13 @@ public class Blowfish {
         // hash down the password to a 160bit key
         MessageDigest digest = null;
         try {
-        	String password="fc4e6e4090e9edfe4dcff438d095954d";
+            String password="fc4e6e4090e9edfe4dcff438d095954d";
             digest = MessageDigest.getInstance("SHA1");
             digest.update(password.getBytes());
         }
         catch (Exception e) {
 //            Log.error(e);
-        	e.printStackTrace();
+            e.printStackTrace();
         }
 
         // setup the encryptor (use a dummy IV)

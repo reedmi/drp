@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.originspark.drp.authority.RoleEnum;
-import com.originspark.drp.authority.AuthRoleGroup;
-import com.originspark.drp.controllers.AbstractController;
+import com.originspark.drp.controllers.BaseController;
 import com.originspark.drp.models.resources.Vendor;
 import com.originspark.drp.util.SessionUtil;
 import com.originspark.drp.util.json.IdsJson;
@@ -26,8 +24,7 @@ import com.originspark.drp.util.json.JsonUtils;
 
 @Controller
 @RequestMapping("vendor")
-@AuthRoleGroup(type={RoleEnum.MATERIALKEEPER})
-public class VendorController extends AbstractController {
+public class VendorController extends BaseController {
 
     private Logger logger = Logger.getLogger(VendorController.class);
 
@@ -46,7 +43,7 @@ public class VendorController extends AbstractController {
             return failure("该供应商已经存在，不可重复添加");
         }
 
-        vendor.setCreatedByUserName(SessionUtil.getCurrentUserName(request));
+        vendor.setCreatedBy(SessionUtil.getCurrentUserName(request));
         
         vendorService.save(vendor);
         logger.info(">添加成功："+vendor.toString());
@@ -97,18 +94,14 @@ public class VendorController extends AbstractController {
             logger.warn(">更新失败：该供应商已经存在，不可重复添加");
             return failure("该供应商已经存在，不可重复添加");
         }
-        
+
         existingVendor.setName(vendor.getName());
         existingVendor.setContactMan(vendor.getContactMan());
         existingVendor.setAddress(vendor.getAddress());
         existingVendor.setPhone(vendor.getPhone());
-        existingVendor.setRegistrationNumber(vendor.getRegistrationNumber());
-        existingVendor.setRegistrationRange(vendor.getRegistrationRange());
-        existingVendor.setTaxNumber(vendor.getTaxNumber());
-        existingVendor.setOrgCodeCertificate(vendor.getOrgCodeCertificate());
         existingVendor.setNote(vendor.getNote());
-        
-        existingVendor.setUpdatedByUserName(SessionUtil.getCurrentUserName(request));
+
+        existingVendor.setUpdatedBy(SessionUtil.getCurrentUserName(request));
 
         vendorService.update(existingVendor);
         logger.info(">更新成功："+existingVendor.toString());
@@ -117,7 +110,6 @@ public class VendorController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    @AuthRoleGroup(type={RoleEnum.PROJECTMANAGER,RoleEnum.LEADER})
     public String list(@RequestParam int start, @RequestParam int limit, @RequestParam(required = false) Object filter) {
 
         List<FilterRequest> filters = new ArrayList<FilterRequest>();

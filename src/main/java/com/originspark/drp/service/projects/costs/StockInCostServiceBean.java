@@ -21,49 +21,49 @@ import com.originspark.drp.util.json.FilterRequest;
 @Transactional
 @Service("stockInCostService")
 public class StockInCostServiceBean extends BaseDAOSupport<StockInCost> implements
-		StockInCostService {
+        StockInCostService {
 
-	@Override
-	public List<StockInCost> pagedDataSet(int start, int limit,
-			List<FilterRequest> filters) {
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<StockInCost> dataQuery = cb.createQuery(StockInCost.class);
+    @Override
+    public List<StockInCost> pagedDataSet(int start, int limit,
+            List<FilterRequest> filters) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<StockInCost> dataQuery = cb.createQuery(StockInCost.class);
 
-		Root<StockInCost> stockInCost = dataQuery.from(StockInCost.class);
+        Root<StockInCost> stockInCost = dataQuery.from(StockInCost.class);
 
-		dataQuery.select(stockInCost);
+        dataQuery.select(stockInCost);
 
-		Predicate[] predicates = toPredicates(cb, stockInCost, filters);
+        Predicate[] predicates = toPredicates(cb, stockInCost, filters);
 
-		if (predicates != null) {
-			dataQuery.where(cb.and(predicates));
-		}
+        if (predicates != null) {
+            dataQuery.where(cb.and(predicates));
+        }
 
-		return em.createQuery(dataQuery).setFirstResult(start)
-				.setMaxResults(limit).getResultList();
-	}
+        return em.createQuery(dataQuery).setFirstResult(start)
+                .setMaxResults(limit).getResultList();
+    }
 
-	@Override
-	public Long pagedDataCount(List<FilterRequest> filters) {
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-		Root<StockInCost> stockInCost = countQuery.from(StockInCost.class);
-		countQuery.select(cb.count(stockInCost));
+    @Override
+    public Long pagedDataCount(List<FilterRequest> filters) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<StockInCost> stockInCost = countQuery.from(StockInCost.class);
+        countQuery.select(cb.count(stockInCost));
 
-		Predicate[] predicates = toPredicates(cb, stockInCost, filters);
+        Predicate[] predicates = toPredicates(cb, stockInCost, filters);
 
-		if (predicates != null) {
-			countQuery.where(cb.and(predicates));
-		}
+        if (predicates != null) {
+            countQuery.where(cb.and(predicates));
+        }
 
-		return em.createQuery(countQuery).getSingleResult();
-	}
+        return em.createQuery(countQuery).getSingleResult();
+    }
 
-	public static Predicate[] toPredicates(CriteriaBuilder cb, Root<StockInCost> stockInCost,
-			List<FilterRequest> filters) {
-		List<Predicate> criteria = new ArrayList<Predicate>();
+    public static Predicate[] toPredicates(CriteriaBuilder cb, Root<StockInCost> stockInCost,
+            List<FilterRequest> filters) {
+        List<Predicate> criteria = new ArrayList<Predicate>();
 
-		try {
+        try {
             for (FilterRequest filter : filters) {
                 
                 COLUMNS column = COLUMNS.valueOf(filter.getProperty()
@@ -83,22 +83,22 @@ public class StockInCostServiceBean extends BaseDAOSupport<StockInCost> implemen
             ex.printStackTrace();
         }
 
-		if (criteria.size() == 0) {
-			return null;
-		} else {
-			Predicate[] predicates = new Predicate[criteria.size()];
-			predicates = criteria.toArray(predicates);
-			return predicates;
-		}
-	}
+        if (criteria.size() == 0) {
+            return null;
+        } else {
+            Predicate[] predicates = new Predicate[criteria.size()];
+            predicates = criteria.toArray(predicates);
+            return predicates;
+        }
+    }
 
-	@Override
-	public Map<String, String> validate() {
-		// TODO
-		/**
-		 * 对ware的数据进行验证
-		 */
-		return null;
-	}
+    @Override
+    public Map<String, String> validate() {
+        // TODO
+        /**
+         * 对ware的数据进行验证
+         */
+        return null;
+    }
 
 }

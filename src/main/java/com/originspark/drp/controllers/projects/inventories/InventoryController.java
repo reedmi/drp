@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.originspark.drp.authority.AuthRoleGroup;
-import com.originspark.drp.authority.RoleEnum;
-import com.originspark.drp.controllers.AbstractController;
-import com.originspark.drp.models.projects.Project;
+import com.originspark.drp.controllers.BaseController;
 import com.originspark.drp.util.FileUtil;
 import com.originspark.drp.util.poi.exporter.MonthendInventoryGenerator;
 import com.originspark.drp.web.models.projects.inventories.CurrentInventoryUI;
@@ -29,10 +26,9 @@ import com.originspark.drp.web.models.projects.inventories.Ware;
 
 @Controller
 @RequestMapping("project")
-@AuthRoleGroup(type={RoleEnum.MATERIALKEEPER})
-public class InventoryController extends AbstractController {
+public class InventoryController extends BaseController {
     
-    @RequestMapping(value = "/{id}/inventories/current", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/{id}/inventories/current", method = RequestMethod.GET)
     @ResponseBody
     @AuthRoleGroup(type={RoleEnum.WAREKEEPER,RoleEnum.PROJECTMANAGER,RoleEnum.LEADER})
     public String currentInventories(@PathVariable Long id){
@@ -105,5 +101,5 @@ public class InventoryController extends AbstractController {
                 throw new RuntimeException("IOError writing file to output stream");
             }
         }
-    }
+    }*/
 }

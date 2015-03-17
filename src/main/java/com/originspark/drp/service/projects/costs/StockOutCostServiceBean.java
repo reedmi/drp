@@ -21,49 +21,49 @@ import com.originspark.drp.util.json.FilterRequest;
 @Transactional
 @Service("stockOutCostService")
 public class StockOutCostServiceBean extends BaseDAOSupport<StockOutCost> implements
-		StockOutCostService {
+        StockOutCostService {
 
-	@Override
-	public List<StockOutCost> pagedDataSet(int start, int limit,
-			List<FilterRequest> filters) {
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<StockOutCost> dataQuery = cb.createQuery(StockOutCost.class);
+    @Override
+    public List<StockOutCost> pagedDataSet(int start, int limit,
+            List<FilterRequest> filters) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<StockOutCost> dataQuery = cb.createQuery(StockOutCost.class);
 
-		Root<StockOutCost> stockOutCost = dataQuery.from(StockOutCost.class);
+        Root<StockOutCost> stockOutCost = dataQuery.from(StockOutCost.class);
 
-		dataQuery.select(stockOutCost);
+        dataQuery.select(stockOutCost);
 
-		Predicate[] predicates = toPredicates(cb, stockOutCost, filters);
+        Predicate[] predicates = toPredicates(cb, stockOutCost, filters);
 
-		if (predicates != null) {
-			dataQuery.where(cb.and(predicates));
-		}
+        if (predicates != null) {
+            dataQuery.where(cb.and(predicates));
+        }
 
-		return em.createQuery(dataQuery).setFirstResult(start)
-				.setMaxResults(limit).getResultList();
-	}
+        return em.createQuery(dataQuery).setFirstResult(start)
+                .setMaxResults(limit).getResultList();
+    }
 
-	@Override
-	public Long pagedDataCount(List<FilterRequest> filters) {
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-		Root<StockOutCost> stockOutCost = countQuery.from(StockOutCost.class);
-		countQuery.select(cb.count(stockOutCost));
+    @Override
+    public Long pagedDataCount(List<FilterRequest> filters) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<StockOutCost> stockOutCost = countQuery.from(StockOutCost.class);
+        countQuery.select(cb.count(stockOutCost));
 
-		Predicate[] predicates = toPredicates(cb, stockOutCost, filters);
+        Predicate[] predicates = toPredicates(cb, stockOutCost, filters);
 
-		if (predicates != null) {
-			countQuery.where(cb.and(predicates));
-		}
+        if (predicates != null) {
+            countQuery.where(cb.and(predicates));
+        }
 
-		return em.createQuery(countQuery).getSingleResult();
-	}
+        return em.createQuery(countQuery).getSingleResult();
+    }
 
-	public static Predicate[] toPredicates(CriteriaBuilder cb, Root<StockOutCost> stockOutCost,
-			List<FilterRequest> filters) {
-		List<Predicate> criteria = new ArrayList<Predicate>();
+    public static Predicate[] toPredicates(CriteriaBuilder cb, Root<StockOutCost> stockOutCost,
+            List<FilterRequest> filters) {
+        List<Predicate> criteria = new ArrayList<Predicate>();
 
-		try {
+        try {
             for (FilterRequest filter : filters) {
                 
                 COLUMNS column = COLUMNS.valueOf(filter.getProperty()
@@ -83,22 +83,22 @@ public class StockOutCostServiceBean extends BaseDAOSupport<StockOutCost> implem
             ex.printStackTrace();
         }
 
-		if (criteria.size() == 0) {
-			return null;
-		} else {
-			Predicate[] predicates = new Predicate[criteria.size()];
-			predicates = criteria.toArray(predicates);
-			return predicates;
-		}
-	}
+        if (criteria.size() == 0) {
+            return null;
+        } else {
+            Predicate[] predicates = new Predicate[criteria.size()];
+            predicates = criteria.toArray(predicates);
+            return predicates;
+        }
+    }
 
-	@Override
-	public Map<String, String> validate() {
-		// TODO
-		/**
-		 * 对ware的数据进行验证
-		 */
-		return null;
-	}
+    @Override
+    public Map<String, String> validate() {
+        // TODO
+        /**
+         * 对ware的数据进行验证
+         */
+        return null;
+    }
 
 }

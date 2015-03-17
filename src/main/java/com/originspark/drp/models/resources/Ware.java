@@ -1,5 +1,6 @@
 package com.originspark.drp.models.resources;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,7 +27,7 @@ import com.originspark.drp.models.projects.inventories.MonthendInventory;
 public class Ware extends AbstractModel {
 
     /**
-     * 名称
+     * 品名
      */
     private String name;
 
@@ -44,6 +47,17 @@ public class Ware extends AbstractModel {
     private String unit;
 
     /**
+     * 生产日期
+     */
+    @Temporal(TemporalType.DATE)
+    private Date produceOn;
+
+    /**
+     * 保质期
+     */
+    private String storage;
+
+    /**
      * 备注
      */
     private String note;
@@ -53,7 +67,7 @@ public class Ware extends AbstractModel {
      */
     @ManyToOne
     private Vendor vendor;
-    
+
     @JsonIgnore
     @OneToMany(mappedBy="ware")
     private List<StockInCost> inCosts;
@@ -61,11 +75,11 @@ public class Ware extends AbstractModel {
     @JsonIgnore
     @OneToMany(mappedBy="ware")
     private List<StockOutCost> outCosts;
-    
+
     @JsonIgnore
     @OneToMany(mappedBy="ware")
     private List<MonthendInventory> inventories;
-    
+
     public static enum COLUMNS {
         NAME, BRAND, MODEL, UNIT, VENDOR
     }
@@ -102,6 +116,22 @@ public class Ware extends AbstractModel {
         this.unit = unit;
     }
 
+    public Date getProduceOn() {
+        return produceOn;
+    }
+
+    public void setProduceOn(Date produceOn) {
+        this.produceOn = produceOn;
+    }
+
+    public String getStorage() {
+        return storage;
+    }
+
+    public void setStorage(String storage) {
+        this.storage = storage;
+    }
+
     public String getNote() {
         return note;
     }
@@ -117,7 +147,7 @@ public class Ware extends AbstractModel {
     public void setVendor(Vendor vendor) {
         this.vendor = vendor;
     }
-    
+
     public List<StockInCost> getInCosts() {
         return inCosts;
     }
@@ -133,7 +163,7 @@ public class Ware extends AbstractModel {
     public void setOutCosts(List<StockOutCost> outCosts) {
         this.outCosts = outCosts;
     }
-    
+
     public List<MonthendInventory> getInventories() {
         return inventories;
     }
