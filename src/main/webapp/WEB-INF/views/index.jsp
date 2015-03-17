@@ -4,8 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <%@ include file="/common/meta.jsp"%>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>万里磷肥仓储管理系统登录</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>万里磷肥仓储管理系统登录</title>
 <style type="text/css">
 <!--
 body {
@@ -58,14 +58,14 @@ table{
   <tr>
     <td><table width="962" border="0" align="center" cellpadding="0" cellspacing="0">
       <tr>
-        <td height="235" background="${ctx}/images/login_03.gif">&nbsp;</td>
+        <td height="235" background="${ctx}/resources/images/index/login_03.gif">&nbsp;</td>
       </tr>
       <tr>
         <td height="53">
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td width="394" height="53" background="${ctx}/images/login_05.gif">&nbsp;</td>
-                <td width="206" background="${ctx}/images/login_06.gif">
+                <td width="394" height="53" background="${ctx}/resources/images/index/login_05.gif">&nbsp;</td>
+                <td width="206" background="${ctx}/resources/images/index/login_06.gif">
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tr>
                         <td width="16%" height="25px"><div align="right"><span class="STYLE1">用户</span></div></td>
@@ -79,17 +79,17 @@ table{
                         <td height="25px"><div align="center">
                           <input type="password" name="password" style="width:125px;height:20px; background-color:#292929; border:solid 1px #7dbad7; font-size:12px; color:#6cd0ff">
                         </div></td>
-                        <td height="25"><div align="left"><a style="cursor:pointer" onclick="submitForm()"><img src="${ctx}/images/dl.gif" width="45" height="18" border="0"></a></div></td>
+                        <td height="25"><div align="left"><a style="cursor:pointer" onclick="submitForm()"><img src="${ctx}/resources/images/index/dl.gif" width="45" height="18" border="0"></a></div></td>
                       </tr>
                     </table>
                 </td>
-                <td width="362" background="${ctx}/images/login_07.gif">&nbsp;</td>
+                <td width="362" background="${ctx}/resources/images/index/login_07.gif">&nbsp;</td>
               </tr>  
             </table>
         </td>
       </tr>
       <tr>
-        <td height="213" background="${ctx }/images/login_08.gif">&nbsp;</td>
+        <td height="213" background="${ctx }/resources/images/index/login_08.gif">&nbsp;</td>
       </tr>
     </table></td>
   </tr>

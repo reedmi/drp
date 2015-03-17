@@ -1,5 +1,5 @@
-<link rel="stylesheet" type="text/css" href="${ctx }/css/main.css">
-<%@ include file="/css/main.css.jsp" %>
+<link rel="stylesheet" type="text/css" href="${ctx }/resources/css/main.css">
+<%@ include file="/resources/css/main.css.jsp" %>
 <script type="text/javascript">
 function resize(){
     var he=document.body.clientHeight-104;
