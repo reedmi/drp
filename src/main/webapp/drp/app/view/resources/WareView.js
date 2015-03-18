@@ -96,7 +96,10 @@ Ext.define('drp.app.view.resources.WareView', {
                     dataIndex : 'name',
                     text : '品名',
                     renderer : function(value, mate, record) {
-                        return record.data['category.name'] + '-' + value;
+                        if(record.data['category.name']) {
+                            return record.data['category.name'] + '-' + value;
+                        }
+                        return value;
                     }
                 }, {
                     xtype : 'gridcolumn',
