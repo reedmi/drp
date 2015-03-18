@@ -4,27 +4,27 @@
 Ext.define("drp.app.controller.projects.invoices.StockOutInvoiceController", {
     extend : "drp.app.controller.AbstractController",
 
-    me : null,
-    invoiceGrid : null,
-    currentInvoice : null,
+    outInvoiceController : null,
+    outInvoiceGrid : null,
+    currentOutInvoice : null,
     outCostGrid : null,
     outCostForm : null,
     outInvoiceCostWin : null,// costWin默认是未创建的
-    invoiceCostWin : null,
-    wareWindow : null,
+    outInvoiceDetailWin : null,
+    wareOutWin : null,
 
     init : function() {
-        me = this;
+        outInvoiceController = this;
         this.control({
 
             'stockoutinvoiceview' : {
                 afterrender : function(panel) {
                     outInvoiceCostWin = false;
-                    invoiceCostWin = false;
-                    currentInvoice = null;
-                    wareWindow = false;
-                    invoiceGrid = panel.down('gridpanel');
-                    invoiceGrid.getStore().load();
+                    outInvoiceDetailWin = false;
+                    currentOutInvoice = null;
+                    wareOutWin = false;
+                    outInvoiceGrid = panel.down('gridpanel');
+                    outInvoiceGrid.getStore().load();
                 }
             },
 
@@ -86,26 +86,26 @@ Ext.define("drp.app.controller.projects.invoices.StockOutInvoiceController", {
             'stockoutcostview button[action=chooseWare]' : {
                 click : function(btn) {
                     // 加载弹窗相关的controller
-                    if (!wareWindow) {
-                        wareWindow = Ext.widget('warewindow');
+                    if (!wareOutWin) {
+                        wareOutWin = Ext.widget('stockoutwarewin');
                         var WareControllerName = "drp.app.controller.resources.WareController";
                         if (!Ext.ClassManager.isCreated(WareControllerName)) {
                             var mainController = this.application.getController("drp.base.controller.MainController");
                             mainController.application.getController(WareControllerName).init();
                         }
                     }
-                    wareWindow.show();
+                    wareOutWin.show();
                 }
             },
 
             // -----------------------------------------------------------
-            'warewindow' : {
+            'stockoutwarewin' : {
                 afterrender : function(panel) {
                     // 设置只能选择、检索，不能增加删除
                     panel.down('toolbar').setVisible(false);
                 }
             },
-            'warewindow gridpanel' : {
+            'stockoutwarewin gridpanel' : {
                 itemcontextmenu : function(view, record, item, index, e) {
                     // 禁用浏览器自带的右键菜单
                     e.preventDefault();
@@ -120,12 +120,17 @@ Ext.define("drp.app.controller.projects.invoices.StockOutInvoiceController", {
                             icon : 'resources/images/icons/ok.png',
                             listeners : {
                                 click : function(item) {
-                                    wareWindow.hide();
+                                    wareOutWin.hide();
                                     var costForm = outInvoiceCostWin.down('#stockOutCost_form');
+                                    console.log(">>>>>>>>>>>>>>>>>出库单日志.....");
+                                    console.log("wareOutWin", wareOutWin);
+                                    console.log("outInvoiceCostWin", outInvoiceCostWin);
+                                    console.log("costForm", costForm);
                                     costForm.down('#wareName_stockOutCost_tf').setValue(record.data.name);
                                     costForm.down('#wareId_stockOutCost_tf').setValue(record.data.id);
                                     costForm.down('#wareModel_stockOutCost_tf').setValue(record.data.model);
                                     costForm.down('#wareUnit_stockOutCost_tf').setValue(record.data.unit);
+                                    console.log("==============================");
                                 }
                             }
                         }]
@@ -138,7 +143,7 @@ Ext.define("drp.app.controller.projects.invoices.StockOutInvoiceController", {
 
     // 出库单-查询
     searchStockOutInvoice : function(btn) {
-        var store = invoiceGrid.getStore();
+        var store = outInvoiceGrid.getStore();
         var form = btn.up("form");
         store.filters.clear();
         store.filter([{
@@ -173,12 +178,12 @@ Ext.define("drp.app.controller.projects.invoices.StockOutInvoiceController", {
 
     // 入库商品-删除
     deleteStockOutCost : function(btn) {
-        me.deleteModel(btn, outCostGrid, "商品条目");
+        outInvoiceController.deleteModel(btn, outCostGrid, "商品条目");
         var grid = outCostGrid;
         var name = "商品条目";
         var record = grid.getSelectionModel().getSelection()[0];
         if (!record) {
-            me.showPromptsOnDelete(name);
+            outInvoiceController.showPromptsOnDelete(name);
             return;
         } else {
             Ext.MessageBox.confirm("标题", "你要删除这个" + name + "吗？", function(btn) {
@@ -218,7 +223,7 @@ Ext.define("drp.app.controller.projects.invoices.StockOutInvoiceController", {
                     id : formBean['wareId']
                 });
                 model.set("invoice", {
-                    id : currentInvoice.data.id
+                    id : currentOutInvoice.data.id
                 });
             }
             if (formBean.unitPrice == "") {
@@ -230,9 +235,9 @@ Ext.define("drp.app.controller.projects.invoices.StockOutInvoiceController", {
                     store.filters.clear();
                     store.filter([{
                         property : "invoice",
-                        value : currentInvoice.data.id
+                        value : currentOutInvoice.data.id
                     }]);
-                    Ext.Msg.alert("失败!", operation.request.scope.reader.jsonData["message"]);
+                    Ext.Msg.alert("成功!", operation.request.scope.reader.jsonData["message"]);
                 },
                 failure : function(response, operation) {
                     Ext.Msg.alert("失败!", operation.request.scope.reader.jsonData["message"]);
@@ -248,7 +253,7 @@ Ext.define("drp.app.controller.projects.invoices.StockOutInvoiceController", {
         }
         var store = outInvoiceCostWin.down("gridpanel").getStore();
         // 在弹出新建出库单的页面之前，需要做三部分工作：清空store、合价设置为0
-        currentInvoice = null;
+        currentOutInvoice = null;
         store.removeAll(false);
         outInvoiceCostWin.down('#addStockOutCost_btn').setDisabled(true);
         outInvoiceCostWin.down('#totalPrice_stockOutCost_df').setValue(0);
@@ -260,18 +265,18 @@ Ext.define("drp.app.controller.projects.invoices.StockOutInvoiceController", {
     },
 
     showUpdateOutInvoiceForm : function(grid, record, item, index) {
-        currentInvoice = record;// 在弹出更新的窗口时，保存选中的invoice
+        currentOutInvoice = record;// 在弹出更新的窗口时，保存选中的invoice
         var invoiceData = record.data;
         var costWin = null;
 
         // 1.非材料员登陆的，只提供预览
         // 2.若是材料员，则pass=true的和已经通过审核的，只提供预览
         if (user.type != "WAREKEEPER") {
-            if (!invoiceCostWin) {
-                invoiceCostWin = Ext.widget('stockoutcostshowview');
+            if (!outInvoiceDetailWin) {
+                outInvoiceDetailWin = Ext.widget('stockoutcostshowview');
             }
-            costWin = invoiceCostWin;
-            invoiceCostWin.setTitle("查看出库单");
+            costWin = outInvoiceDetailWin;
+            outInvoiceDetailWin.setTitle("查看出库单");
         } else {
             if (!outInvoiceCostWin) {
                 outInvoiceCostWin = Ext.widget('stockoutcostview');
@@ -286,7 +291,7 @@ Ext.define("drp.app.controller.projects.invoices.StockOutInvoiceController", {
         store.filters.clear();
         store.filter([{
             property : "invoice",
-            value : currentInvoice.data.id
+            value : currentOutInvoice.data.id
         }]);
 
         costWin.down('#header_stockOutCost_form').loadRecord(record);
@@ -304,27 +309,27 @@ Ext.define("drp.app.controller.projects.invoices.StockOutInvoiceController", {
 
     // 出库单-删除
     deleteOutInvoice : function(btn) {
-        me.deleteBatchModel(btn, invoiceGrid, "出库单", "/invoices/out/deleteBatch");
+        outInvoiceController.deleteBatchModel(btn, outInvoiceGrid, "出库单", "/invoices/out/deleteBatch");
     },
 
     // 出库单-更新总价
     updateInvoiceTotalPrice : function(panel) {
         panel.down('#chooseWare_stockOutCost_btn').setDisabled(true);
         var totalPrice_stockOutCost = panel.down('#totalPrice_stockOutCost_df').getValue();
-        if (!currentInvoice) {
+        if (!currentOutInvoice) {
             return;
         }
-        if (currentInvoice.data.totalPrice == totalPrice_stockOutCost) {
+        if (currentOutInvoice.data.totalPrice == totalPrice_stockOutCost) {
             return;
         }
 
-        currentInvoice.set("forDate", panel.down('#forDate_stockOutInvoice_df').getValue());
-        currentInvoice.set("code", panel.down('#code_stockOutInvoice_tf').getValue());
-        currentInvoice.set("totalPrice", totalPrice_stockOutCost);
+        currentOutInvoice.set("forDate", panel.down('#forDate_stockOutInvoice_df').getValue());
+        currentOutInvoice.set("code", panel.down('#code_stockOutInvoice_tf').getValue());
+        currentOutInvoice.set("totalPrice", totalPrice_stockOutCost);
 
-        currentInvoice.save({
+        currentOutInvoice.save({
             success : function(response, operation) {
-                invoiceGrid.getStore().load();
+                outInvoiceGrid.getStore().load();
             },
             failure : function(response, operation) {
                 Ext.Msg.alert("失败!", operation.request.scope.reader.jsonData["message"]);
@@ -340,9 +345,9 @@ Ext.define("drp.app.controller.projects.invoices.StockOutInvoiceController", {
             var model = Ext.create(modelName, formBean);
             model.save({
                 success : function(response, operation) {
-                    invoiceGrid.getStore().load();
+                    outInvoiceGrid.getStore().load();
                     var reader = operation.request.scope.reader;
-                    currentInvoice = Ext.create(modelName, {
+                    currentOutInvoice = Ext.create(modelName, {
                         id : reader.jsonData["object"]
                     });
                     btn.up("form").down('#id_stockOutInvoice').setValue(reader.jsonData["object"]);
@@ -360,5 +365,5 @@ Ext.define("drp.app.controller.projects.invoices.StockOutInvoiceController", {
     stores : ["drp.app.store.projects.invoices.StockOutInvoiceStore", "drp.app.store.projects.costs.StockOutCostStore", "drp.app.store.resources.WareStore",
             "drp.app.store.resources.VendorStore", "drp.app.store.users.ManagerStore", "drp.app.store.users.WareKeeperStore", "drp.app.store.users.RegulatorStore"],
     views : ["drp.app.view.projects.invoices.StockOutInvoiceView", "drp.app.view.projects.costs.StockOutCostView", "drp.app.view.projects.costs.StockOutCostShowView",
-            "drp.app.view.resources.WareView", "drp.app.view.resources.WareWindow", "drp.app.view.resources.WareViewForm"]
+            "drp.app.view.resources.WareView", "drp.app.view.resources.StockOutWareWin", "drp.app.view.resources.WareViewForm"]
 });
