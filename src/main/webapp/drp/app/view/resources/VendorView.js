@@ -83,48 +83,34 @@ Ext.define('drp.app.view.resources.VendorView', {
                 autoScroll : true,
                 columns : [{
                     xtype : 'gridcolumn',
-                    width : 90,
+                    flex : 1,
                     dataIndex : 'contactMan',
                     text : '联系人'
                 }, {
                     xtype : 'gridcolumn',
-                    width : 130,
+                    flex : 1,
                     dataIndex : 'phone',
                     text : '联系电话'
                 }, {
                     xtype : 'gridcolumn',
-                    width : 160,
+                    flex : 2,
                     dataIndex : 'name',
                     text : '公司名称'
                 }, {
                     xtype : 'gridcolumn',
-                    width : 180,
+                    flex : 2,
                     dataIndex : 'address',
                     text : '公司地址'
                 }, {
                     xtype : 'gridcolumn',
-                    width : 100,
+                    flex : 1,
                     dataIndex : 'countOfWares',
                     text : '供应商品数量'
                 }, {
                     xtype : 'gridcolumn',
-                    width : 200,
+                    flex : 3,
                     dataIndex : 'note',
                     text : '备注'
-                }, {
-                    xtype : 'gridcolumn',
-                    text : '维护信息',
-                    columns : [{
-                        xtype : 'gridcolumn',
-                        width : 140,
-                        dataIndex : 'createOn',
-                        text : '创建时间'
-                    }, {
-                        xtype : 'gridcolumn',
-                        width : 140,
-                        dataIndex : 'updateOn',
-                        text : '更新时间'
-                    }]
                 }],
                 dockedItems : [{
                     xtype : 'toolbar',

@@ -18,7 +18,6 @@ Ext.define('drp.app.view.projects.invoices.StockOutInvoiceView', {
             listeners : {
                 selectionchange : function(sm, selections) {
                     me.down('#deleteOutInvoice_btn').setDisabled(selections.length == 0);
-                    me.down('#submitOutInvoice_btn').setDisabled(selections.length == 0);
                 }
             }
         });
@@ -164,7 +163,7 @@ Ext.define('drp.app.view.projects.invoices.StockOutInvoiceView', {
                     text : '库管员'
                 }, {
                     xtype : 'gridcolumn',
-                    dataIndex : 'regulatorName',
+                    dataIndex : 'regulator',
                     flex : 2,
                     text : '经手人'
                 }],
@@ -190,15 +189,7 @@ Ext.define('drp.app.view.projects.invoices.StockOutInvoiceView', {
                         itemId : 'deleteOutInvoice_btn',
                         disabled : true,
                         text : '删除'
-                    }/*, {
-                        itemId : 'submitOutInvoice_btn',
-                        disabled : true,
-                        text : '提交审核',
-                        icon : 'resources/images/icons/database_save.png',
-                        menu : {
-                            items : menuItems
-                        }
-                    }*/]
+                    }]
                 }]
             }]
 

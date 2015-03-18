@@ -22,7 +22,7 @@ Ext.define("drp.app.model.resources.WareModel", {
         name : "vendor.id",
         persist : false
     }, {
-        name : "vendor.name",
+        name : "vendor.contactMan",
         persist : false
     }, {
         name : 'note'// 备注

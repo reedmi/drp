@@ -138,13 +138,14 @@ public class WareServiceBean extends BaseDAOSupport<Ware> implements WareService
 
     @Override
     public boolean have(Ware ware) {
-        String jpql = "from Ware where name =:name and model =:model and unit =:unit and brand =:brand and category =:category";
+        String jpql = "from Ware where name =:name and model =:model and unit =:unit and brand =:brand and category =:category and vendor =:vendor";
         TypedQuery<Ware> query = em.createQuery(jpql, Ware.class)
                 .setParameter("name", ware.getName())
                 .setParameter("model", ware.getModel())
                 .setParameter("unit", ware.getUnit())
                 .setParameter("brand", ware.getBrand())
-                .setParameter("category", ware.getCategory());
+                .setParameter("category", ware.getCategory())
+                .setParameter("vendor", ware.getVendor());
 
         List<Ware> wares = query.getResultList();
         if(wares.isEmpty()){

@@ -5,13 +5,13 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
     extend : "drp.app.controller.AbstractController",
 
     inInvoiceController : null,
-    invoiceGrid : null,
-    currentInvoice : null,
+    inInvoiceGrid : null,
+    currentInInvoice : null,
     inCostGrid : null,
     inCostForm : null,
-    inInvoiceCostWin : null,//costWin默认是未创建的
-    invoiceCostWin : null,
-    wareWindow : null,
+    inInvoiceCostWin : null,//inInvoiceCostWin默认是未创建的
+    inInvoiceDetailWin : null,
+    wareInWin : null,
 
     init : function() {
         inInvoiceController = this;
@@ -20,11 +20,11 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
             'stockininvoiceview' : {
                 afterrender : function(panel) {
                     inInvoiceCostWin = false;
-                    invoiceCostWin = false;
-                    currentInvoice = null;
-                    wareWindow= false;
-                    invoiceGrid = panel.down('gridpanel');
-                    invoiceGrid.getStore().load();
+                    inInvoiceDetailWin = false;
+                    currentInInvoice = null;
+                    wareInWin= false;
+                    inInvoiceGrid = panel.down('gridpanel');
+                    inInvoiceGrid.getStore().load();
                 }
             },
 
@@ -71,26 +71,25 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
             'stockincostview button[action=deleteStockInCost]' : {
                 click : this.deleteStockInCost
             },
-            
+
              //stock_in_cost choose ware
             'stockincostview button[action=chooseWare]' : {
                 click : function(btn){
-                    
                     // 加载弹窗相关的controller
-                    if(!wareWindow){
-                        wareWindow = Ext.widget('warewindow');
+                    if(!wareInWin){
+                        wareInWin = Ext.widget('stockinwarewin');
                         var WareControllerName = "drp.app.controller.resources.WareController";
                         if (!Ext.ClassManager.isCreated(WareControllerName)) {
                             var mainController = this.application.getController("drp.base.controller.MainController");
                             mainController.application.getController(WareControllerName).init();
                         }
                     }
-                    wareWindow.show();
+                    wareInWin.show();
                  }
             },
-            
+
             //-----------------------------------------------------------
-            'warewindow gridpanel' : {
+            'stockinwarewin gridpanel' : {
                 itemcontextmenu : function(view, record, item, index, e){
                     // 禁用浏览器自带的右键菜单
                     e.preventDefault();
@@ -105,12 +104,17 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
                             icon : 'resources/images/icons/ok.png',
                             listeners : {
                                 click : function(item){
-                                    wareWindow.hide();
+                                    wareInWin.hide();
                                     var costForm = inInvoiceCostWin.down('#stockInCost_form');
+                                    console.log(">>>>>>>>>>>>>>>>>入库单日志.....");
+                                    console.log("wareInWin", wareInWin);
+                                    console.log("inInvoiceCostWin", inInvoiceCostWin);
+                                    console.log("costForm", costForm);
                                     costForm.down('#wareName_stockInCost_tf').setValue(record.data.name);
                                     costForm.down('#wareId_stockInCost_tf').setValue(record.data.id);
                                     costForm.down('#wareModel_stockInCost_tf').setValue(record.data.model);
                                     costForm.down('#wareUnit_stockInCost_tf').setValue(record.data.unit);
+                                    console.log("==============================");
                                 }
                             }
                         }]
@@ -123,7 +127,7 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
 
     //入库单-查询
     searchStockInInvoice : function(btn){
-        var store = invoiceGrid.getStore();
+        var store = inInvoiceGrid.getStore();
         var form = btn.up("form");
         store.filters.clear();
         store.filter([ {
@@ -200,7 +204,7 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
                     id : formBean['wareId']
                 });
                 model.set("invoice", {
-                    id : currentInvoice.data.id
+                    id : currentInInvoice.data.id
                 });
             }
             if(formBean.unitPrice == ""){
@@ -212,9 +216,9 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
                     store.filters.clear();
                     store.filter([{
                         property : "invoice",
-                        value : currentInvoice.data.id
+                        value : currentInInvoice.data.id
                     }]);
-                    Ext.Msg.alert("失败!", operation.request.scope.reader.jsonData["message"]);
+                    Ext.Msg.alert("成功!", operation.request.scope.reader.jsonData["message"]);
                 },
                 failure : function(response, operation) {
                     Ext.Msg.alert("失败!", operation.request.scope.reader.jsonData["message"]);
@@ -230,7 +234,7 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
         }
         var store = inInvoiceCostWin.down("gridpanel").getStore();
         //在弹出新建入库单的页面之前，需要做三部分工作：清空store、合价设置为0
-        currentInvoice = null;
+        currentInInvoice = null;
         store.removeAll(false);
         inInvoiceCostWin.down('#addStockInCost_btn').setDisabled(true);
         inInvoiceCostWin.down('#totalPrice_stockInCost_df').setValue(0);
@@ -242,18 +246,18 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
     },
 
     showUpdateInInvoiceForm : function( grid, record, item, index){
-        currentInvoice = record;//在弹出更新的窗口时，保存选中的invoice
+        currentInInvoice = record;//在弹出更新的窗口时，保存选中的invoice
         var invoiceData = record.data;
 
         var costWin = null;
         //1.非材料员登陆的，只提供预览
         //2.若是材料员，则pass=true的和已经通过审核的，只提供预览
         if(user.type != "WAREKEEPER"){
-            if(!invoiceCostWin){
-                invoiceCostWin = Ext.widget('stockincostshowview');
+            if(!inInvoiceDetailWin){
+                inInvoiceDetailWin = Ext.widget('stockincostshowview');
             }
-            costWin = invoiceCostWin;
-            invoiceCostWin.setTitle("查看入库单");
+            costWin = inInvoiceDetailWin;
+            inInvoiceDetailWin.setTitle("查看入库单");
             
         } else {
             if(!inInvoiceCostWin){
@@ -269,7 +273,7 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
         store.filters.clear();
         store.filter([{
             property : "invoice",
-            value : currentInvoice.data.id
+            value : currentInInvoice.data.id
         }]);
 
         costWin.down('#stockInCost_form').loadRecord(record);
@@ -286,27 +290,27 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
 
     //入库单-删除
     deleteInInvoice : function(btn) {
-        inInvoiceController.deleteBatchModel(btn, invoiceGrid, "入库单", "/invoices/in/deleteBatch");
+        inInvoiceController.deleteBatchModel(btn, inInvoiceGrid, "入库单", "/invoices/in/deleteBatch");
     },
 
     //入库单-更新总价
     updateInvoiceTotalPrice : function(panel){
         panel.down('#chooseWare_stockInCost_btn').setDisabled(true);
         var totalPrice_stockInCost = panel.down('#totalPrice_stockInCost_df').getValue();
-        if(!currentInvoice){
+        if(!currentInInvoice){
             return;
         }
-        if(currentInvoice.data.totalPrice == totalPrice_stockInCost){
+        if(currentInInvoice.data.totalPrice == totalPrice_stockInCost){
             return;
         }
-        
-        currentInvoice.set("forDate",panel.down('#forDate_stockInInvoice_df').getValue());
-        currentInvoice.set("code",panel.down('#code_stockInInvoice_tf').getValue());
-        currentInvoice.set("totalPrice",totalPrice_stockInCost);
 
-        currentInvoice.save({
+        currentInInvoice.set("forDate",panel.down('#forDate_stockInInvoice_df').getValue());
+        currentInInvoice.set("code",panel.down('#code_stockInInvoice_tf').getValue());
+        currentInInvoice.set("totalPrice",totalPrice_stockInCost);
+
+        currentInInvoice.save({
             success : function(response, operation) {
-                invoiceGrid.getStore().load();
+                inInvoiceGrid.getStore().load();
             },
             failure : function(response, operation) {
                 Ext.Msg.alert("失败!", operation.request.scope.reader.jsonData["message"]);
@@ -322,9 +326,9 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
             var model = Ext.create(modelName, formBean);
             model.save({
                 success : function(response, operation){
-                    invoiceGrid.getStore().load();
+                    inInvoiceGrid.getStore().load();
                     var reader = operation.request.scope.reader;
-                    currentInvoice = Ext.create(modelName,{
+                    currentInInvoice = Ext.create(modelName,{
                         id : reader.jsonData["object"]
                     });
                     btn.up("form").down('#id_stockInInvoice').setValue(reader.jsonData["object"]);
@@ -339,7 +343,7 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
     },
 
     submitInInvoiceToAudit : function(state){
-        var records = invoiceGrid.getSelectionModel().getSelection();
+        var records = inInvoiceGrid.getSelectionModel().getSelection();
         var ids = [];
         for(var i = 0,len = records.length;i<len;i++){
             ids[i] = records[i].data.id;
@@ -361,7 +365,7 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
             success : function(response, operation){
                 var resp = Ext.decode(response.responseText);
                 Ext.Msg.alert("成功!", resp.message);
-                invoiceGrid.getStore().load();
+                inInvoiceGrid.getStore().load();
             },
             failure : function(resp, operation) {
                 Ext.Msg.alert("失败!", operation.request.scope.reader.jsonData["message"]);
@@ -383,6 +387,6 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
              "drp.app.view.projects.costs.StockInCostView",
              "drp.app.view.projects.costs.StockInCostShowView",
              "drp.app.view.resources.WareView",
-             "drp.app.view.resources.WareWindow",
+             "drp.app.view.resources.StockInWareWin",
              "drp.app.view.resources.WareViewForm" ]
 });

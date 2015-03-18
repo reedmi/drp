@@ -129,7 +129,7 @@ Ext.define('drp.app.view.resources.WareView', {
                 }, {
                     xtype : 'gridcolumn',
                     width : 100,
-                    dataIndex : 'vendor.name',
+                    dataIndex : 'vendor.contactMan',
                     text : '供应商'
                 }, {
                     xtype : 'gridcolumn',

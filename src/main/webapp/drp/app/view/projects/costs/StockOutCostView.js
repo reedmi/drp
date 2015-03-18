@@ -129,7 +129,6 @@ Ext.define('drp.app.view.projects.costs.StockOutCostView', {
                             name : 'regulator',
                             valueField : 'name',
                             displayField : 'name',
-                            allowBlank: false,
                             store : 'drp.app.store.users.RegulatorStore',
                             fieldLabel : '经手人'
                         }, {
