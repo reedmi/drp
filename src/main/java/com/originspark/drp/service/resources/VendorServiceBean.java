@@ -126,10 +126,13 @@ public class VendorServiceBean extends BaseDAOSupport<Vendor> implements VendorS
 
     @Override
     public boolean have(Vendor vendor) {
-        String jpql = "from Vendor where name =:name and contactMan =:contactMan";
+        String jpql = "from Vendor where name =:name and contactMan =:contactMan and phone =:phone and address =:address and note =:note";
         TypedQuery<Vendor> query = em.createQuery(jpql, Vendor.class)
                 .setParameter("name", vendor.getName())
-                .setParameter("contactMan", vendor.getContactMan());
+                .setParameter("contactMan", vendor.getContactMan())
+                .setParameter("phone", vendor.getPhone())
+                .setParameter("address", vendor.getAddress())
+                .setParameter("note", vendor.getNote());
 
         List<Vendor> vendors = query.getResultList();
         if(vendors.isEmpty()){

@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.originspark.drp.controllers.BaseController;
 import com.originspark.drp.models.resources.Vendor;
-import com.originspark.drp.util.SessionUtil;
-import com.originspark.drp.util.json.IdsJson;
 import com.originspark.drp.util.json.FilterRequest;
+import com.originspark.drp.util.json.IdsJson;
 import com.originspark.drp.util.json.JsonUtils;
 
 @Controller

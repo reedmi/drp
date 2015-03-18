@@ -1,6 +1,7 @@
 package com.originspark.drp.controllers.projects.costs;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,10 +53,12 @@ public class StockInCostController extends BaseController{
             return failure("抱歉，不能重复添加商品");
         }
 
-        stockInCost.setCreatedBy(getCurrentUser().getName());
         stockInCost.setForDate(invoice.getForDate());
+        stockInCost.setCreatedOn(new Date());
+        stockInCost.setCreatedBy(getCurrentUser().getName());
+        stockInCost.setUpdatedOn(new Date());
+        stockInCost.setUpdatedBy(getCurrentUser().getName());
         service.save(stockInCost);
-
         return ok("创建成功");
     }
 

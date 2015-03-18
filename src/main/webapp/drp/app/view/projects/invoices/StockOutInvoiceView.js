@@ -164,7 +164,7 @@ Ext.define('drp.app.view.projects.invoices.StockOutInvoiceView', {
                     text : '库管员'
                 }, {
                     xtype : 'gridcolumn',
-                    dataIndex : 'regulatorName',
+                    dataIndex : 'regulator',
                     flex : 2,
                     text : '经手人'
                 }],
