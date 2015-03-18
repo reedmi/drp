@@ -234,7 +234,7 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
         store.removeAll(false);
         inInvoiceCostWin.down('#addStockInCost_btn').setDisabled(true);
         inInvoiceCostWin.down('#totalPrice_stockInCost_df').setValue(0);
-        inInvoiceCostWin.down('#systemInfo_stockInCost_form').getForm().reset();
+        inInvoiceCostWin.down('#header_stockInCost_form').getForm().reset();
         inInvoiceCostWin.down('#stockInCost_form').getForm().reset();
 
         inInvoiceCostWin.setTitle("新增入库单");
@@ -303,8 +303,7 @@ Ext.define("drp.app.controller.projects.invoices.StockInInvoiceController", {
         currentInvoice.set("forDate",panel.down('#forDate_stockInInvoice_df').getValue());
         currentInvoice.set("code",panel.down('#code_stockInInvoice_tf').getValue());
         currentInvoice.set("totalPrice",totalPrice_stockInCost);
-        currentInvoice.set("system", null);
-        
+
         currentInvoice.save({
             success : function(response, operation) {
                 invoiceGrid.getStore().load();

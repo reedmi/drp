@@ -30,7 +30,7 @@ Ext.define('drp.app.view.projects.resources.StockInCostView', {
                 height: 70,
                 items : [{
                     xtype : 'form',
-                    itemId : 'systemInfo_stockInCost_form',
+                    itemId : 'header_stockInCost_form',
                     items : [{
                         xtype : 'fieldcontainer',
                         layout : 'column',
@@ -43,7 +43,7 @@ Ext.define('drp.app.view.projects.resources.StockInCostView', {
                             margin : '5 0 0 15',
                             width : 200,
                             labelWidth: 60
-                        }, { 
+                        }, {
                             xtype: 'datefield',
                             fieldLabel: '日期<font color="red">*</font>',
                             margin : '5 0 0 15',

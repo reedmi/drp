@@ -50,6 +50,12 @@ Ext.define('drp.app.view.projects.invoices.StockInInvoiceView', {
                             fieldLabel : '结束日期',
                             editable : false,
                             format : 'Y-m-d'
+                        }, {
+                            xtype : 'textfield',
+                            margin : '5 0 0 20',
+                            labelWidth: 60,
+                            itemId : 'receiveManName_filter',
+                            fieldLabel : '领物人'
                         }]
                     }, {
                         xtype : 'fieldcontainer',
@@ -80,8 +86,8 @@ Ext.define('drp.app.view.projects.invoices.StockInInvoiceView', {
                             xtype : 'textfield',
                             margin : '5 0 0 10',
                             labelWidth: 60,
-                            itemId : 'regulatorName_filter',
-                            fieldLabel : '经手人'
+                            itemId : 'managerName_filter',
+                            fieldLabel : '负责人'
                         }, {
                             xtype : 'textfield',
                             margin : '5 0 0 20',
@@ -92,8 +98,8 @@ Ext.define('drp.app.view.projects.invoices.StockInInvoiceView', {
                             xtype : 'textfield',
                             margin : '5 0 0 20',
                             labelWidth: 60,
-                            itemId : 'managerName_filter',
-                            fieldLabel : '负责人'
+                            itemId : 'regulatorName_filter',
+                            fieldLabel : '经手人'
                         }, {
                             xtype : 'button',
                             margin : '5 0 0 25',

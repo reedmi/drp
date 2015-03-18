@@ -12,7 +12,7 @@ Ext.define('drp.app.view.projects.resources.StockOutCostShowView', {
     resizable : false,
     initComponent : function() {
         var me = this;
-        
+
         Ext.applyIf(me, {
 
             items : [{//<<<<<<<<<<<<<<<<<<<<入库单-抬头字段
@@ -22,39 +22,46 @@ Ext.define('drp.app.view.projects.resources.StockOutCostShowView', {
                 height: 40,
                 items : [{
                     xtype : 'form',
-                    itemId : 'systemInfo_stockOutCost_form',
+                    itemId : 'header_stockOutCost_form',
                     items : [{
                         xtype : 'fieldcontainer',
                         layout : 'column',
-                        items : [{
-                            xtype : 'displayfield',
-                            margin : '5 0 0 15',
-                            labelWidth: 30,
-                            name : 'system.projectName',
-                            width : 200,
-                            fieldLabel : '项目'
-                        }, {
-                            xtype : 'displayfield',
-                            margin : '5 0 0 15',
-                            labelWidth: 30,
-                            name : 'system.name',
-                            width : 200,
-                            fieldLabel : '系统'
-                        }, { 
+                        items : [{ 
                             xtype: 'displayfield',
                             fieldLabel: '日期',
                             margin : '5 0 0 15',
                             labelWidth: 40,
                             name : 'forDate',
-                            width : 200,
+                            width : 150,
                             format : 'Y-m-d'
                         }, { 
                             xtype: 'displayfield',
                             fieldLabel: '编号',
                             name : 'code',
-                            margin : '5 0 0 15',
+                            margin : '5 0 0 10',
                             width : 100,
                             labelWidth: 40
+                        }, {
+                            xtype : 'displayfield',
+                            margin : '5 0 0 10',
+                            labelWidth: 60,
+                            name : 'receiveMan',
+                            width : 200,
+                            fieldLabel : '购货单位'
+                        }, {
+                            xtype : 'displayfield',
+                            margin : '5 0 0 10',
+                            labelWidth: 30,
+                            name : 'receiveAddress',
+                            width : 180,
+                            fieldLabel : '地址'
+                        }, {
+                            xtype : 'displayfield',
+                            margin : '5 0 0 10',
+                            labelWidth: 30,
+                            name : 'receivePhone',
+                            width : 120,
+                            fieldLabel : '电话'
                         }]
                     }]
                 }]
@@ -108,26 +115,20 @@ Ext.define('drp.app.view.projects.resources.StockOutCostShowView', {
                     flex : 1,
                     margin : '0 0 0 30',
                     labelWidth: 50,
+                    itemId : 'managerName_df',
+                    fieldLabel : '负责人'
+                }, {
+                    xtype : 'displayfield',
+                    flex : 1,
+                    labelWidth: 50,
                     itemId : 'wareKeeperName_df',
                     fieldLabel : '库管员'
                 }, {
                     xtype : 'displayfield',
                     flex : 1,
-                    labelWidth: 50,
-                    itemId : 'materialKeeperName_df',
-                    fieldLabel : '材料员'
-                }, {
-                    xtype : 'displayfield',
-                    flex : 1,
                     labelWidth: 60,
-                    itemId : 'projectManagerName_df',
-                    fieldLabel : '项目经理'
-                }, {
-                    xtype : 'displayfield',
-                    flex : 1,
-                    labelWidth: 60,
-                    itemId : 'receiveMan_df',
-                    fieldLabel : '领物人'
+                    itemId : 'regulatorName_df',
+                    fieldLabel : '经手人'
                 }]
             }]
         });

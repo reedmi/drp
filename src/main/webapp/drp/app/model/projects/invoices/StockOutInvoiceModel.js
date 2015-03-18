@@ -1,8 +1,10 @@
 Ext.define("drp.app.model.projects.invoices.StockOutInvoiceModel", {
     extend : "drp.app.model.projects.invoices.AbstractInvoiceModel",
     fields : [{
-        name : "address"
-    } ],
+        name : "receiveAddress"
+    }, {
+        name : "receivePhone"
+    }],
     proxy : {
         type : 'rest',
         url : 'invoices/out',

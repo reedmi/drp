@@ -51,6 +51,12 @@ Ext.define('drp.app.view.projects.invoices.StockOutInvoiceView', {
                             fieldLabel : '结束日期',
                             editable : false,
                             format : 'Y-m-d'
+                        }, {
+                            xtype : 'textfield',
+                            margin : '5 0 0 20',
+                            labelWidth: 60,
+                            itemId : 'receiveManName_filter',
+                            fieldLabel : '购货单位'
                         }]
                     }, {
                         xtype : 'fieldcontainer',
@@ -73,12 +79,6 @@ Ext.define('drp.app.view.projects.invoices.StockOutInvoiceView', {
                             labelWidth: 60,
                             itemId : 'wareName_filter',
                             fieldLabel : '产品名称'
-                        }, {
-                            xtype : 'textfield',
-                            margin : '5 0 0 20',
-                            labelWidth: 60,
-                            itemId : 'receiveManName_filter',
-                            fieldLabel : '领物人'
                         }]
                     }, {
                         xtype : 'fieldcontainer',
@@ -87,8 +87,8 @@ Ext.define('drp.app.view.projects.invoices.StockOutInvoiceView', {
                             xtype : 'textfield',
                             margin : '5 0 0 10',
                             labelWidth: 60,
-                            itemId : 'regulatorName_filter',
-                            fieldLabel : '材料员'
+                            itemId : 'managerName_filter',
+                            fieldLabel : '负责人'
                         }, {
                             xtype : 'textfield',
                             margin : '5 0 0 20',
@@ -99,8 +99,8 @@ Ext.define('drp.app.view.projects.invoices.StockOutInvoiceView', {
                             xtype : 'textfield',
                             margin : '5 0 0 20',
                             labelWidth: 60,
-                            itemId : 'managerName_filter',
-                            fieldLabel : '项目经理'
+                            itemId : 'regulatorName_filter',
+                            fieldLabel : '经手人'
                         }, {
                             xtype : 'button',
                             margin : '5 0 0 25',
@@ -139,14 +139,14 @@ Ext.define('drp.app.view.projects.invoices.StockOutInvoiceView', {
                     dataIndex : 'code'
                 }, {
                     xtype : 'gridcolumn',
-                    dataIndex : 'system.projectName',
+                    dataIndex : 'receiveMan',
                     flex : 2,
-                    text : '项目名称'
+                    text : '购货单位'
                 }, {
                     xtype : 'gridcolumn',
-                    dataIndex : 'system.name',
+                    dataIndex : 'address',
                     flex : 2,
-                    text : '系统名称'
+                    text : '地址'
                 }, {
                     xtype : 'gridcolumn',
                     dataIndex : 'totalPrice',
@@ -154,36 +154,19 @@ Ext.define('drp.app.view.projects.invoices.StockOutInvoiceView', {
                     text : '合价'
                 }, {
                     xtype : 'gridcolumn',
-                    dataIndex : 'materialKeeperName',
+                    dataIndex : 'manager',
                     flex : 2,
-                    text : '材料员',
-                    renderer : function(value, metadata, record) {
-                        var materialKeeperAuditState = record.data.materialKeeperAuditState;
-                        return me.displyAuditState(value, materialKeeperAuditState);
-                    }
+                    text : '负责人'
                 }, {
                     xtype : 'gridcolumn',
-                    dataIndex : 'wareKeeperName',
+                    dataIndex : 'wareKeeper',
                     flex : 2,
-                    text : '库管员',
-                    renderer : function(value, metadata, record) {
-                        var wareKeeperAuditState = record.data.wareKeeperAuditState;
-                        return me.displyAuditState(value, wareKeeperAuditState);
-                    }
+                    text : '库管员'
                 }, {
                     xtype : 'gridcolumn',
-                    dataIndex : 'projectManagerName',
+                    dataIndex : 'regulatorName',
                     flex : 2,
-                    text : '项目经理',
-                    renderer : function(value, metadata, record) {
-                        var projectManagerAuditState = record.data.projectManagerAuditState;
-                        return me.displyAuditState(value, projectManagerAuditState);
-                    }
-                }, {
-                    xtype : 'gridcolumn',
-                    dataIndex : 'receiveMan',
-                    flex : 2,
-                    text : '领物人'
+                    text : '经手人'
                 }],
                 dockedItems : [{
                     xtype : 'pagingtoolbar',
