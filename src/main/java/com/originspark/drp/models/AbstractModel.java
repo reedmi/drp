@@ -12,7 +12,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
 import com.originspark.drp.util.enums.Status;
-import com.sun.istack.internal.NotNull;
 
 @MappedSuperclass
 public abstract class AbstractModel {
@@ -24,8 +23,7 @@ public abstract class AbstractModel {
     /**
      * 维护信息：记录创建日期
      */
-    @NotNull
-    @Column(name="createOn")
+    @Column(name="createOn", nullable=false)
     private Date createOn;
 
     /**
@@ -37,8 +35,7 @@ public abstract class AbstractModel {
     /**
      * 维护信息：记录更新日期
      */
-    @NotNull
-    @Column(name="updateOn")
+    @Column(name="updateOn", nullable=false)
     private Date updateOn;
 
     /**
