@@ -23,8 +23,8 @@ public abstract class AbstractModel {
     /**
      * 维护信息：记录创建日期
      */
-    @Column(name="createOn", nullable=false)
-    private Date createOn;
+    @Column(name="createdOn", nullable=false)
+    private Date createdOn;
 
     /**
      * 维护信息：记录创建者
@@ -35,8 +35,8 @@ public abstract class AbstractModel {
     /**
      * 维护信息：记录更新日期
      */
-    @Column(name="updateOn", nullable=false)
-    private Date updateOn;
+    @Column(name="updatedOn", nullable=false)
+    private Date updatedOn;
 
     /**
      * 维护信息：记录更新者
@@ -58,12 +58,12 @@ public abstract class AbstractModel {
         this.id = id;
     }
 
-    public Date getCreateOn() {
-        return createOn;
+    public Date getCreatedOn() {
+        return createdOn;
     }
 
-    public void setCreateOn(Date createOn) {
-        this.createOn = createOn;
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
     }
 
     public String getCreatedBy() {
@@ -74,12 +74,12 @@ public abstract class AbstractModel {
         this.createdBy = createdBy;
     }
 
-    public Date getUpdateOn() {
-        return updateOn;
+    public Date getUpdatedOn() {
+        return updatedOn;
     }
 
-    public void setUpdateOn(Date updateOn) {
-        this.updateOn = updateOn;
+    public void setUpdatedOn(Date updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
     public String getUpdatedBy() {
@@ -100,17 +100,17 @@ public abstract class AbstractModel {
 
     @PrePersist
     private void prePersist() {
-        createOn = new Date();
-        updateOn = createOn;
+        createdOn = new Date();
+        updatedOn = createdOn;
     }
 
     @PreUpdate
     private void preUpdate(){
-        updateOn = new Date();
+        updatedOn = new Date();
     }
     
     @Override
     public String toString() {
-        return "id="+id+", updateOn="+updateOn;
+        return "id="+id+", updateOn="+updatedOn;
     }
 }

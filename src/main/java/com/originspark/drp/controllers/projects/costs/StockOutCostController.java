@@ -1,6 +1,7 @@
 package com.originspark.drp.controllers.projects.costs;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,18 +32,18 @@ public class StockOutCostController extends BaseController{
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public String create(@RequestBody StockOutCost stockOutCost,HttpServletRequest request) {
-        
+    public String create(@RequestBody StockOutCost stockOutCost) {
+
         StockOutInvoice invoiceUI = stockOutCost.getInvoice();
         if(invoiceUI == null){
             return failure("所选出库单不能为空");
         }
-        
+
         StockOutInvoice invoice = stockOutInvoiceService.findById(invoiceUI.getId());
         if(invoice == null){
             return failure("你所选择的入库单不存在，请重新选择");
         }
-        
+
         //检查该商品是否已经存在 
         boolean have = false;
         for(StockOutCost cost : invoice.getCosts()){
@@ -51,13 +52,14 @@ public class StockOutCostController extends BaseController{
                 break;
             }
         }
-        
         if(have){
             return failure("抱歉，不能重复添加商品");
         }
-        
-        stockOutCost.setCreatedBy(SessionUtil.getCurrentUserName(request));
-        
+
+        stockOutCost.setForDate(invoice.getForDate());
+        stockOutCost.setCreatedOn(new Date());
+        stockOutCost.setCreatedBy(getCurrentUser().getName());
+        stockOutCost.setUpdatedOn(new Date());
         service.save(stockOutCost);
         return ok("创建成功");
     }

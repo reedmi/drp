@@ -24,10 +24,16 @@ public class StockOutInvoice extends AbstractInvoice{
     @OneToMany(mappedBy="invoice")
     private List<StockOutCost> costs;
 
+    //TODO 将receiveMan、receiveAddress、receivePhone抽取为trader？
     /**
      * 联系地址
      */
-    private String address;
+    private String receiveAddress;
+
+    /**
+     * 联系电话
+     */
+    private String receivePhone;
 
     public List<StockOutCost> getCosts() {
         return costs;
@@ -37,12 +43,20 @@ public class StockOutInvoice extends AbstractInvoice{
         this.costs = costs;
     }
 
-    public String getAddress() {
-        return address;
+    public String getReceiveAddress() {
+        return receiveAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setReceiveAddress(String receiveAddress) {
+        this.receiveAddress = receiveAddress;
+    }
+
+    public String getReceivePhone() {
+        return receivePhone;
+    }
+
+    public void setReceivePhone(String receivePhone) {
+        this.receivePhone = receivePhone;
     }
 
     public int getCostCount(){

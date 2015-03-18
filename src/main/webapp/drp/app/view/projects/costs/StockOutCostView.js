@@ -12,7 +12,7 @@ Ext.define('drp.app.view.projects.costs.StockOutCostView', {
     resizable : false,
     initComponent : function() {
         var me = this;
-        
+
         var selModel = Ext.create('Ext.selection.CheckboxModel', {
             listeners: {
                 selectionchange: function(sm, selections) {
@@ -27,10 +27,10 @@ Ext.define('drp.app.view.projects.costs.StockOutCostView', {
                 xtype : 'panel',
                 region : 'north',
                 layout : 'fit',
-                height: 70,
+                height: 100,
                 items : [{
                     xtype : 'form',
-                    itemId : 'systemInfo_stockOutCost_form',
+                    itemId : 'header_stockOutCost_form',
                     items : [{
                         xtype : 'fieldcontainer',
                         layout : 'column',
@@ -40,90 +40,6 @@ Ext.define('drp.app.view.projects.costs.StockOutCostView', {
                             hidden : true,
                             name : 'id'
                         }, {
-                            xtype : 'combobox',
-                            margin : '5 0 0 15',
-                            labelWidth: 60,
-                            itemId : 'project_stockOutInvoice_cb',
-                            name : 'system.projectName',
-                            editable : false,
-                            allowBlank : false,
-                            width : 300,
-                            displayField :"name",
-                            valueField :"id",
-                            fieldLabel : '项目<font color="red">*</font>',
-                            store : 'drp.app.store.projects.ProjectDataStore',
-                            listeners : {
-                                afterrender : function(combo){
-                                    //显示人员所属项目
-                                    var store = combo.getStore();
-                                    store.filters.clear();
-                                    if(user.type != "Leader"){
-                                        Ext.apply(store.proxy.extraParams, {
-                                            userType : user.type,
-                                            userId : user.id
-                                        });
-                                        store.load();
-                                    }
-                                },
-                                select : function(combo,records){
-                                    var project = records[0].data;
-                                    var stockoutcostview = combo.up("stockoutcostview");
-                                    //设置该项目下的人员
-                                    stockoutcostview.down("#materialKeeperName_df").setValue(project.materialKeeper.name);
-                                    stockoutcostview.down("#wareKeeperName_df").setValue(project.wareKeeper.name);
-                                    stockoutcostview.down("#projectManagerName_df").setValue(project.projectManager.name);
-                                    //根据项目动态加载下属系统
-                                    var _url = "project/" + project.id;
-                                    var system = stockoutcostview.down("#systemName_stockOutInvoice_cb");
-                                    system.getStore().getProxy().url = _url;
-                                    system.setValue("");
-                                    system.setDisabled(false);
-                                    system.getStore().reload();
-                                }
-                            }
-                        }, {
-                            xtype : 'combobox',
-                            margin : '5 0 0 30',
-                            labelWidth: 60,
-                            itemId : 'systemName_stockOutInvoice_cb',
-                            name : 'system.name',
-                            allowBlank : false,
-                            editable : false,
-                            disabled : true,
-                            width : 300,
-                            fieldLabel : '系统<font color="red">*</font>',
-                            valueField : 'id',
-                            displayField : 'name',
-                            fieldLabel : '系统名称<font color="red">*</font>',
-                            store : Ext.create('Ext.data.Store', {
-                                fields : ['id', 'name'],
-                                proxy : {
-                                    type : 'ajax',
-                                    reader : {
-                                        type : "json",
-                                        root : "data",
-                                        successProperty : 'success'
-                                    },
-                                    writer : {
-                                        type : "json"
-                                    }
-                                }
-                            }),
-                            listeners : {
-                                select : function(combo){
-                                    combo.up('form').down('#systemId_stockOutInvoice_tf').setValue(combo.getSubmitValue());
-                                }
-                            }
-                        }, {
-                            xtype : 'textfield',
-                            hidden : true,
-                            itemId : 'systemId_stockOutInvoice_tf',
-                            name : 'system.id'
-                        }]
-                    }, {
-                        xtype : 'fieldcontainer',
-                        layout : 'column',
-                        items : [ { 
                             xtype: 'datefield',
                             fieldLabel: '日期<font color="red">*</font>',
                             margin : '5 0 0 15',
@@ -131,35 +47,97 @@ Ext.define('drp.app.view.projects.costs.StockOutCostView', {
                             itemId : 'forDate_stockOutInvoice_df',
                             name : 'forDate',
                             editable : false,
+                            allowBlank: false,
                             width : 200,
-                            format : 'Y-m-d'
+                            format : 'Y-m-d',
+                            listeners : {
+                                afterrender : function(df) {
+                                    if(df.getValue() == null) {
+                                        df.setValue(new Date());
+                                    }
+                                }
+                            }
                         }, { 
                             xtype: 'textfield',
-                            fieldLabel: '编号<font color="red">*</font>',
+                            fieldLabel: '编号',
                             itemId : 'code_stockOutInvoice_tf',
                             name : 'code',
                             margin : '5 0 0 15',
                             width : 200,
                             labelWidth: 60
-                        }, { 
+                        }]
+                    }, {
+                        xtype : 'fieldcontainer',
+                        layout : 'column',
+                        items : [{
                             xtype: 'textfield',
-                            fieldLabel: '领物人<font color="red">*</font>',
+                            fieldLabel: '收货单位<font color="red">*</font>',
                             itemId : 'receiveMan_stockOutInvoice_tf',
+                            allowBlank: false,
                             name : 'receiveMan',
                             margin : '5 0 0 15',
                             width : 200,
+                            labelWidth: 60
+                        }, {
+                            xtype: 'textfield',
+                            fieldLabel: '地址<font color="red">*</font>',
+                            itemId : 'receiveAddress_stockOutInvoice_tf',
+                            allowBlank: false,
+                            name : 'address',
+                            margin : '5 0 0 15',
+                            width : 200,
+                            labelWidth: 60
+                        }, {
+                            xtype: 'textfield',
+                            fieldLabel: '电话',
+                            itemId : 'receivePhone_stockOutInvoice_tf',
+                            name : 'phone',
+                            margin : '5 0 0 15',
+                            width : 200,
+                            labelWidth: 60
+                        }]
+                    }, {
+                        xtype : 'fieldcontainer',
+                        layout : 'column',
+                        items : [{ 
+                            xtype : 'combobox',
+                            width : 200,
                             labelWidth: 60,
-                            listeners : {
-                                change : function(tf){
-                                    tf.up('stockoutcostview').down('#receiveMan_df').setValue(tf.getValue());
-                                }
-                            }
+                            margin : '5 0 0 15',
+                            name : 'manager',
+                            valueField : 'name',
+                            displayField : 'name',
+                            allowBlank: false,
+                            store : 'drp.app.store.users.ManagerStore',
+                            fieldLabel : '负责人<font color="red">*</font>'
+                        }, { 
+                            xtype : 'combobox',
+                            width : 200,
+                            labelWidth: 60,
+                            margin : '5 0 0 15',
+                            name : 'wareKeeper',
+                            valueField : 'name',
+                            displayField : 'name',
+                            allowBlank: false,
+                            store : 'drp.app.store.users.WareKeeperStore',
+                            fieldLabel : '库管员<font color="red">*</font>'
+                        }, {
+                            xtype : 'combobox',
+                            width : 200,
+                            labelWidth: 60,
+                            margin : '5 0 0 15',
+                            name : 'regulator',
+                            valueField : 'name',
+                            displayField : 'name',
+                            allowBlank: false,
+                            store : 'drp.app.store.users.RegulatorStore',
+                            fieldLabel : '经手人'
                         }, {
                             xtype : 'button',
                             margin : '5 0 0 25',
-                            action : 'addSystemInfo',
+                            action : 'confirmInvoiceHeader',
                             icon : 'resources/images/icons/ok.png',
-                            text : '确认所属系统'
+                            text : '确认单据头'
                         }]
                     }]
                 }]
@@ -383,41 +361,8 @@ Ext.define('drp.app.view.projects.costs.StockOutCostView', {
                         }]
                     }]
                 }]
-            }],
-            dockedItems : [{//<<<<<<<<<<<<<<<<<<<<<<<<出库单-汇总人员信息
-                xtype: 'toolbar',
-                dock: 'bottom',
-                ui: 'footer',
-                items: [{
-                    xtype : 'displayfield',
-                    flex : 1,
-                    margin : '0 0 0 30',
-                    labelWidth: 50,
-                    itemId : 'wareKeeperName_df',
-                    fieldLabel : '库管员'
-                }, {
-                    xtype : 'displayfield',
-                    flex : 1,
-                    labelWidth: 50,
-                    itemId : 'materialKeeperName_df',
-                    fieldLabel : '材料员'
-                }, {
-                    xtype : 'displayfield',
-                    flex : 1,
-                    labelWidth: 60,
-                    itemId : 'projectManagerName_df',
-                    fieldLabel : '项目经理'
-                }, {
-                    xtype : 'displayfield',
-                    flex : 1,
-                    labelWidth: 60,
-                    itemId : 'receiveMan_df',
-                    fieldLabel : '领物人'
-                }]
             }]
         });
         me.callParent(arguments);
     }
-    
-    
 });

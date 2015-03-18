@@ -183,6 +183,18 @@ public class Ware extends AbstractModel {
         this.inventories = inventories;
     }
 
+    public int getCountOfInCosts(){
+        return getInCosts().size();
+    }
+
+    public int getCountOfOutCosts(){
+        return getOutCosts().size();
+    }
+
+    public int getCountOfInventories(){
+        return getInventories().size();
+    }
+
     @Override
     public String toString() {
         return "Ware(商品) => [" + super.toString() + ", name=" + name + ", brand=" + brand + ", model=" + model + ", unit=" + unit + "]";
@@ -194,20 +206,19 @@ public class Ware extends AbstractModel {
         Vendor vendor = getVendor();
         if (vendor != null) {
             vendorUI.put("id", vendor.getId());
-            vendorUI.put("name", vendor.getName());
+            vendorUI.put("contactMan", vendor.getContactMan());
         }
         return vendorUI;
     }
 
-    public int getCountOfInCosts(){
-        return getInCosts().size();
-    }
-    
-    public int getCountOfOutCosts(){
-        return getOutCosts().size();
-    }
-    
-    public int getCountOfInventories(){
-        return getInventories().size();
+    @JsonProperty("category")
+    public Map<String, Object> getCategoryUI() {
+        Map<String, Object> categoryUI = new HashMap<String, Object>();
+        WareCategory category = getCategory();
+        if (category != null) {
+            categoryUI.put("id", category.getId());
+            categoryUI.put("name", category.getName());
+        }
+        return categoryUI;
     }
 }

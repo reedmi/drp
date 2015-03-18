@@ -126,7 +126,7 @@ Ext.define("drp.app.view.resources.WareViewForm", {
             margin : '5 0 0 5',
             name : 'vendor.id',
             valueField : 'id',
-            displayField : 'name',
+            displayField : 'contactMan',
             editable : false,
             store : 'drp.app.store.resources.VendorStore',
             fieldLabel : '供应商'
