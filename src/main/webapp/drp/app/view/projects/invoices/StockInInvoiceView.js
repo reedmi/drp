@@ -13,32 +13,15 @@ Ext.define('drp.app.view.projects.invoices.StockInInvoiceView', {
 
     initComponent : function() {
         var me = this;
-        
+
         var selModel = Ext.create('Ext.selection.CheckboxModel', {
             listeners : {
                 selectionchange : function(sm, selections) {
                     me.down('#deleteInInvoice_btn').setDisabled(selections.length == 0);
-                    me.down('#submitInInvoice_btn').setDisabled(selections.length == 0);
                 }
             }
         });
-        
-        var menuItems = [{
-            xtype : 'button',
-            action : 'approveInInvoice',
-            icon : 'resources/images/icons/approved.gif',
-            text : '提交通过'
-        }];
-        
-        if(user.type != "MaterialKeeper"){
-            menuItems[1]={
-                xtype : 'button',
-                action : 'unapproveInInvoice',
-                icon : 'resources/images/icons/unapproved.gif',
-                text : '失败退回'
-            };
-        }
-        
+
         Ext.applyIf(me, {
 
             items : [{
@@ -67,18 +50,6 @@ Ext.define('drp.app.view.projects.invoices.StockInInvoiceView', {
                             fieldLabel : '结束日期',
                             editable : false,
                             format : 'Y-m-d'
-                        }, {
-                            xtype : 'textfield',
-                            margin : '5 0 0 20',
-                            labelWidth: 60,
-                            itemId : 'projectName_filter',
-                            fieldLabel : '项目名称'
-                        }, {
-                            xtype : 'textfield',
-                            margin : '5 0 0 20',
-                            labelWidth: 60,
-                            itemId : 'systemName_filter',
-                            fieldLabel : '系统名称'
                         }]
                     }, {
                         xtype : 'fieldcontainer',
@@ -109,8 +80,8 @@ Ext.define('drp.app.view.projects.invoices.StockInInvoiceView', {
                             xtype : 'textfield',
                             margin : '5 0 0 10',
                             labelWidth: 60,
-                            itemId : 'materialKeeperName_filter',
-                            fieldLabel : '材料员'
+                            itemId : 'regulatorName_filter',
+                            fieldLabel : '经手人'
                         }, {
                             xtype : 'textfield',
                             margin : '5 0 0 20',
@@ -121,8 +92,8 @@ Ext.define('drp.app.view.projects.invoices.StockInInvoiceView', {
                             xtype : 'textfield',
                             margin : '5 0 0 20',
                             labelWidth: 60,
-                            itemId : 'projetManagerName_filter',
-                            fieldLabel : '项目经理'
+                            itemId : 'managerName_filter',
+                            fieldLabel : '负责人'
                         }, {
                             xtype : 'button',
                             margin : '5 0 0 25',
@@ -161,14 +132,9 @@ Ext.define('drp.app.view.projects.invoices.StockInInvoiceView', {
                     dataIndex : 'code'
                 }, {
                     xtype : 'gridcolumn',
-                    dataIndex : 'system.projectName',
+                    dataIndex : 'receiveMan',
                     flex : 2,
-                    text : '项目名称'
-                }, {
-                    xtype : 'gridcolumn',
-                    dataIndex : 'system.name',
-                    flex : 2,
-                    text : '系统名称'
+                    text : '收到'
                 }, {
                     xtype : 'gridcolumn',
                     dataIndex : 'totalPrice',
@@ -176,31 +142,19 @@ Ext.define('drp.app.view.projects.invoices.StockInInvoiceView', {
                     text : '合价'
                 }, {
                     xtype : 'gridcolumn',
-                    dataIndex : 'materialKeeperName',
+                    dataIndex : 'manager',
                     flex : 2,
-                    text : '材料员',
-                    renderer : function(value, metadata, record) {
-                        var materialKeeperAuditState = record.data.materialKeeperAuditState;
-                        return me.displyAuditState(value, materialKeeperAuditState);
-                    }
+                    text : '负责人'
                 }, {
                     xtype : 'gridcolumn',
-                    dataIndex : 'wareKeeperName',
+                    dataIndex : 'wareKeeper',
                     flex : 2,
-                    text : '库管员',
-                    renderer : function(value, metadata, record) {
-                        var wareKeeperAuditState = record.data.wareKeeperAuditState;
-                        return me.displyAuditState(value, wareKeeperAuditState);
-                    }
+                    text : '库管员'
                 }, {
                     xtype : 'gridcolumn',
-                    dataIndex : 'projectManagerName',
+                    dataIndex : 'regulatorName',
                     flex : 2,
-                    text : '项目经理',
-                    renderer : function(value, metadata, record) {
-                        var projectManagerAuditState = record.data.projectManagerAuditState;
-                        return me.displyAuditState(value, projectManagerAuditState);
-                    }
+                    text : '经手人'
                 }],
                 dockedItems : [{
                     xtype : 'pagingtoolbar',
@@ -224,15 +178,7 @@ Ext.define('drp.app.view.projects.invoices.StockInInvoiceView', {
                         itemId : 'deleteInInvoice_btn',
                         disabled : true,
                         text : '删除'
-                    }/*, {
-                        itemId : 'submitInInvoice_btn',
-                        disabled : true,
-                        text : '提交审核',
-                        icon : 'resources/images/icons/database_save.png',
-                        menu : {
-                            items : menuItems
-                        }
-                    }*/]
+                    }]
                 }]
             }]
 

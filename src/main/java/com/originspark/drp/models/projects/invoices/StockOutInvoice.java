@@ -25,9 +25,9 @@ public class StockOutInvoice extends AbstractInvoice{
     private List<StockOutCost> costs;
 
     /**
-     * 领用人
+     * 联系地址
      */
-    private String receiveMan;
+    private String address;
 
     public List<StockOutCost> getCosts() {
         return costs;
@@ -37,20 +37,15 @@ public class StockOutInvoice extends AbstractInvoice{
         this.costs = costs;
     }
 
-    public String getReceiveMan() {
-        return receiveMan;
+    public String getAddress() {
+        return address;
     }
 
-    public void setReceiveMan(String receiveMan) {
-        this.receiveMan = receiveMan;
+    public void setAddress(String address) {
+        this.address = address;
     }
-    
+
     public int getCostCount(){
         return getCosts().size();
-    }
-    
-    @Override
-    public String toString() {
-        return "StockInInvoice(出库单) => ["+super.toString()+", receiveMan="+receiveMan+"]";
     }
 }
