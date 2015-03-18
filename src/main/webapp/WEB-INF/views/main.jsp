@@ -8,6 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <title>后台管理首页</title>
+    <link rel="shortcut icon" type="image/x-icon" href="resources/images/ico.png">
     <base href="<%=basePath%>">  
     <%@ include file="/common/meta.jsp"%>
     <%@ include file="/common/Ext.jsp"%>

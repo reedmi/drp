@@ -2,19 +2,25 @@ package com.originspark.drp.controllers.projects.inventories;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.originspark.drp.controllers.BaseController;
-import com.originspark.drp.models.User;
 import com.originspark.drp.web.models.projects.inventories.CurrentInventoryUI;
 
 @Controller
 @RequestMapping("inventories")
 public class InventoryController extends BaseController {
+	
+	private Logger logger = Logger.getLogger(InventoryController.class);
 
     @RequestMapping(value = "/current", method = RequestMethod.GET)
     @ResponseBody
@@ -74,4 +80,15 @@ public class InventoryController extends BaseController {
             }
         }
     }*/
+
+    @RequestMapping(value = "/{type}/export", method = RequestMethod.GET)
+    public void exportExcel(@PathVariable String type, @RequestParam(required=true) String ids,HttpServletRequest request, HttpServletResponse response){
+        if(type == null || "".equals(type)) {
+            logger.error("库存导出错误");
+            return;
+        }
+        if("current".equals(type)) {
+        } else if("monthend".equals(type)) {
+        }
+    }
 }

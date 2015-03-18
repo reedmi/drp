@@ -6,6 +6,7 @@
     <%@ include file="/common/meta.jsp"%>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>万里磷肥仓储管理系统登录</title>
+    <link rel="shortcut icon" type="image/x-icon" href="resources/images/ico.png">
 <style type="text/css">
 <!--
 body {

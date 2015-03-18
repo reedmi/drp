@@ -68,6 +68,17 @@ Ext.define('drp.app.view.projects.inventories.CurrentInventoryView', {
                     dock : 'bottom',
                     store : 'drp.app.store.projects.inventories.CurrentInventoryStore',
                     displayInfo : true
+                }, {
+                    xtype: 'toolbar',
+                    dock: 'top',
+                    items: ['->', {
+                        xtype: 'button',
+                        icon : 'resources/images/icons/download.gif',
+                        margin : '1 5 1 0',
+                        itemId : 'exportCurrentInventoryExcel_btn',
+                        action : 'exportCurrentInventoryExcel',
+                        text: '导出excel'
+                    }]
                 }]
             }]
         });

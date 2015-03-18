@@ -1,9 +1,7 @@
 package com.originspark.drp.dao;
 
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -11,7 +9,7 @@ public abstract class BaseDAOSupport<T> implements BaseDAO<T>{
 
     @PersistenceContext
     protected EntityManager em;
-    
+
     public void delete(T entity) {
         em.remove(entity);
     }

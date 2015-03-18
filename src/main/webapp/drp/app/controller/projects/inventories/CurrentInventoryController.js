@@ -8,6 +8,12 @@ Ext.define('drp.app.controller.projects.inventories.CurrentInventoryController',
                     var grid = panel.down('gridpanel');
                     grid.getStore().load();
                 }
+            },
+            'currentinventoryview button[action=exportCurrentInventoryExcel]' : {
+                click : function(btn){
+                    var formonth = btn.up('monthendinventoryview').down('monthfield').getSubmitValue();
+                    document.location = "project/"+projectId+"/inventories/current/export?formonth="+formonth;
+                }
             }
         });
     },
