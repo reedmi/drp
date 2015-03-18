@@ -108,7 +108,6 @@ Ext.define('drp.app.view.projects.resources.StockInCostView', {
                             name : 'regulator',
                             valueField : 'name',
                             displayField : 'name',
-                            allowBlank: false,
                             store : 'drp.app.store.users.RegulatorStore',
                             fieldLabel : '经手人'
                         }, {
@@ -206,7 +205,7 @@ Ext.define('drp.app.view.projects.resources.StockInCostView', {
                             }
                         }
                     }]
-                }]/*,
+                }],
                 listeners : {
                     select : function(grid, record){
                         var cost = record.data;
@@ -225,7 +224,7 @@ Ext.define('drp.app.view.projects.resources.StockInCostView', {
                         inCostForm.down('#wareQuantity_stockInCost_nf').setReadOnly(false);
                         inCostForm.down('#wareQuantity_stockInCost_nf').setValue(cost.quantity);
                     }
-                }*/
+                }
             }, {//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<入库单-商品添加的form
                 xtype : 'panel',
                 region : 'south',

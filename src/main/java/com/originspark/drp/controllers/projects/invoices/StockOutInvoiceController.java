@@ -40,7 +40,7 @@ public class StockOutInvoiceController extends AbstractInvoiceController {
         String data = request.getParameter("data");
         ObjectMapper mapper = new ObjectMapper();
         IdsJson json = null;
-        
+
         try {
             json = mapper.readValue(data, IdsJson.class);
         } catch (Exception e) {
