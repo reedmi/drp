@@ -112,6 +112,24 @@ Ext.define('drp.app.view.resources.VendorView', {
                     dataIndex : 'note',
                     text : '备注'
                 }],
+                viewConfig : {
+                    listeners: {
+                        refresh: function(grid) {
+                            var nodes = grid.getNodes();
+                            for (var i = 0; i < nodes.length; i++) {
+                                var node = nodes[i];
+                                var record = grid.getRecord(node);
+                                var cells = Ext.get(node).query('td');
+                                var status = record.get('status');
+                                if(status == 'DESTORYED') {
+                                    for(var j = 0; j < cells.length; j++) {
+                                        Ext.fly(cells[j]).setStyle('background-color', '#FFCCCC');
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 dockedItems : [{
                     xtype : 'toolbar',
                     dock : 'top',

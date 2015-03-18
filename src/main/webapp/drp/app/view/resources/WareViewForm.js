@@ -53,6 +53,12 @@ Ext.define("drp.app.view.resources.WareViewForm", {
                     "value" : "袋",
                     "name" : "袋"
                 }, {
+                    "value" : "公斤",
+                    "name" : "公斤"
+                }, {
+                    "value" : "千克",
+                    "name" : "千克"
+                }, {
                     "value" : "个",
                     "name" : "个"
                 }, {

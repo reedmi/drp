@@ -30,6 +30,7 @@ import com.originspark.drp.models.resources.Vendor;
 import com.originspark.drp.models.resources.Ware;
 import com.originspark.drp.util.FileUtil;
 import com.originspark.drp.util.SessionUtil;
+import com.originspark.drp.util.enums.Status;
 import com.originspark.drp.util.json.FilterRequest;
 import com.originspark.drp.util.json.IdsJson;
 import com.originspark.drp.util.json.JsonUtils;
@@ -73,8 +74,8 @@ public class WareController extends BaseController {
 
     @RequestMapping(value = "/deleteBatch", method = RequestMethod.GET)
     @ResponseBody
-    public String deleteBatch(HttpServletRequest request) {
-        String data = request.getParameter("data");
+    public String deleteBatch() {
+        String data = request().getParameter("data");
         ObjectMapper mapper = new ObjectMapper();
         IdsJson json = null;
         try {
@@ -87,10 +88,9 @@ public class WareController extends BaseController {
         }
         for (long id : json.getIds()) {
             Ware ware = wareService.findById(Ware.class, id);
-            
             if(ware != null && ware.getInCosts().isEmpty() && ware.getOutCosts().isEmpty() && ware.getInventories().isEmpty()){
-                wareService.delete(ware);
-                logger.info(">删除成功："+ware.toString());
+                ware.setStatus(Status.DESTORYED);
+                wareService.save(ware);
             }
         }
         return ok("删除成功");

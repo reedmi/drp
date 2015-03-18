@@ -37,6 +37,7 @@ public class StockInCostServiceBean extends BaseDAOSupport<StockInCost> implemen
         if (predicates != null) {
             dataQuery.where(cb.and(predicates));
         }
+        dataQuery.orderBy(cb.desc(stockInCost.get("id")));
 
         return em.createQuery(dataQuery).setFirstResult(start)
                 .setMaxResults(limit).getResultList();

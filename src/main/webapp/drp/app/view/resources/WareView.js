@@ -170,6 +170,24 @@ Ext.define('drp.app.view.resources.WareView', {
                         text : '更新时间'
                     }]
                 }],
+                viewConfig : {
+                    listeners: {
+                        refresh: function(grid) {
+                            var nodes = grid.getNodes();
+                            for (var i = 0; i < nodes.length; i++) {
+                                var node = nodes[i];
+                                var record = grid.getRecord(node);
+                                var cells = Ext.get(node).query('td');
+                                var status = record.get('status');
+                                if(status == 'DESTORYED') {
+                                    for(var j = 0; j < cells.length; j++) {
+                                        Ext.fly(cells[j]).setStyle('background-color', '#FFCCCC');
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 dockedItems : [{
                     xtype : 'toolbar',
                     dock : 'top',
@@ -179,7 +197,7 @@ Ext.define('drp.app.view.resources.WareView', {
                         itemId : 'addWare_btn',
                         action : 'addWare',
                         text : '新增'
-                    }, {
+                    }, '-', {
                         xtype : 'button',
                         icon : 'resources/images/icons/delete.png',
                         action : 'deleteWare',

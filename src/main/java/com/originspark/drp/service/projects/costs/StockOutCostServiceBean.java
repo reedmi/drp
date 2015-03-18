@@ -38,6 +38,8 @@ public class StockOutCostServiceBean extends BaseDAOSupport<StockOutCost> implem
             dataQuery.where(cb.and(predicates));
         }
 
+        dataQuery.orderBy(cb.desc(stockOutCost.get("id")));
+
         return em.createQuery(dataQuery).setFirstResult(start)
                 .setMaxResults(limit).getResultList();
     }

@@ -167,6 +167,24 @@ Ext.define('drp.app.view.projects.invoices.StockOutInvoiceView', {
                     flex : 2,
                     text : '经手人'
                 }],
+                viewConfig : {
+                    listeners: {
+                        refresh: function(grid) {
+                            var nodes = grid.getNodes();
+                            for (var i = 0; i < nodes.length; i++) {
+                                var node = nodes[i];
+                                var record = grid.getRecord(node);
+                                var cells = Ext.get(node).query('td');
+                                var status = record.get('status');
+                                if(status == 'DESTORYED') {
+                                    for(var j = 0; j < cells.length; j++) {
+                                        Ext.fly(cells[j]).setStyle('background-color', '#FFCCCC');
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 dockedItems : [{
                     xtype : 'pagingtoolbar',
                     dock : 'bottom',
@@ -182,7 +200,7 @@ Ext.define('drp.app.view.projects.invoices.StockOutInvoiceView', {
                         action : 'showAddOutInvoiceUI',
                         itemId : 'addOutInvoice_btn',
                         text : '增加'
-                    }, {
+                    }, '-', {
                         xtype : 'button',
                         icon : 'resources/images/icons/delete.png',
                         action : 'deleteOutInvoice',

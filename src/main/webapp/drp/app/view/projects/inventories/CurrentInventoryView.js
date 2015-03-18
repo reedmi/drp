@@ -63,6 +63,26 @@ Ext.define('drp.app.view.projects.inventories.CurrentInventoryView', {
                     flex : 1,
                     text : '盈余'
                 }],
+                viewConfig : {
+                    listeners: {
+                        refresh: function(grid) {
+                            var nodes = grid.getNodes();
+                            for (var i = 0; i < nodes.length; i++) {
+                                var node = nodes[i];
+                                var record = grid.getRecord(node);
+                                var cells = Ext.get(node).query('td');  
+                                var restcount = record.get('restcount');
+                                if(restcount < 10) {
+                                    Ext.fly(cells[5]).setStyle('background-color', '#FFCCCC');
+                                }
+                                var profit = record.get('profit');
+                                if(profit < 0) {
+                                    Ext.fly(cells[8]).setStyle('background-color', '#FF0033');
+                                }
+                            }
+                        }
+                    }
+                },
                 dockedItems : [{
                     xtype : 'pagingtoolbar',
                     dock : 'bottom',

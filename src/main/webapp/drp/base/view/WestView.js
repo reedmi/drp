@@ -31,11 +31,11 @@ Ext.define("drp.base.view.WestView", {
                     text : "<span style='font-weight:bold'>实时库存</span>",
                     id : 'menu_current_inventory',
                     leaf : true
-                }, {
+                }/*, {
                     text : "<span style='font-weight:bold'>每日总账</span>",
                     id : 'menu_monthend_inventory',
                     leaf : true
-                }]
+                }*/]
             }
         }]
     }, {

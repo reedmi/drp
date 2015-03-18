@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import com.originspark.drp.dao.BaseDAOSupport;
 import com.originspark.drp.models.resources.Vendor;
-import com.originspark.drp.models.resources.Ware;
 import com.originspark.drp.models.resources.Vendor.COLUMNS;
 import com.originspark.drp.util.json.FilterRequest;
 
@@ -36,6 +35,8 @@ public class VendorServiceBean extends BaseDAOSupport<Vendor> implements VendorS
         if (predicates != null) {
             dataQuery.where(cb.and(predicates));
         }
+
+        dataQuery.orderBy(cb.asc(vendor.get("status")), cb.desc(vendor.get("id")));
 
         return em.createQuery(dataQuery).
                 setFirstResult(start).

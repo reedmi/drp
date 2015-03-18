@@ -64,6 +64,9 @@ Ext.define("drp.app.controller.AbstractController", {
                         grid.getStore().load();
                     },
                     failure : function(response, operation) {
+                        if(response.status == 404) {
+                            Ext.Msg.alert("操作失败", "服务器出现错误，请联系管理员.");
+                        }
                         Ext.Msg.alert("失败!", operation.request.scope.reader.jsonData["message"]);
                     }
                 });

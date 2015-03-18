@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.originspark.drp.models.projects.invoices.StockOutInvoice;
+import com.originspark.drp.util.enums.Status;
 import com.originspark.drp.util.json.FilterRequest;
 import com.originspark.drp.util.json.IdsJson;
 import com.originspark.drp.util.json.JsonUtils;
@@ -46,19 +47,17 @@ public class StockOutInvoiceController extends AbstractInvoiceController {
         } catch (Exception e) {
             return failure("提交数据有误");
         }
-        
         if (json == null) {
             return failure("没有需要审核的数据");
         }
-        
         for (Long id : json.getIds()) {
             if(id == null){
                 continue;
             }
             StockOutInvoice invoice = stockOutInvoiceService.findById(StockOutInvoice.class, id);
             if (invoice != null && invoice.getCosts().isEmpty()) {
-                stockOutInvoiceService.delete(invoice);
-                logger.info(">删除成功：" + invoice.toString());
+                invoice.setStatus(Status.DESTORYED);
+                stockOutInvoiceService.update(invoice);
             }
         }
         return ok("删除成功(注释：部分合价不为0的入库单已忽略)");

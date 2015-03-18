@@ -25,7 +25,7 @@ public class InventoryServiceBean extends BaseDAOSupport implements InventorySer
     // 实时库存量统计
     final String CURRENT_SUM_SQL = "SELECT t3.name, t3.model, t3.unit, t3.brand, t1.outcome, t1.incount, t2.income, t2.outcount FROM "
             + CURRENT_IN_SQL + " LEFT JOIN " + CURRENT_OUT_SQL + " ON t1.wid = t2.wid"
-            + " JOIN wares as t3 WHERE t1.wid = t3.id";
+            + " JOIN wares as t3 WHERE t1.wid = t3.id ORDER BY t2.income - t1.outcome DESC";
     // 实时库存量总数计算
     final String CURRENT_COUNT = "SELECT COUNT(DISTINCT(ware)) FROM cost_stock_in";
 

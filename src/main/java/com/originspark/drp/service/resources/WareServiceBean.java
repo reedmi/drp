@@ -41,8 +41,8 @@ public class WareServiceBean extends BaseDAOSupport<Ware> implements WareService
         if (predicates != null) {
             dataQuery.where(cb.and(predicates));
         } 
-        
-        dataQuery.orderBy(cb.desc(ware.get("id")));
+
+        dataQuery.orderBy(cb.asc(ware.get("status")), cb.desc(ware.get("id")));
 
         return em.createQuery(dataQuery).setFirstResult(start)
                 .setMaxResults(limit).getResultList();

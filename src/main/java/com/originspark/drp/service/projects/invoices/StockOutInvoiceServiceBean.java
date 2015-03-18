@@ -20,7 +20,6 @@ import com.originspark.drp.models.projects.costs.StockOutCost;
 import com.originspark.drp.models.projects.invoices.AbstractInvoice.COLUMNS;
 import com.originspark.drp.models.projects.invoices.StockOutInvoice;
 import com.originspark.drp.util.StringUtil;
-import com.originspark.drp.util.enums.AuditState;
 import com.originspark.drp.util.json.FilterRequest;
 
 @Transactional
@@ -37,14 +36,14 @@ public class StockOutInvoiceServiceBean extends BaseDAOSupport<StockOutInvoice> 
         Root<StockOutInvoice> stockout = dataQuery.from(StockOutInvoice.class);
 
         dataQuery.select(stockout);
-        
+
         StockOutCost[] outCosts = findByWareName(filters);
         if(outCosts == null){
             return null;
         }
 
         List<Predicate[]> predicates = toPredicates(cb, stockout, filters, outCosts);
-        
+
         if (predicates != null) {
             Predicate[] andPredicates = predicates.get(0);
             Predicate[] orPredicates = predicates.get(1);
@@ -57,8 +56,8 @@ public class StockOutInvoiceServiceBean extends BaseDAOSupport<StockOutInvoice> 
             }
         }
 
-        dataQuery.orderBy(cb.desc(stockout.get("forDate")));
-        
+        dataQuery.orderBy(cb.asc(stockout.get("status")), cb.desc(stockout.get("forDate")), cb.desc(stockout.get("id")));
+
         return em.createQuery(dataQuery).setFirstResult(start)
                 .setMaxResults(limit).getResultList();
     }

@@ -40,6 +40,8 @@ public class UserServiceBean extends BaseDAOSupport<User> implements UserService
             dataQuery.where(cb.and(predicates));
         }
 
+        dataQuery.orderBy(cb.asc(user.get("status")), cb.desc(user.get("id")));
+
         return em.createQuery(dataQuery).setFirstResult(start)
                 .setMaxResults(limit).getResultList();
     }

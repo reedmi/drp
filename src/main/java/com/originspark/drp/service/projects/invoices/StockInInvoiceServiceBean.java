@@ -37,7 +37,7 @@ public class StockInInvoiceServiceBean extends BaseDAOSupport<StockInInvoice> im
         Root<StockInInvoice> stockin = dataQuery.from(StockInInvoice.class);
 
         dataQuery.select(stockin);
-        
+
         StockInCost[] inCosts = findByWareName(filters);
         if(inCosts == null){
             return null;
@@ -56,8 +56,7 @@ public class StockInInvoiceServiceBean extends BaseDAOSupport<StockInInvoice> im
                 dataQuery.where(cb.and(andPredicates),cb.or(orPredicates));
             }
         }
-        
-        dataQuery.orderBy(cb.desc(stockin.get("forDate")));
+        dataQuery.orderBy(cb.asc(stockin.get("status")), cb.desc(stockin.get("forDate")), cb.desc(stockin.get("id")));
 
         return em.createQuery(dataQuery).setFirstResult(start)
                 .setMaxResults(limit).getResultList();
@@ -69,14 +68,14 @@ public class StockInInvoiceServiceBean extends BaseDAOSupport<StockInInvoice> im
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<StockInInvoice> stockin = countQuery.from(StockInInvoice.class);
         countQuery.select(cb.count(stockin));
-        
+
         StockInCost[] inCosts = findByWareName(filters);
         if(inCosts == null){
             return 0L;
         }
 
         List<Predicate[]> predicates = toPredicates(cb, stockin, filters, findByWareName(filters));
-        
+
         if (predicates != null) {
             Predicate[] andPredicates = predicates.get(0);
             Predicate[] orPredicates = predicates.get(1);
@@ -85,10 +84,9 @@ public class StockInInvoiceServiceBean extends BaseDAOSupport<StockInInvoice> im
             }else if(andPredicates.length == 0 && orPredicates.length != 0){
                 countQuery.where(cb.or(orPredicates));
             }else{
-                countQuery.where(cb.and(andPredicates),cb.or(orPredicates));
+                countQuery.where(cb.and(andPredicates), cb.or(orPredicates));
             }
         }
-
         return em.createQuery(countQuery).getSingleResult();
     }
 
