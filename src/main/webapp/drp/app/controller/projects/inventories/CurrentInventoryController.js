@@ -10,15 +10,14 @@ Ext.define('drp.app.controller.projects.inventories.CurrentInventoryController',
                 }
             },
             'currentinventoryview button[action=exportCurrentInventoryExcel]' : {
-                click : function(btn){
-                    var formonth = btn.up('monthendinventoryview').down('monthfield').getSubmitValue();
-                    document.location = "project/"+projectId+"/inventories/current/export?formonth="+formonth;
+                click : function(btn) {
+                    document.location = "inventories/current/export";
                 }
             }
         });
     },
 
     views : ['drp.app.view.projects.inventories.CurrentInventoryView'],
-    models :['drp.app.model.projects.inventories.CurrentInventoryModel'],
+    models : ['drp.app.model.projects.inventories.CurrentInventoryModel'],
     stores : ['drp.app.store.projects.inventories.CurrentInventoryStore']
 });

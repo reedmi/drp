@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.originspark.drp.dao.BaseDAOSupport;
 import com.originspark.drp.web.models.projects.inventories.CurrentInventoryUI;
 
+@SuppressWarnings("rawtypes")
 @Transactional
 @Service
 public class InventoryServiceBean extends BaseDAOSupport implements InventoryService {
@@ -33,7 +34,12 @@ public class InventoryServiceBean extends BaseDAOSupport implements InventorySer
     @Override
     public List<CurrentInventoryUI> pagedCurrentInventories(int start, int limit) {
         Query query = em.createNativeQuery(CURRENT_SUM_SQL);
-        List<Object[]> res = query.setFirstResult(start).setMaxResults(limit).getResultList();
+        List<Object[]> res;
+        if (start >= 0 && limit > 0) {
+            res = query.setFirstResult(start).setMaxResults(limit).getResultList();
+        } else {
+            res = query.getResultList();
+        }
         List<CurrentInventoryUI> currentInventories = new ArrayList<CurrentInventoryUI>();
 
         Object[] objAry;
@@ -45,9 +51,9 @@ public class InventoryServiceBean extends BaseDAOSupport implements InventorySer
             inventory.setUnit(objAry[2] + "");
             inventory.setBrand(objAry[3] + "");
             inventory.setOutcome(objAry[4] == null ? BigDecimal.ZERO : (BigDecimal) objAry[4]);
-            inventory.setIncount(objAry[5] == null ? 0L : ((BigDecimal)objAry[5]).longValue());
+            inventory.setIncount(objAry[5] == null ? 0L : ((BigDecimal) objAry[5]).longValue());
             inventory.setIncome(objAry[6] == null ? BigDecimal.ZERO : (BigDecimal) objAry[6]);
-            inventory.setOutcount(objAry[7] == null ? 0L : ((BigDecimal)objAry[7]).longValue());
+            inventory.setOutcount(objAry[7] == null ? 0L : ((BigDecimal) objAry[7]).longValue());
             currentInventories.add(inventory);
         }
 
@@ -57,7 +63,8 @@ public class InventoryServiceBean extends BaseDAOSupport implements InventorySer
     @Override
     public Long pagedCurrentInventoriesCount() {
         Query query = em.createNativeQuery(CURRENT_COUNT);
-        BigInteger count = (BigInteger)query.getSingleResult();
+        BigInteger count = (BigInteger) query.getSingleResult();
         return count.longValue();
     }
+
 }

@@ -23,16 +23,16 @@ public class WareGenerator {
     /**
      * 生成商品表的excel
      * 
-     * @param fileName 
-     * @param wares 
+     * @param fileName
+     * @param wares
      * @param resourcePath 代指目录/WebContent/resources
      * @return
      */
-    public static File generate(String fileName,List<Ware> wares,String resourcePath){
-        
+    public static File generate(String fileName, List<Ware> wares, String resourcePath) {
+
         try {
             // Open excel template
-            InputStream inp = new FileInputStream(FileUtils.getFile( resourcePath + "/document_templates/ware.xls"));
+            InputStream inp = new FileInputStream(FileUtils.getFile(resourcePath + "/document_templates/ware.xls"));
 
             Workbook wb = WorkbookFactory.create(inp);
             Sheet mainSheet = wb.getSheetAt(0);
@@ -47,11 +47,14 @@ public class WareGenerator {
                 row.createCell(2, Cell.CELL_TYPE_STRING).setCellValue(ware.getModel());
                 row.createCell(3, Cell.CELL_TYPE_STRING).setCellValue(ware.getUnit());
                 Vendor vendor = ware.getVendor();
-                row.createCell(4, Cell.CELL_TYPE_STRING).setCellValue(vendor==null?"":vendor.getName());
+                row.createCell(4, Cell.CELL_TYPE_STRING).setCellValue(vendor == null ? "" : vendor.getName());
                 currentRow.increment();
             }
-
-            File output = File.createTempFile(fileName, ".xls", new File(resourcePath + "/upload"));
+            File dir = new File(resourcePath + "/upload");
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+            File output = File.createTempFile(fileName, ".xls", dir);
             FileOutputStream fos = new FileOutputStream(output);
             wb.write(fos);
             fos.close();
