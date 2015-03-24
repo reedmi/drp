@@ -1,20 +1,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.originspark.drp</groupId>
+    <groupId>com.originspark</groupId>
     <artifactId>drp</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>drp Maven Webapp</name>
-    <url>http://maven.apache.org</url>
+    <name>drp</name>
 
     <properties>
-        <junit.version>4.11</junit.version>
+        <java.version>1.7</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>4.8.2</junit.version>
         <jdk.version>1.7</jdk.version>
         <hibernate.version>4.2.0.Final</hibernate.version>
         <mysql.connector.version>5.1.21</mysql.connector.version>
         <spring.version>3.2.2.RELEASE</spring.version>
+        <project.rootpath>/drp</project.rootpath>
+        <tomcat.port>8080</tomcat.port>
     </properties>
 
     <dependencies>
@@ -151,8 +153,6 @@
     </profiles>
 
     <build>
-        <finalName>drp</finalName>
-
         <sourceDirectory>src/main/java</sourceDirectory>
         <testSourceDirectory>src/test/java</testSourceDirectory>
         <resources>
@@ -171,7 +171,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
-                    <encoding>UTF-8</encoding>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
                 </configuration>
@@ -188,10 +188,9 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.1</version>
                 <configuration>
-                    <port>8080</port>
-                    <path>/drp</path>
-                    <uriEncoding>UTF-8</uriEncoding>
-                    <finalName>drp</finalName>
+                    <port>${tomcat.port}</port>
+                    <path>${project.rootpath}</path>
+                    <uriEncoding>${project.build.sourceEncoding}</uriEncoding>
                     <server>tomcat7</server>
                 </configuration>
             </plugin>
