@@ -5,7 +5,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public abstract class BaseDAOSupport<T> implements BaseDAO<T>{
+public abstract class BaseDAOSupport<T> implements BaseDAO<T> {
 
     @PersistenceContext
     protected EntityManager em;
@@ -14,8 +14,8 @@ public abstract class BaseDAOSupport<T> implements BaseDAO<T>{
         em.remove(entity);
     }
 
-    @Transactional(readOnly=true)
-    public T findById(Class<T> c,Long id) {
+    @Transactional(readOnly = true)
+    public T findById(Class<T> c, Long id) {
         return em.find(c, id);
     }
 
@@ -27,9 +27,9 @@ public abstract class BaseDAOSupport<T> implements BaseDAO<T>{
     public T update(T entity) {
         return em.merge(entity);
     }
-    
-    @Transactional(readOnly=true)
-    public T getReferance(Class<T> c,Long id){
+
+    @Transactional(readOnly = true)
+    public T getReferance(Class<T> c, Long id) {
         return em.getReference(c, id);
     }
 

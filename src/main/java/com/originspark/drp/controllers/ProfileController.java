@@ -15,9 +15,9 @@ import com.originspark.drp.util.json.PasswordJson;
 @RequestMapping("profile")
 public class ProfileController extends BaseController {
 
-    @RequestMapping(value="/password/update",method = RequestMethod.GET)
+    @RequestMapping(value = "/password/update", method = RequestMethod.GET)
     @ResponseBody
-    public String updatePassword(@RequestParam String data){
+    public String updatePassword(@RequestParam String data) {
 
         System.out.println(request().getSession());
 
@@ -25,7 +25,7 @@ public class ProfileController extends BaseController {
         try {
             PasswordJson json = mapper.readValue(data, PasswordJson.class);
 
-            if(!json.getNewpwd().equals(json.getNewpwdagain())){
+            if (!json.getNewpwd().equals(json.getNewpwdagain())) {
                 return failure("修改失败，密码两次输入不一致");
             }
 
@@ -33,7 +33,7 @@ public class ProfileController extends BaseController {
 
             Blowfish bf = new Blowfish();
             String pwd = bf.decryptString(user.getPassword());
-            if(!json.getPwd().equals(pwd)){
+            if (!json.getPwd().equals(pwd)) {
                 return failure("修改失败，请输入正确的原始密码");
             }
 
@@ -43,7 +43,7 @@ public class ProfileController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
             return failure("系统出现异常，修改失败");
-        } 
+        }
 
         return ok("密码修改成功");
     }

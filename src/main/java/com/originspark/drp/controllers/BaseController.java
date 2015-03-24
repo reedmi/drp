@@ -78,7 +78,7 @@ public class BaseController extends HandlerInterceptorAdapter {
     }
 
     public User getCurrentUser() {
-        return (User)session().getAttribute("user");
+        return (User) session().getAttribute("user");
     }
 
     // 一般用于create、update、delete的返回值

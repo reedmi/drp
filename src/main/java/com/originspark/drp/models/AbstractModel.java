@@ -23,25 +23,25 @@ public abstract class AbstractModel {
     /**
      * 维护信息：记录创建日期
      */
-    @Column(name="createdOn", nullable=false)
+    @Column(name = "createdOn", nullable = false)
     private Date createdOn;
 
     /**
      * 维护信息：记录创建者
      */
-    @Column(name="createdBy",length=10)
+    @Column(name = "createdBy", length = 10)
     private String createdBy;
 
     /**
      * 维护信息：记录更新日期
      */
-    @Column(name="updatedOn", nullable=false)
+    @Column(name = "updatedOn", nullable = false)
     private Date updatedOn;
 
     /**
      * 维护信息：记录更新者
      */
-    @Column(name="updatedBy",length=10)
+    @Column(name = "updatedBy", length = 10)
     private String updatedBy;
 
     /**
@@ -105,12 +105,12 @@ public abstract class AbstractModel {
     }
 
     @PreUpdate
-    private void preUpdate(){
+    private void preUpdate() {
         updatedOn = new Date();
     }
-    
+
     @Override
     public String toString() {
-        return "id="+id+", updateOn="+updatedOn;
+        return "id=" + id + ", updateOn=" + updatedOn;
     }
 }

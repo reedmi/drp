@@ -17,20 +17,20 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import com.originspark.drp.web.models.projects.inventories.Ware;
 
 public class MonthendInventoryGenerator {
-    
+
     /**
      * 生成月末盘点表的excel
      * 
      * @param fileName 文件名：项目名称_系统名称_2014-02_月末盘点
-     * @param inventories 
+     * @param inventories
      * @param resourcePath 代指目录/WebContent/resources
      * @return
      */
-    public static File generate(String fileName,List<Ware> inventories,String resourcePath){
-        
+    public static File generate(String fileName, List<Ware> inventories, String resourcePath) {
+
         try {
             // Open excel template
-            InputStream inp = new FileInputStream(FileUtils.getFile( resourcePath + "/document_templates/monthEndInventory.xls"));
+            InputStream inp = new FileInputStream(FileUtils.getFile(resourcePath + "/document_templates/monthEndInventory.xls"));
 
             Workbook wb = WorkbookFactory.create(inp);
             Sheet mainSheet = wb.getSheetAt(0);
@@ -44,10 +44,10 @@ public class MonthendInventoryGenerator {
                 row.createCell(1, Cell.CELL_TYPE_STRING).setCellValue(inventory.getWareBrand());
                 row.createCell(2, Cell.CELL_TYPE_STRING).setCellValue(inventory.getWareModel());
                 row.createCell(3, Cell.CELL_TYPE_STRING).setCellValue(inventory.getWareUnit());
-                row.createCell(4, Cell.CELL_TYPE_STRING).setCellValue(inventory.getLastMonthLeft()+"");
-                row.createCell(5, Cell.CELL_TYPE_STRING).setCellValue(inventory.getMonthIn()+"");
-                row.createCell(6, Cell.CELL_TYPE_STRING).setCellValue(inventory.getMonthOut()+"");
-                row.createCell(7, Cell.CELL_TYPE_STRING).setCellValue(inventory.getMonthLeft()+"");
+                row.createCell(4, Cell.CELL_TYPE_STRING).setCellValue(inventory.getLastMonthLeft() + "");
+                row.createCell(5, Cell.CELL_TYPE_STRING).setCellValue(inventory.getMonthIn() + "");
+                row.createCell(6, Cell.CELL_TYPE_STRING).setCellValue(inventory.getMonthOut() + "");
+                row.createCell(7, Cell.CELL_TYPE_STRING).setCellValue(inventory.getMonthLeft() + "");
                 currentRow.increment();
             }
 
