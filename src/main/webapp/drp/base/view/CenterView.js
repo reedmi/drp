@@ -11,7 +11,7 @@ Ext.define('drp.base.view.CenterView', {
             xtype : 'image',
             region : "north",
             height : "80%",
-            src : "resources/images/back.png"
+            src : "resources/images/back.jpg"
         },{
             xtype : 'panel',
             region : "south",
@@ -23,11 +23,10 @@ Ext.define('drp.base.view.CenterView', {
                 '<div style="margin-left:210px;">'+
                   '<div style="line-height: 23px;"> '+
                     '<table width="1180" border="0" cellspacing="0" cellpadding="0" margin="10 0 10 30"><tbody><tr> '+
-                        '<td width="170" height="100"> '+
-                            '&nbsp; <img src="'+'resources/images/footer/company.png"></td> '+
+                        '<td width="120" height="100"> '+
+                            '&nbsp; <img src="'+'resources/images/footer/company.png" width="100" height="20"></td> '+
                         '<td> '+
-                          	'版权所有 &nbsp;Copyright © 2015 西吉万里磷肥有限公司   All Rights Reserved <br>'+
-                            '技术支持：&nbsp;<a href="http://originspark.com.cn"style="text-decoration:none">宁夏奥睿星火网络技术</a>&nbsp; 电话：&nbsp; 15202698249&nbsp; 邮箱: originspark@163.com</td> '+
+                            '技术支持：&nbsp;<a href="http://originspark.com.cn" style="text-decoration:none" target="_blank">宁夏奥睿星火网络技术</a>&nbsp; 电话：&nbsp; 15202698249&nbsp; 邮箱: <a href="mailto:originspark@163.com">originspark@163.com</a></td> '+
                     '</tr></tbody></table></div></div></div>'
         }]
     }]

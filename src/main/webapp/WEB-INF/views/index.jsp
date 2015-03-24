@@ -5,7 +5,7 @@
 <head>
     <%@ include file="/common/meta.jsp"%>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>万里磷肥仓储管理系统登录</title>
+    <title>DRP管理系统登录</title>
     <link rel="shortcut icon" type="image/x-icon" href="resources/images/ico.png">
 <style type="text/css">
 <!--
@@ -59,7 +59,7 @@ table{
   <tr>
     <td><table width="962" border="0" align="center" cellpadding="0" cellspacing="0">
       <tr>
-        <td height="235" background="${ctx}/resources/images/index/login_03.gif">&nbsp;</td>
+        <td height="235" background="${ctx}/resources/images/index/login_03.jpg">&nbsp;</td>
       </tr>
       <tr>
         <td height="53">
