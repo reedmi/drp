@@ -11,7 +11,7 @@ import com.originspark.drp.util.enums.Gender;
 import com.originspark.drp.util.enums.UserType;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User extends AbstractModel {
 
     @Enumerated(EnumType.STRING)
